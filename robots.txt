@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://muhas-dcepd.github.io/sitemap.xml

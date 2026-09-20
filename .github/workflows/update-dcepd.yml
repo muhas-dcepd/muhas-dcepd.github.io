@@ -1,0 +1,67 @@
+name: Refresh and deploy MUHAS DCEPD
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      refresh_api:
+        description: Refresh both REDCap feeds before publishing
+        type: boolean
+        default: true
+  schedule:
+    - cron: '37 1 * * *'
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: dcepd-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Refresh public catalogue and aggregate dashboard
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_api
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+        run: |
+          python scripts/update_dcepd_catalogue.py
+          python scripts/build_dcepd_dashboard.py
+      - name: Validate and update search metadata
+        run: |
+          python -m unittest discover -s tests -p 'test_dcepd*.py'
+          python scripts/build_site_seo.py
+      - name: Save successful public refresh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html dcepd-courses/index.html dcepd-courses/catalogue.json dcepd-dashboard/index.html dcepd-dashboard/summary.json robots.txt sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh public DCEPD catalogue and activity dashboard'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Stage public website
+        run: python scripts/stage_dcepd_site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy DCEPD website
+        id: deployment
+        uses: actions/deploy-pages@v4
