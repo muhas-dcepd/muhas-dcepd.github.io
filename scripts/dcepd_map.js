@@ -13,7 +13,16 @@ function colourAt(t){
  const channel=(hex,start)=>parseInt(hex.slice(start,start+2),16);
  return '#'+[1,3,5].map(start=>Math.round(channel(palette[a],start)*(1-weight)+channel(palette[b],start)*weight).toString(16).padStart(2,'0')).join('');
 }
-function binsFor(values){
+function binsFor(values,smallScale=false){
+ if(smallScale){
+  return [
+   {label:'5–9',max:9,color:colourAt(0)},
+   {label:'10–14',max:14,color:colourAt(.25)},
+   {label:'15–19',max:19,color:colourAt(.5)},
+   {label:'20–29',max:29,color:colourAt(.75)},
+   {label:'30+',max:Number.POSITIVE_INFINITY,color:colourAt(1)}
+  ];
+ }
  const maximum=Math.max(...values,5),minimum=Math.min(...values,5);
  const edges=[0,1,5];
  for(let power=1;edges.at(-1)<=maximum;power*=10){
@@ -49,11 +58,11 @@ function featurePath(f,project){
  const polys=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;
  return polys.flatMap(poly=>poly.map(ring=>ring.map((pt,i)=>{const [x,y]=project(pt);return (i?'L':'M')+x.toFixed(2)+','+y.toFixed(2)}).join('')+'Z')).join('');
 }
-function renderMap({hostId,legendId,selectionId,coverageId,features,width,height,titleText,ariaLabel,project,note}){
+function renderMap({hostId,legendId,selectionId,coverageId,features,width,height,titleText,ariaLabel,project,note,smallScale=false}){
  const host=document.getElementById(hostId),legend=document.getElementById(legendId),selection=document.getElementById(selectionId),coverage=document.getElementById(coverageId);
  if(!host||!legend||!selection||!coverage)return;
  const values=features.map(f=>counts.get(f.properties.name)).filter(n=>Number.isInteger(n)&&n>=0);
- const bins=binsFor(values);
+ const bins=binsFor(values,smallScale);
  const svg=document.createElementNS(ns,'svg');
  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('role','group');svg.setAttribute('aria-label',ariaLabel);
  const title=document.createElementNS(ns,'title');title.textContent=titleText;svg.append(title);
@@ -89,8 +98,8 @@ renderMap({
 renderMap({
  hostId:'zanzibar-map',legendId:'zanzibar-legend',selectionId:'zanzibar-selection',coverageId:'zanzibar-coverage',
  features:zanzibar,width:560,height:620,titleText:'Applicant residence by Zanzibar region',
- ariaLabel:'Zanzibar regions coloured by published application count',project:fitProject(zanzibar,560,620,42),
- note:'This panel uses its own colour scale because Zanzibar counts are much smaller than mainland counts; colours must not be compared directly between the two maps.'
+ ariaLabel:'Zanzibar regions coloured by published application count',project:fitProject(zanzibar,560,620,42),smallScale:true,
+ note:'Zanzibar uses fixed small-count bands beginning at the public reporting threshold of 5. Counts below 5 remain withheld/grey; colours must not be compared directly with mainland Tanzania.'
 });
 
 const names=new Set(geo.features.map(f=>f.properties.name));
