@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-23T08:49:19+00:00",
+    "source_at": "2026-09-23T12:08:45+00:00",
     "as_of": "2026-09-23",
     "registered_courses": 195,
     "listed_courses": 89,
-    "application_records": 910,
+    "application_records": 911,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -4919,6 +4919,20 @@
       "unknown": 0
     },
     {
+      "course_id": "129",
+      "course": "Weight Loss Short Course For Healthcare, Fitness And Wellness Professional",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 4,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "131",
       "course": "INNOVATION AND ENTREPRENEURSHIP IN HEALTH CARE",
       "school": "Directorate of Research, Publications and Innovation",
@@ -5681,7 +5695,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 22,
+      "applications": 23,
       "withheld": false
     },
     {
@@ -5930,7 +5944,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 434
+      "applications": 435
     },
     {
       "location": "Dodoma",
