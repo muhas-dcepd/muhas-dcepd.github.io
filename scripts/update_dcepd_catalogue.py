@@ -106,8 +106,9 @@ def render_card(c):
         ('School / institute / directorate', c['school'] or 'Not recorded'),
         ('Recorded fee (TZS)', c['fee_tzs'] or 'Confirm with DCEPD'),
         ('CPD points', c['cpd_points'] or 'Confirm with DCEPD')])
+    detail_url = f"courses/{e(c['id'])}.html"
     return f'''<article class="course" id="course-{e(c['id'])}" data-category="{e(c['category'])}" data-school="{e(c['school'])}" data-search="{e(search)}">
-    <p class="category">{e(c['category'])}</p><h3>{e(c['title'])}</h3>
+    <p class="category">{e(c['category'])}</p><h3><a href="{detail_url}">{e(c['title'])}</a></h3>
     <p class="unit">{e(c['school'] or 'MUHAS')}</p><div class="tags">{tags}</div>
     <details><summary>Course details</summary><dl>{details}</dl><p class="fine">Confirm the current fee, intake dates, delivery mode and CPD recognition before making arrangements.</p></details>
     <div class="card-actions"><a class="apply" href="{APPLY_URL}" aria-label="Apply: {e(c['title'])}">Apply <span aria-hidden="true">↗</span></a><span>Select this course in the form</span></div></article>'''
