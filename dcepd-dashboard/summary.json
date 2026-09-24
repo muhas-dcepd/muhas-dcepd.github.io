@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-23T12:18:58+00:00",
-    "as_of": "2026-09-23",
+    "source_at": "2026-09-24T06:37:39+00:00",
+    "as_of": "2026-09-24",
     "registered_courses": 195,
     "listed_courses": 89,
-    "application_records": 911,
+    "application_records": 915,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -1501,7 +1501,7 @@
     {
       "id": "199",
       "course": "EXERCISE PRESCRIPTION FOR FITNESS AND HEALTH PROFESSIONALS",
-      "code": "",
+      "code": "DCEPD/SMB/199/2026",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
       "listed": false
@@ -1564,10 +1564,10 @@
     },
     {
       "id": "207",
-      "course": "SPORTS CARDIOLOGY",
+      "course": "empty to be allocated",
       "code": "",
       "school": "School of Clinical Medicine",
-      "department": "Internal Medicine",
+      "department": "Not Specified",
       "listed": false
     }
   ],
@@ -4009,6 +4009,20 @@
       "unknown": 0
     },
     {
+      "course_id": "72",
+      "course": "Research Ethics",
+      "school": "Directorate of Postgraduate Studies",
+      "department": "DPGS",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 12,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "73",
       "course": "Responsible Conduct Research",
       "school": "School of Public Health and Social Sciences",
@@ -4859,6 +4873,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 31,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "125",
+      "course": "Systematic Reviews and Meta Analysis",
+      "school": "Directorate of Research, Publications and Innovation",
+      "department": "DLS",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q3",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 26,
       "reported": 1,
       "unknown": 0
     },
@@ -5761,8 +5789,8 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": null,
-      "withheld": true
+      "applications": 5,
+      "withheld": false
     },
     {
       "course_id": "13",
@@ -5805,7 +5833,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 123,
+      "applications": 124,
       "withheld": false
     },
     {
@@ -5838,7 +5866,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 50,
+      "applications": 52,
       "withheld": false
     },
     {
@@ -5944,7 +5972,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 435
+      "applications": 439
     },
     {
       "location": "Dodoma",
