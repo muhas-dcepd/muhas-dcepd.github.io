@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-24T06:37:39+00:00",
-    "as_of": "2026-09-24",
+    "source_at": "2026-09-25T06:30:39+00:00",
+    "as_of": "2026-09-25",
     "registered_courses": 195,
     "listed_courses": 89,
-    "application_records": 915,
+    "application_records": 919,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -446,8 +446,8 @@
       "id": "55",
       "course": "Introductory Course in Palliative care",
       "code": "DCEPD/SOM/055/2018",
-      "school": "School of Medicine",
-      "department": "Radiology and Imaging",
+      "school": "School of Clinical Medicine",
+      "department": "Clinical Oncology",
       "listed": true
     },
     {
@@ -3505,6 +3505,20 @@
       "unknown": 0
     },
     {
+      "course_id": "55",
+      "course": "Introductory Course in Palliative care",
+      "school": "School of Clinical Medicine",
+      "department": "Clinical Oncology",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 17,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "56",
       "course": "Certificate in Cytotechnology",
       "school": "School of Medicine",
@@ -4117,6 +4131,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 38,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "75",
+      "course": "Basic Qualitative Research",
+      "school": "School of Nursing",
+      "department": "Nursing Management",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 32,
       "reported": 1,
       "unknown": 0
     },
@@ -5591,7 +5619,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 28,
+      "applications": 29,
       "withheld": false
     },
     {
@@ -5833,7 +5861,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 124,
+      "applications": 126,
       "withheld": false
     },
     {
@@ -5967,12 +5995,23 @@
       "quarter": "Q1",
       "applications": null,
       "withheld": true
+    },
+    {
+      "course_id": "1",
+      "course": "Short course on PhD Supervision",
+      "school": "Directorate of Research, Publications and Innovation",
+      "department": "DRPI",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 439
+      "applications": 441
     },
     {
       "location": "Dodoma",
@@ -5996,7 +6035,7 @@
     },
     {
       "location": "Arusha",
-      "applications": 23
+      "applications": 24
     },
     {
       "location": "Mwanza",
@@ -6008,7 +6047,7 @@
     },
     {
       "location": "Tanga",
-      "applications": 21
+      "applications": 22
     },
     {
       "location": "Kigoma",

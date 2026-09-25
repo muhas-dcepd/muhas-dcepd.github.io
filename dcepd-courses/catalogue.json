@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "Project 75 API",
-  "source_at": "2026-09-24T06:37:39+00:00",
-  "api_refreshed_at": "2026-09-24T06:37:39+00:00",
+  "source_at": "2026-09-25T06:30:39+00:00",
+  "api_refreshed_at": "2026-09-25T06:30:39+00:00",
   "count": 89,
   "courses": [
     {
@@ -732,8 +732,8 @@
       "title": "Introductory Course in Palliative care",
       "source_title": "Introductory Course in Palliative care",
       "code": "DCEPD/SOM/055/2018",
-      "school": "School of Medicine",
-      "department": "Radiology and Imaging",
+      "school": "School of Clinical Medicine",
+      "department": "Clinical Oncology",
       "fee_tzs": "400000",
       "cpd_points": "",
       "category": "Clinical Care & Diagnostics",
