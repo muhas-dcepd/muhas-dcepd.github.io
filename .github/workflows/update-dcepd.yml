@@ -1,4 +1,5 @@
 name: Refresh and deploy MUHAS DCEPD
+
 on:
   push:
     branches: [main]
@@ -10,23 +11,77 @@ on:
         default: true
   schedule:
     - cron: '37 1 * * *'
+
 permissions:
   contents: write
   pages: write
   id-token: write
+
 concurrency:
   group: dcepd-pages
   cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v6
         with:
           ref: main
+
+      - uses: r-lib/actions/setup-r@v2
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        with:
+          r-version: 'release'
+
+      - name: Install R dependencies for Project 75 sync
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        run: |
+          Rscript -e 'install.packages(c("httr","readr","dplyr","stringr","lubridate","jsonlite","tibble"), repos="https://cloud.r-project.org")'
+
+      - name: Unpack verified Project 75 V2.2.12 runtime
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        run: |
+          rm -rf .project75-runtime
+          mkdir -p .project75-runtime
+          cat \
+            automation/project75-v2.2.12-runtime.b64.part00 \
+            automation/project75-v2.2.12-runtime.b64.part01 \
+            automation/project75-v2.2.12-runtime.b64.part02 \
+            automation/project75-v2.2.12-runtime.b64.part03 \
+            automation/project75-v2.2.12-runtime.b64.part04a \
+            automation/project75-v2.2.12-runtime.b64.part04b \
+            | base64 -d > /tmp/project75-v2.2.12-runtime.zip
+          echo "3074e99682a3a1d338053e24f7c409ebaa6d47f5ea0acd4085d5286ee0c82a49  /tmp/project75-v2.2.12-runtime.zip" | sha256sum -c -
+          unzip -q /tmp/project75-v2.2.12-runtime.zip -d .project75-runtime
+
+      - name: Sync and verify Project 75 derived record fields
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        working-directory: .project75-runtime
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          DCEPD_DRY_RUN: 'false'
+          TZ: Africa/Dar_es_Salaam
+        run: Rscript project75_refresh_v2_2.R
+
+      - name: Upload Project 75 sync audit artifact
+        if: always() && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api))
+        uses: actions/upload-artifact@v4
+        with:
+          name: project75-sync-${{ github.run_id }}
+          path: |
+            .project75-runtime/output
+            .project75-runtime/logs
+            .project75-runtime/archive
+          if-no-files-found: warn
+          retention-days: 90
+
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+
       - name: Refresh public catalogue and aggregate dashboard
         if: github.event_name != 'workflow_dispatch' || inputs.refresh_api
         env:
@@ -35,10 +90,12 @@ jobs:
         run: |
           python scripts/update_dcepd_catalogue.py
           python scripts/build_dcepd_dashboard.py
+
       - name: Validate and update search metadata
         run: |
           python -m unittest discover -s tests -p 'test_dcepd*.py'
           python scripts/build_site_seo.py
+
       - name: Save successful public refresh
         run: |
           git config user.name 'github-actions[bot]'
@@ -49,18 +106,23 @@ jobs:
             git pull --rebase origin main
             git push origin HEAD:main
           fi
+
       - name: Stage public website
         run: python scripts/stage_dcepd_site.py
+
       - uses: actions/configure-pages@v5
+
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy DCEPD website
         id: deployment
