@@ -35,6 +35,12 @@ jobs:
         with:
           r-version: 'release'
 
+      - name: Install system dependency for R curl
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev
+
       - name: Install R dependencies for Project 75 sync
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         run: |
