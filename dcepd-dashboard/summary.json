@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-25T06:30:39+00:00",
-    "as_of": "2026-09-25",
+    "source_at": "2026-09-26T03:06:59+00:00",
+    "as_of": "2026-09-26",
     "registered_courses": 195,
-    "listed_courses": 89,
-    "application_records": 919,
+    "listed_courses": 77,
+    "application_records": 924,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -24,7 +24,7 @@
       "code": "DCEPD/DRP/002/2019",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "3",
@@ -32,7 +32,7 @@
       "code": "DCEPD/DRP/003/2019",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "4",
@@ -40,7 +40,7 @@
       "code": "DCEPD/DCT/004/2023",
       "school": "Directorate of Communicateion Technology",
       "department": "DICT",
-      "listed": true
+      "listed": false
     },
     {
       "id": "5",
@@ -48,7 +48,7 @@
       "code": "DCEPD/DCT/005/2022",
       "school": "Directorate of Communicateion Technology",
       "department": "DICT",
-      "listed": true
+      "listed": false
     },
     {
       "id": "6",
@@ -56,7 +56,7 @@
       "code": "DCEPD/DCT/006/2021",
       "school": "Directorate of Communicateion Technology",
       "department": "DICT",
-      "listed": true
+      "listed": false
     },
     {
       "id": "7",
@@ -104,7 +104,7 @@
       "code": "DCEPD/DLS/012/2023",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "13",
@@ -112,7 +112,7 @@
       "code": "DCEPD/DLS/013/2022",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "14",
@@ -120,7 +120,7 @@
       "code": "DCEPD/DLS/014/2022",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "15",
@@ -128,7 +128,7 @@
       "code": "DCEPD/DLS/015/2023",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "16",
@@ -144,7 +144,7 @@
       "code": "DCEPD/DLS/017/2024",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "18",
@@ -152,7 +152,7 @@
       "code": "DCEPD/DLS/018/2022",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "19",
@@ -160,7 +160,7 @@
       "code": "DCEPD/ITM/019/2021",
       "school": "Institute of Traditional Medicine",
       "department": "ITM",
-      "listed": true
+      "listed": false
     },
     {
       "id": "20",
@@ -168,7 +168,7 @@
       "code": "DCEPD/ITM/020/2016",
       "school": "Institute of Traditional Medicine",
       "department": "ITM",
-      "listed": true
+      "listed": false
     },
     {
       "id": "21",
@@ -192,7 +192,7 @@
       "code": "DCEPD/SON/023/2018",
       "school": "School of Nursing",
       "department": "SON",
-      "listed": true
+      "listed": false
     },
     {
       "id": "24",
@@ -200,7 +200,7 @@
       "code": "DCEPD/SON/024/2020",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": true
+      "listed": false
     },
     {
       "id": "25",
@@ -224,7 +224,7 @@
       "code": "DCEPD/SON/027/2021",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": true
+      "listed": false
     },
     {
       "id": "28",
@@ -232,7 +232,7 @@
       "code": "DCEPD/SON/028/2021",
       "school": "School of Nursing",
       "department": "SON",
-      "listed": true
+      "listed": false
     },
     {
       "id": "29",
@@ -240,7 +240,7 @@
       "code": "DCEPD/SOP/029/2016",
       "school": "School of Pharmacy",
       "department": "Clinical Pharmacy and Pharmacology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "30",
@@ -280,7 +280,7 @@
       "code": "DCEPD/SOP/034/2024",
       "school": "School of Pharmacy",
       "department": "Pharmaceutical Services Unit (PSU)",
-      "listed": false
+      "listed": true
     },
     {
       "id": "35",
@@ -288,7 +288,7 @@
       "code": "DCEPD/DRP/035/2018",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "36",
@@ -296,7 +296,7 @@
       "code": "DCEPD/SOM/036/2021",
       "school": "School of Medicine",
       "department": "Anatomy",
-      "listed": true
+      "listed": false
     },
     {
       "id": "37",
@@ -304,7 +304,7 @@
       "code": "DCEPD/SOM/037/2023",
       "school": "School of Medicine",
       "department": "Hematology and Blood Transfusion",
-      "listed": true
+      "listed": false
     },
     {
       "id": "38",
@@ -312,7 +312,7 @@
       "code": "DCEPD/SOM/038/2023",
       "school": "School of Medicine",
       "department": "Biochemistry and Molecular Biology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "39",
@@ -320,7 +320,7 @@
       "code": "DCEPD/SOM/039/2023",
       "school": "School of Medicine",
       "department": "Biochemistry and Molecular Biology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "40",
@@ -328,7 +328,7 @@
       "code": "DCEPD/SOM/040/2023",
       "school": "School of Medicine",
       "department": "Anesthesiology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "41",
@@ -336,7 +336,7 @@
       "code": "DCEPD/SOM/041/2023",
       "school": "School of Medicine",
       "department": "Anesthesiology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "42",
@@ -344,7 +344,7 @@
       "code": "DCEPD/SOM/042/2017",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "43",
@@ -352,7 +352,7 @@
       "code": "DCEPD/SOM/043/2017",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "44",
@@ -360,7 +360,7 @@
       "code": "DCEPD/SOM/044/2017",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "45",
@@ -368,7 +368,7 @@
       "code": "DCEPD/SOM/045/2017",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "46",
@@ -376,7 +376,7 @@
       "code": "DCEPD/SOM/046/2017",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "47",
@@ -384,7 +384,7 @@
       "code": "DCEPD/SOM/047/2017",
       "school": "School of Medicine",
       "department": "Hematology and Blood Transfusion",
-      "listed": true
+      "listed": false
     },
     {
       "id": "48",
@@ -400,7 +400,7 @@
       "code": "DCEPD/SOM/049/2022",
       "school": "School of Medicine",
       "department": "Microbiology and Immunology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "50",
@@ -408,7 +408,7 @@
       "code": "DCEPD/SOM/050/2018",
       "school": "School of Medicine",
       "department": "Microbiology and Immunology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "51",
@@ -432,7 +432,7 @@
       "code": "DCEPD/SOM/053/2022",
       "school": "School of Medicine",
       "department": "Internal Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "54",
@@ -440,7 +440,7 @@
       "code": "DCEPD/SOM/054/2021",
       "school": "School of Medicine",
       "department": "Radiology and Imaging",
-      "listed": true
+      "listed": false
     },
     {
       "id": "55",
@@ -448,7 +448,7 @@
       "code": "DCEPD/SOM/055/2018",
       "school": "School of Clinical Medicine",
       "department": "Clinical Oncology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "56",
@@ -456,7 +456,7 @@
       "code": "DCEPD/SOM/056/2024",
       "school": "School of Medicine",
       "department": "Pathology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "57",
@@ -464,7 +464,7 @@
       "code": "DCEPD/SOM/057/2022",
       "school": "School of Medicine",
       "department": "Internal Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "58",
@@ -472,7 +472,7 @@
       "code": "DCEPD/SOM/058/2023",
       "school": "School of Medicine",
       "department": "Internal Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "59",
@@ -480,7 +480,7 @@
       "code": "DCEPD/SOP/059/2019",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": true
+      "listed": false
     },
     {
       "id": "60",
@@ -496,7 +496,7 @@
       "code": "DCEPD/DRP/061/2018",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "62",
@@ -504,7 +504,7 @@
       "code": "DCEPD/SOP/062/2023",
       "school": "School of Pharmacy",
       "department": "Medicinal Chemistry",
-      "listed": true
+      "listed": false
     },
     {
       "id": "63",
@@ -512,7 +512,7 @@
       "code": "DCEPD/SOD/063/2025",
       "school": "School of Dentistry",
       "department": "Orthodontics, Pedodontics and Community Dentistry",
-      "listed": false
+      "listed": true
     },
     {
       "id": "64",
@@ -520,7 +520,7 @@
       "code": "DCEPD/SOP/064/2024",
       "school": "School of Pharmacy",
       "department": "Clinical Pharmacy and Pharmacology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "65",
@@ -536,7 +536,7 @@
       "code": "DCEPD/SPH/066/2022",
       "school": "School of Public Health and Social Sciences",
       "department": "SPHSS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "67",
@@ -544,7 +544,7 @@
       "code": "DCEPD/SPH/067/2023",
       "school": "School of Public Health and Social Sciences",
       "department": "SPHSS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "68",
@@ -584,7 +584,7 @@
       "code": "DCEPD/SPH/072/2022",
       "school": "School of Public Health and Social Sciences",
       "department": "DPGS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "73",
@@ -592,7 +592,7 @@
       "code": "DCEPD/SPH/073/2022",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
-      "listed": true
+      "listed": false
     },
     {
       "id": "74",
@@ -600,7 +600,7 @@
       "code": "DCEPD/SPH/074/2015",
       "school": "School of Public Health and Social Sciences",
       "department": "Community Health Nursing",
-      "listed": true
+      "listed": false
     },
     {
       "id": "75",
@@ -616,7 +616,7 @@
       "code": "DCEPD/SPH/076/2019",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": true
+      "listed": false
     },
     {
       "id": "77",
@@ -624,7 +624,7 @@
       "code": "DCEPD/SPH/077/2018",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": true
+      "listed": false
     },
     {
       "id": "78",
@@ -632,7 +632,7 @@
       "code": "DCEPD/SPH/078/2023",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": true
+      "listed": false
     },
     {
       "id": "79",
@@ -640,7 +640,7 @@
       "code": "DCEPD/SPH/079/2019",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": true
+      "listed": false
     },
     {
       "id": "80",
@@ -648,7 +648,7 @@
       "code": "DCEPD/SPH/080/2018",
       "school": "School of Public Health and Social Sciences",
       "department": "Epidemiology and Biostatistics",
-      "listed": true
+      "listed": false
     },
     {
       "id": "81",
@@ -664,7 +664,7 @@
       "code": "DCEPD/SPH/082/2018",
       "school": "School of Public Health and Social Sciences",
       "department": "Parasitology and Medical Entomology",
-      "listed": true
+      "listed": false
     },
     {
       "id": "83",
@@ -688,7 +688,7 @@
       "code": "DCEPD/SPH/085/2022",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": true
+      "listed": false
     },
     {
       "id": "86",
@@ -696,7 +696,7 @@
       "code": "DCEPD/SCM/086/2018",
       "school": "School of Clinical Medicine",
       "department": "Gender unit",
-      "listed": true
+      "listed": false
     },
     {
       "id": "87",
@@ -704,7 +704,7 @@
       "code": "DCEPD/DRP/087/2018",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "88",
@@ -712,7 +712,7 @@
       "code": "DCEPD/DPG/088/2023",
       "school": "Directorate of Postgraduate Studies",
       "department": "DPGS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "89",
@@ -720,7 +720,7 @@
       "code": "DCEPD/ITM/089/2018",
       "school": "Institute of Traditional Medicine",
       "department": "ITM",
-      "listed": true
+      "listed": false
     },
     {
       "id": "90",
@@ -728,7 +728,7 @@
       "code": "DCEPD/SPH/090/2018",
       "school": "School of Public Health and Social Sciences",
       "department": "SPHSS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "91",
@@ -744,7 +744,7 @@
       "code": "DCEPD/DRP/092/2018",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "DRPI",
-      "listed": true
+      "listed": false
     },
     {
       "id": "93",
@@ -752,7 +752,7 @@
       "code": "DCEPD/SOM/093/2018",
       "school": "School of Medicine",
       "department": "Pediatric and Child Health",
-      "listed": true
+      "listed": false
     },
     {
       "id": "94",
@@ -760,7 +760,7 @@
       "code": "DCEPD/SPH/094/2018",
       "school": "School of Public Health and Social Sciences",
       "department": "PCOR- Project",
-      "listed": true
+      "listed": false
     },
     {
       "id": "95",
@@ -768,7 +768,7 @@
       "code": "DCEPD/DLS/095/2025",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": false
+      "listed": true
     },
     {
       "id": "96",
@@ -832,7 +832,7 @@
       "code": "DCEPD/SDM/103/2024",
       "school": "School of Diagnostic Medicine",
       "department": "Microbiology and Immunology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "104",
@@ -848,7 +848,7 @@
       "code": "DCEPD/ITM/105/2021",
       "school": "Institute of Traditional Medicine",
       "department": "Unknown",
-      "listed": true
+      "listed": false
     },
     {
       "id": "106",
@@ -864,7 +864,7 @@
       "code": "DCEPD/SOD/107/2025",
       "school": "School of Dentistry",
       "department": "Orthodontics, Pedodontics and Community Dentistry",
-      "listed": false
+      "listed": true
     },
     {
       "id": "108",
@@ -872,7 +872,7 @@
       "code": "DCEPD/DCT/108/2023",
       "school": "Directorate of Communicateion Technology",
       "department": "DICT",
-      "listed": true
+      "listed": false
     },
     {
       "id": "109",
@@ -880,7 +880,7 @@
       "code": "DCEPD/SOD/109/2025",
       "school": "School of Dentistry",
       "department": "Orthodontics, Pedodontics and Community Dentistry",
-      "listed": false
+      "listed": true
     },
     {
       "id": "110",
@@ -888,7 +888,7 @@
       "code": "DCEPD/SBM/110/2024",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "111",
@@ -896,7 +896,7 @@
       "code": "DCEPD/SOM/111/2024",
       "school": "School of Medicine",
       "department": "Psychiatry and Mental Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "112",
@@ -904,7 +904,7 @@
       "code": "DCEPD/SOM/112/2024",
       "school": "School of Medicine",
       "department": "Psychiatry and Mental Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "113",
@@ -912,7 +912,7 @@
       "code": "DCEPD/SBM/113/2024",
       "school": "School of Biomedical Sciences",
       "department": "Biochemistry and Molecular Biology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "114",
@@ -920,7 +920,7 @@
       "code": "DCEPD/SOM/114/2024",
       "school": "School of Medicine",
       "department": "Emergency Medicine",
-      "listed": true
+      "listed": false
     },
     {
       "id": "115",
@@ -944,7 +944,7 @@
       "code": "DCEPD/SCM/117/2024",
       "school": "School of Clinical Medicine",
       "department": "Emergency Medicine",
-      "listed": false
+      "listed": true
     },
     {
       "id": "118",
@@ -952,7 +952,7 @@
       "code": "DCEPD/SPH/118/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Environmental and Occupational Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "119",
@@ -968,7 +968,7 @@
       "code": "DCEPD/DPG/120/2018",
       "school": "Directorate of Postgraduate Studies",
       "department": "DPGS",
-      "listed": true
+      "listed": false
     },
     {
       "id": "121",
@@ -992,7 +992,7 @@
       "code": "DCEPD/SDM/123/2025",
       "school": "School of Diagnostic Medicine",
       "department": "Microbiology and Immunology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "124",
@@ -1000,7 +1000,7 @@
       "code": "DCEPD/SOP/124/2025",
       "school": "School of Pharmacy",
       "department": "Pharmaceutical Microbiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "125",
@@ -1008,7 +1008,7 @@
       "code": "DCEPD/DLS/125/2025",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "listed": false
+      "listed": true
     },
     {
       "id": "126",
@@ -1016,7 +1016,7 @@
       "code": "DCEPD/SDM/126/1900",
       "school": "School of Diagnostic Medicine",
       "department": "Unknown",
-      "listed": true
+      "listed": false
     },
     {
       "id": "127",
@@ -1024,7 +1024,7 @@
       "code": "DCEPD/DRP/127/1900",
       "school": "Directorate of Research, Publications and Innovation",
       "department": "Unknown",
-      "listed": true
+      "listed": false
     },
     {
       "id": "128",
@@ -1032,7 +1032,7 @@
       "code": "",
       "school": "Directorate of Library Services",
       "department": "Unknown",
-      "listed": true
+      "listed": false
     },
     {
       "id": "129",
@@ -1048,7 +1048,7 @@
       "code": "DCEPD/SOP/130/2025",
       "school": "School of Pharmacy",
       "department": "Pharmacognosy",
-      "listed": false
+      "listed": true
     },
     {
       "id": "131",
@@ -1072,7 +1072,7 @@
       "code": "DCEPD/SPH/133/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
-      "listed": false
+      "listed": true
     },
     {
       "id": "134",
@@ -1080,7 +1080,7 @@
       "code": "DCEPD/MNH/134/2025",
       "school": "Muhimbili National Hospital",
       "department": "Psychiatry and Mental Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "135",
@@ -1088,7 +1088,7 @@
       "code": "DCEPD/SBM/135/2025",
       "school": "School of Biomedical Sciences",
       "department": "Radiology and Imaging",
-      "listed": false
+      "listed": true
     },
     {
       "id": "136",
@@ -1112,7 +1112,7 @@
       "code": "DCEPD/SBM/138/2025",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "139",
@@ -1120,7 +1120,7 @@
       "code": "DCEPD/SBM/139/2025",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "140",
@@ -1128,7 +1128,7 @@
       "code": "DCEPD/SBM/140/2025",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "141",
@@ -1144,7 +1144,7 @@
       "code": "DCEPD/SBM/142/2025",
       "school": "School of Biomedical Sciences",
       "department": "Biochemistry and Molecular Biology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "143",
@@ -1152,7 +1152,7 @@
       "code": "DCEPD/SPH/143/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Environmental and Occupational Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "144",
@@ -1160,7 +1160,7 @@
       "code": "DCEPD/CPD/144/2026",
       "school": "Directorate of Continuing Education and Professional Development",
       "department": "DCEPD",
-      "listed": false
+      "listed": true
     },
     {
       "id": "145",
@@ -1168,7 +1168,7 @@
       "code": "DCEPD/SPH/145/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "146",
@@ -1176,7 +1176,7 @@
       "code": "DCEPD/SPH/146/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "147",
@@ -1184,7 +1184,7 @@
       "code": "DCEPD/CPD/147/2025",
       "school": "Directorate of Continuing Education and Professional Development",
       "department": "DCEPD",
-      "listed": false
+      "listed": true
     },
     {
       "id": "148",
@@ -1200,7 +1200,7 @@
       "code": "DCEPD/SOP/149/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutical Microbiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "150",
@@ -1208,7 +1208,7 @@
       "code": "DCEPD/SBM/150/2026",
       "school": "School of Biomedical Sciences",
       "department": "Biochemistry and Molecular Biology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "151",
@@ -1216,7 +1216,7 @@
       "code": "DCEPD/SON/151/2025",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "152",
@@ -1224,7 +1224,7 @@
       "code": "DCEPD/SON/152/2025",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "153",
@@ -1232,7 +1232,7 @@
       "code": "DCEPD/SON/153/2025",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "154",
@@ -1240,7 +1240,7 @@
       "code": "DCEPD/SCM/154/2025",
       "school": "School of Clinical Medicine",
       "department": "Pediatric and Child Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "155",
@@ -1248,7 +1248,7 @@
       "code": "DCEPD/SPH/155/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Behavioral Sciences",
-      "listed": false
+      "listed": true
     },
     {
       "id": "156",
@@ -1256,7 +1256,7 @@
       "code": "DCEPD/SON/156/2026",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "157",
@@ -1264,7 +1264,7 @@
       "code": "DCEPD/SON/157/2026",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "158",
@@ -1272,7 +1272,7 @@
       "code": "DCEPD/SON/158/2026",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "160",
@@ -1280,7 +1280,7 @@
       "code": "DCEPD/SON/160/2026",
       "school": "School of Nursing",
       "department": "Clinical Nursing",
-      "listed": false
+      "listed": true
     },
     {
       "id": "161",
@@ -1296,7 +1296,7 @@
       "code": "DCEPD/SCM/162/2025",
       "school": "School of Clinical Medicine",
       "department": "Internal Medicine",
-      "listed": false
+      "listed": true
     },
     {
       "id": "163",
@@ -1304,7 +1304,7 @@
       "code": "DCEPD/SPH/163/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Epidemiology and Biostatistics",
-      "listed": false
+      "listed": true
     },
     {
       "id": "164",
@@ -1312,7 +1312,7 @@
       "code": "DCEPD/SPH/164/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Epidemiology and Biostatistics",
-      "listed": false
+      "listed": true
     },
     {
       "id": "165",
@@ -1320,7 +1320,7 @@
       "code": "DCEPD/SPH/165/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Epidemiology and Biostatistics",
-      "listed": false
+      "listed": true
     },
     {
       "id": "166",
@@ -1328,7 +1328,7 @@
       "code": "DCEPD/SBM/166/2026",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "167",
@@ -1336,7 +1336,7 @@
       "code": "DCEPD/SPH/167/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "168",
@@ -1344,7 +1344,7 @@
       "code": "DCEPD/SPH/168/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "169",
@@ -1352,7 +1352,7 @@
       "code": "DCEPD/SPH/169/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Environmental and Occupational Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "170",
@@ -1360,7 +1360,7 @@
       "code": "DCEPD/SPH/170/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Behavioral Sciences",
-      "listed": false
+      "listed": true
     },
     {
       "id": "171",
@@ -1368,7 +1368,7 @@
       "code": "DCEPD/SOP/171/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": false
+      "listed": true
     },
     {
       "id": "172",
@@ -1376,7 +1376,7 @@
       "code": "DCEPD/SOP/172/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": false
+      "listed": true
     },
     {
       "id": "173",
@@ -1384,7 +1384,7 @@
       "code": "DCEPD/SOP/173/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": false
+      "listed": true
     },
     {
       "id": "174",
@@ -1392,7 +1392,7 @@
       "code": "DCEPD/SOP/174/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": false
+      "listed": true
     },
     {
       "id": "175",
@@ -1400,7 +1400,7 @@
       "code": "DCEPD/SOP/175/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
-      "listed": false
+      "listed": true
     },
     {
       "id": "176",
@@ -1408,7 +1408,7 @@
       "code": "DCEPD/SPH/176/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
-      "listed": false
+      "listed": true
     },
     {
       "id": "177",
@@ -1416,7 +1416,7 @@
       "code": "DCEPD/SPH/177/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Emergency Medicine",
-      "listed": false
+      "listed": true
     },
     {
       "id": "180",
@@ -1429,7 +1429,7 @@
     {
       "id": "190",
       "course": "Introduction to Implementation Science in Health",
-      "code": "",
+      "code": "DCEPD/SPH/190/2024",
       "school": "School of Public Health and Social Sciences",
       "department": "Unknown",
       "listed": true
@@ -1480,7 +1480,7 @@
       "code": "DCEPD/SPH/196/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "197",
@@ -1488,7 +1488,7 @@
       "code": "DCEPD/SCM/197/2026",
       "school": "School of Clinical Medicine",
       "department": "Pediatric and Child Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "198",
@@ -1496,12 +1496,12 @@
       "code": "DCEPD/SCM/198/2026",
       "school": "School of Clinical Medicine",
       "department": "Pediatric and Child Health",
-      "listed": false
+      "listed": true
     },
     {
       "id": "199",
       "course": "EXERCISE PRESCRIPTION FOR FITNESS AND HEALTH PROFESSIONALS",
-      "code": "DCEPD/SMB/199/2026",
+      "code": "DCEPD/SBM/199/2026",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
       "listed": false
@@ -2003,6 +2003,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 69,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "19",
+      "course": "Training on Traditional and Herbal Medicine Development Level I",
+      "school": "Institute of Traditional Medicine",
+      "department": "ITM",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 43,
       "reported": 1,
       "unknown": 0
     },
@@ -5117,28 +5131,6 @@
   ],
   "applications": [
     {
-      "course_id": "175",
-      "course": "FORECASTING AND SUPPLY PLANNING FOR HEALTH COMMODITIES",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": 87,
-      "withheld": false
-    },
-    {
-      "course_id": "22",
-      "course": "Quality Assurance and Quality control of Herbal Products",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
       "course_id": "unmatched",
       "course": "Unmatched / unselected course",
       "school": "Unknown",
@@ -5146,239 +5138,8 @@
       "year": "2026",
       "fy": "2025/26",
       "quarter": "Q4",
-      "applications": 233,
+      "applications": 412,
       "withheld": false
-    },
-    {
-      "course_id": "149",
-      "course": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutical Microbiology",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "51",
-      "course": "HIV drug resistance testing",
-      "school": "School of Medicine",
-      "department": "Microbiology and Immunology",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "30",
-      "course": "Clinical Pharmacy Services for in Service Pharmacist",
-      "school": "School of Pharmacy",
-      "department": "Clinical Pharmacy and Pharmacology",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "59",
-      "course": "Pharmacovigilance and Vigilance for Healthcare Professionals",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "27",
-      "course": "Teaching Methodology for Education and Health care Pofessionals",
-      "school": "School of Nursing",
-      "department": "Clinical Nursing",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "171",
-      "course": "DATA ANALYTICS FOR INFORMED DECISION MAKING IN HEALTH SUPPLY CHAIN",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "60",
-      "course": "Pharmacokinetics short course",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "29",
-      "course": "Clinical Pharmacokinetics",
-      "school": "School of Pharmacy",
-      "department": "Clinical Pharmacy and Pharmacology",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "12",
-      "course": "Systematic Reviews and Meta-Analysis",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "174",
-      "course": "FUNDAMENTALS OF HEALTH COMMODITIES SUPPLY CHAIN MANAGEMENT",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "144",
-      "course": "One Health Approach in Pandemic Preparedness and Response in Tanzania",
-      "school": "Directorate of Continuing Education and Professional Development",
-      "department": "DCEPD",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": 41,
-      "withheld": false
-    },
-    {
-      "course_id": "91",
-      "course": "MUHAS- Pharmacces Research Symposium",
-      "school": "School of Nursing",
-      "department": "SON",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "90",
-      "course": "Mentorship Training",
-      "school": "School of Public Health and Social Sciences",
-      "department": "SPHSS",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "34",
-      "course": "Antimicrobial Stewardship (AMS) for Human Health Professionals",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutical Services Unit (PSU)",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "71",
-      "course": "One Health Approach Solving Complex Health Problems",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Community Health Nursing",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": 5,
-      "withheld": false
-    },
-    {
-      "course_id": "145",
-      "course": "MONITORING AND EVALUATION OF HEALTH INTERVENTIONS",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "77",
-      "course": "Advanced Qualitative Research Methods",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "11",
-      "course": "Proposal writing for post graduates shudents",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "25",
-      "course": "Basic Obstetric emergence and New Born Care",
-      "school": "School of Nursing",
-      "department": "Community Health Nursing",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "167",
-      "course": "Health Insurance Short Course",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "49",
-      "course": "Introduction to Biosafety Cabinet",
-      "school": "School of Medicine",
-      "department": "Microbiology and Immunology",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
     },
     {
       "course_id": "unmatched",
@@ -5392,226 +5153,6 @@
       "withheld": true
     },
     {
-      "course_id": "121",
-      "course": "Oral Radiology",
-      "school": "School of Dentistry",
-      "department": "Oral and Maxillofacial Surgery",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": 5,
-      "withheld": false
-    },
-    {
-      "course_id": "119",
-      "course": "PHILOSOPHY OF SCIENCE IN RESEARCH",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Bioethics and Health Professionalism",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "117",
-      "course": "EMERGENCY POINT OF CARE ULTRASOUND (E-POCUS) COURSE",
-      "school": "School of Clinical Medicine",
-      "department": "Emergency Medicine",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "107",
-      "course": "Fundamentals of Oral Health Care Delivery for Nurses and Medical Attendants",
-      "school": "School of Dentistry",
-      "department": "Orthodontics, Pedodontics and Community Dentistry",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "172",
-      "course": "FINANCING AND FINANCIAL MANAGEMENT IN HEALTH SUPPLY CHAIN",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "96",
-      "course": "Research Proposal Development",
-      "school": "School of Medicine",
-      "department": "DPGS",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "13",
-      "course": "Scientific writing and communication",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": 5,
-      "withheld": false
-    },
-    {
-      "course_id": "53",
-      "course": "Basic Echocardiography",
-      "school": "School of Medicine",
-      "department": "Internal Medicine",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "122",
-      "course": "HAEMODIALYSIS COURSE FOR HEALTH CARE PROVIDERS",
-      "school": "School of Clinical Medicine",
-      "department": "Pediatric and Child Health",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "19",
-      "course": "Training on Traditional and Herbal Medicine Development Level I",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "111",
-      "course": "Perinatal Mental Health",
-      "school": "School of Medicine",
-      "department": "Psychiatry and Mental Health",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "111",
-      "course": "Perinatal Mental Health",
-      "school": "School of Medicine",
-      "department": "Psychiatry and Mental Health",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "121",
-      "course": "Oral Radiology",
-      "school": "School of Dentistry",
-      "department": "Oral and Maxillofacial Surgery",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 8,
-      "withheld": false
-    },
-    {
-      "course_id": "59",
-      "course": "Pharmacovigilance and Vigilance for Healthcare Professionals",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 71,
-      "withheld": false
-    },
-    {
-      "course_id": "148",
-      "course": "ESSENTIAL EMERGENCY AND CRITICAL CARE",
-      "school": "School of Clinical Medicine",
-      "department": "Anesthesiology",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 49,
-      "withheld": false
-    },
-    {
-      "course_id": "149",
-      "course": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutical Microbiology",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "48",
-      "course": "Health Education on Nutrition in Pregnant women and Sickle cell Disease",
-      "school": "School of Nursing",
-      "department": "Community Health Nursing",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "146",
-      "course": "PROJECT MANAGEMENT IN HEALTH",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 7,
-      "withheld": false
-    },
-    {
-      "course_id": "23",
-      "course": "Basic Critical and Emergency Care course for Health Care Proffessionals",
-      "school": "School of Nursing",
-      "department": "SON",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 9,
-      "withheld": false
-    },
-    {
-      "course_id": "27",
-      "course": "Teaching Methodology for Education and Health care Pofessionals",
-      "school": "School of Nursing",
-      "department": "Clinical Nursing",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
       "course_id": "unmatched",
       "course": "Unmatched / unselected course",
       "school": "Unknown",
@@ -5619,327 +5160,8 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 29,
+      "applications": 510,
       "withheld": false
-    },
-    {
-      "course_id": "19",
-      "course": "Training on Traditional and Herbal Medicine Development Level I",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "26",
-      "course": "Clinical Governance and Leadership in Health Care System",
-      "school": "School of Nursing",
-      "department": "Clinical Nursing",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "42",
-      "course": "Advanced Life Support",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "58",
-      "course": "Practical Electrocardiography",
-      "school": "School of Medicine",
-      "department": "Internal Medicine",
-      "year": "2026",
-      "fy": "2025/26",
-      "quarter": "Q4",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "40",
-      "course": "Trainers of Trainers short course for use Universal Anesthesia machine",
-      "school": "School of Medicine",
-      "department": "Anesthesiology",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "25",
-      "course": "Basic Obstetric emergence and New Born Care",
-      "school": "School of Nursing",
-      "department": "Community Health Nursing",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "60",
-      "course": "Pharmacokinetics short course",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "144",
-      "course": "One Health Approach in Pandemic Preparedness and Response in Tanzania",
-      "school": "Directorate of Continuing Education and Professional Development",
-      "department": "DCEPD",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 21,
-      "withheld": false
-    },
-    {
-      "course_id": "145",
-      "course": "MONITORING AND EVALUATION OF HEALTH INTERVENTIONS",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "83",
-      "course": "Introduction to one health",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Epidemiology and Biostatistics",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "77",
-      "course": "Advanced Qualitative Research Methods",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 32,
-      "withheld": false
-    },
-    {
-      "course_id": "87",
-      "course": "Demographic Health Survey and Complex Survey Analysis",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 23,
-      "withheld": false
-    },
-    {
-      "course_id": "84",
-      "course": "Field Epidemiology Training Program Frontline course",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Epidemiology and Biostatistics",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "71",
-      "course": "One Health Approach Solving Complex Health Problems",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Community Health Nursing",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "15",
-      "course": "Open acces and artificial intelligence and improving health research and academicpublishing life cycle",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "2",
-      "course": "Research Mentoring",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "35",
-      "course": "Grants writing and Research adminstration Workshop",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "9",
-      "course": "Short course on Data Analysis using Stata 12",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 5,
-      "withheld": false
-    },
-    {
-      "course_id": "13",
-      "course": "Scientific writing and communication",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "11",
-      "course": "Proposal writing for post graduates shudents",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "10",
-      "course": "Scientific writing and information literacy",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "37",
-      "course": "Essentials of Project Management short course",
-      "school": "School of Medicine",
-      "department": "Hematology and Blood Transfusion",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 126,
-      "withheld": false
-    },
-    {
-      "course_id": "38",
-      "course": "Multidisciplinary management of Sickle Cell disease; a short course for health care workers",
-      "school": "School of Medicine",
-      "department": "Biochemistry and Molecular Biology",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 10,
-      "withheld": false
-    },
-    {
-      "course_id": "106",
-      "course": "Essential of Project Management",
-      "school": "School of Medicine",
-      "department": "Hematology and Blood Transfusion",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 21,
-      "withheld": false
-    },
-    {
-      "course_id": "202",
-      "course": "MANUSCRIPT BOOTCAMP",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": 52,
-      "withheld": false
-    },
-    {
-      "course_id": "68",
-      "course": "Implementation Science for Health",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Epidemiology and Biostatistics",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "52",
-      "course": "Advanced Emergence and Critical Care",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "33",
-      "course": "Training on good clinical practice (GCP)",
-      "school": "School of Pharmacy",
-      "department": "Clinical Pharmacy and Pharmacology",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "96",
-      "course": "Research Proposal Development",
-      "school": "School of Medicine",
-      "department": "DPGS",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
     },
     {
       "course_id": "unmatched",
@@ -5951,67 +5173,12 @@
       "quarter": "Unknown",
       "applications": null,
       "withheld": true
-    },
-    {
-      "course_id": "117",
-      "course": "EMERGENCY POINT OF CARE ULTRASOUND (E-POCUS) COURSE",
-      "school": "School of Clinical Medicine",
-      "department": "Emergency Medicine",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "118",
-      "course": "CLIMATE CHANGE AND HEALTH",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Environmental and Occupational Health",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "172",
-      "course": "FINANCING AND FINANCIAL MANAGEMENT IN HEALTH SUPPLY CHAIN",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "165",
-      "course": "FOUNDATIONS OF CYBERSECURITY IN HEALTHCARE",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Epidemiology and Biostatistics",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
-    },
-    {
-      "course_id": "1",
-      "course": "Short course on PhD Supervision",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q1",
-      "applications": null,
-      "withheld": true
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 441
+      "applications": 443
     },
     {
       "location": "Dodoma",
@@ -6023,7 +5190,7 @@
     },
     {
       "location": "Morogoro",
-      "applications": 29
+      "applications": 30
     },
     {
       "location": "Pwani",
@@ -6039,7 +5206,7 @@
     },
     {
       "location": "Mwanza",
-      "applications": 22
+      "applications": 23
     },
     {
       "location": "Mbeya",
@@ -6050,11 +5217,11 @@
       "applications": 22
     },
     {
-      "location": "Kigoma",
-      "applications": 20
+      "location": "Kilimanjaro",
+      "applications": 21
     },
     {
-      "location": "Kilimanjaro",
+      "location": "Kigoma",
       "applications": 20
     },
     {

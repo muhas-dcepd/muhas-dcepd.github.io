@@ -1,122 +1,113 @@
 {
   "schema_version": 1,
   "source": "Project 75 API",
-  "source_at": "2026-09-25T06:30:39+00:00",
-  "api_refreshed_at": "2026-09-25T06:30:39+00:00",
-  "count": 89,
+  "source_at": "2026-09-26T03:06:59+00:00",
+  "api_refreshed_at": "2026-09-26T03:06:59+00:00",
+  "count": 77,
   "courses": [
     {
-      "id": "42",
-      "title": "Advanced Life Support",
-      "source_title": "Advanced Life Support",
-      "code": "DCEPD/SOM/042/2017",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "ALS",
-        "resuscitation"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "126",
-      "title": "Advanced Omics Data Science Methods Application",
-      "source_title": "Advanced Omics Data Science Methods Aplication",
-      "code": "DCEPD/SDM/126/1900",
-      "school": "School of Diagnostic Medicine",
-      "department": "",
-      "fee_tzs": "400003",
-      "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "bioinformatics",
-        "data science",
-        "omics"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "77",
-      "title": "Advanced Qualitative Research Methods",
-      "source_title": "Advanced Qualitative Research Methods",
-      "code": "DCEPD/SPH/077/2018",
+      "id": "163",
+      "title": "ADVANCED HEALTH DATA ANALYTICS",
+      "source_title": "ADVANCED HEALTH DATA ANALYTICS",
+      "code": "DCEPD/SPH/163/2026",
       "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "fee_tzs": "400000",
+      "department": "Epidemiology and Biostatistics",
+      "fee_tzs": "400027",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
+      "category": "Other courses",
       "tags": [
-        "advanced",
-        "qualitative methods"
+        "data analysis",
+        "digital health"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "128",
-      "title": "Advanced Research Data Analysis",
-      "source_title": "Advanced Research Data Analysis",
-      "code": "",
-      "school": "Directorate of Library Services",
-      "department": "",
+      "id": "149",
+      "title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
+      "source_title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
+      "code": "DCEPD/SOP/149/2026",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutical Microbiology",
+      "fee_tzs": "400013",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [
+        "AMR",
+        "antibiotics",
+        "antimicrobial resistance"
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "34",
+      "title": "Antimicrobial Stewardship (AMS) for Human Health Professionals",
+      "source_title": "Antimicrobial Stewardship (AMS) for Human Health Professionals",
+      "code": "DCEPD/SOP/034/2024",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutical Services Unit (PSU)",
+      "fee_tzs": "400000",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [
+        "AMR",
+        "antibiotics",
+        "antimicrobial resistance"
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "130",
+      "title": "APPLICATION OF PHARMACOGNOSY IN MODERNIZING TRADITIONAL MEDICINE PRACTICES, MANUFACTURING AND INTEGRATION INTO MODERN HEALTHCARE SYSTEMS",
+      "source_title": "APPLICATION OF PHARMACOGNOSY IN MODERNIZING TRADITIONAL MEDICINE PRACTICES, MANUFACTURING AND INTEGRATION INTO MODERN HEALTHCARE SYSTEMS",
+      "code": "DCEPD/SOP/130/2025",
+      "school": "School of Pharmacy",
+      "department": "Pharmacognosy",
       "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "advanced",
-        "data analysis",
-        "statistics"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "47",
-      "title": "Advances in Hematology",
-      "source_title": "Advances in Hematology",
-      "code": "DCEPD/SOM/047/2017",
-      "school": "School of Medicine",
-      "department": "Hematology and Blood Transfusion",
-      "fee_tzs": "400000",
+      "id": "138",
+      "title": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "source_title": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "code": "DCEPD/SBM/138/2025",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
+      "category": "Other courses",
       "tags": [
-        "haematology",
-        "hematology"
+        "AI",
+        "artificial intelligence"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "62",
-      "title": "Analytical Method Development and Method Validation",
-      "source_title": "Analyitical Method Development and Method Validation",
-      "code": "DCEPD/SOP/062/2023",
-      "school": "School of Pharmacy",
-      "department": "Medicinal Chemistry",
-      "fee_tzs": "400000",
+      "id": "134",
+      "title": "Applied Behaviour Analysis (ABA) Workshop",
+      "source_title": "Applied Behaviour Analysis (ABA) Workshop",
+      "code": "DCEPD/MNH/134/2025",
+      "school": "Muhimbili National Hospital",
+      "department": "Psychiatry and Mental Health",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Pharmacy, Medicines & Supply Chains",
-      "tags": [
-        "analytical methods",
-        "method validation"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "78",
-      "title": "Applied Economic evaluation of Healthcare and Interventions (SPHSS)",
-      "source_title": "Applied Economic evaluation of Healthcare and Interventions (SPHSS)",
-      "code": "DCEPD/SPH/078/2023",
+      "id": "168",
+      "title": "Applied Entrepreneurship Short Course",
+      "source_title": "Applied Entrepreneurship Short Course",
+      "code": "DCEPD/SPH/168/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "fee_tzs": "400000",
+      "fee_tzs": "400032",
       "cpd_points": "",
-      "category": "Health Leadership, Management & Financing",
-      "tags": [
-        "economic evaluation",
-        "health economics"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -137,99 +128,42 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "46",
-      "title": "Basic Ambulance attendant",
-      "source_title": "Basic Ambulance attendant",
-      "code": "DCEPD/SOM/046/2017",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "ambulance",
-        "prehospital care"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "45",
-      "title": "Basic ambulance Provider",
-      "source_title": "Basic ambulance Provider",
-      "code": "DCEPD/SOM/045/2017",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "ambulance",
-        "prehospital care"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "23",
-      "title": "Basic Critical and Emergency Care course for Health Care Professionals",
-      "source_title": "Basic Critical and Emergency Care course for Health Care Proffessionals",
-      "code": "DCEPD/SON/023/2018",
+      "id": "151",
+      "title": "BASIC EMERGENCY OBSTETRIC AND NEWBORN CARE",
+      "source_title": "BASIC EMERGENCY OBSTETRIC AND NEWBORN CARE",
+      "code": "DCEPD/SON/151/2025",
       "school": "School of Nursing",
-      "department": "SON",
-      "fee_tzs": "400000",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400015",
       "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "critical care",
-        "emergency care"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "53",
-      "title": "Basic Echocardiography",
-      "source_title": "Basic Echocardiography",
-      "code": "DCEPD/SOM/053/2022",
-      "school": "School of Medicine",
-      "department": "Internal Medicine",
-      "fee_tzs": "400000",
+      "id": "153",
+      "title": "BASIC FIRST AID AND EMERGENCY RESPONSE FOR NON-HEALTH CARE PROFESSIONALS",
+      "source_title": "BASIC FIRST AID AND EMERGENCY RESPONSE FOR NON-HEALTH CARE PROFESSIONALS",
+      "code": "DCEPD/SON/153/2025",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400017",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "cardiac ultrasound",
-        "echocardiography"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "82",
-      "title": "Basic Microscopy: the diagnosis of Malaria and other parasitic infections",
-      "source_title": "Basic Microscopy: the diagnosis of Malaria and other parasitic infections",
-      "code": "DCEPD/SPH/082/2018",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Parasitology and Medical Entomology",
-      "fee_tzs": "400000",
+      "id": "154",
+      "title": "BASIC NUTRITION FOR KIDNEY DISEASES",
+      "source_title": "BASIC NUTRITION FOR KIDNEY DISEASES",
+      "code": "DCEPD/SCM/154/2025",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "fee_tzs": "400018",
       "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "malaria",
-        "microscopy",
-        "parasitology"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "36",
-      "title": "Basic Mortuary Technicians",
-      "source_title": "Basic Mortuary Technicians",
-      "code": "DCEPD/SOM/036/2021",
-      "school": "School of Medicine",
-      "department": "Anatomy",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "mortuary practice"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -248,66 +182,68 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "43",
-      "title": "Basics of Emergency Care",
-      "source_title": "Basics of Emergency Care",
-      "code": "DCEPD/SOM/043/2017",
-      "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "fee_tzs": "400000",
+      "id": "196",
+      "title": "Basic Research Methods For Primary Health Care",
+      "source_title": "Basic Research Methods For Primary Health Care",
+      "code": "DCEPD/SPH/196/2025",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Development Studies",
+      "fee_tzs": "",
       "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "emergency care"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "3",
-      "title": "Basics of Teaching and Assessing in Competency Based Education",
-      "source_title": "Basics of Teaching and Assessing in Competency Based Education",
-      "code": "DCEPD/DRP/003/2019",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
+      "id": "109",
+      "title": "BASICS OF MANAGING DENTAL TRAUMA IN CHILDREN",
+      "source_title": "BASICS OF MANAGING DENTAL TRAUMA IN CHILDREN",
+      "code": "DCEPD/SOD/109/2025",
+      "school": "School of Dentistry",
+      "department": "Orthodontics, Pedodontics and Community Dentistry",
       "fee_tzs": "400000",
       "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "assessment",
-        "competency based education"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "56",
-      "title": "Certificate in Cytotechnology",
-      "source_title": "Certificate in Cytotechnology",
-      "code": "DCEPD/SOM/056/2024",
-      "school": "School of Medicine",
-      "department": "Pathology",
-      "fee_tzs": "400000",
+      "id": "143",
+      "title": "CHEMICAL HAZARDS IN THE WORK ENVIRONMENT",
+      "source_title": "CHEMICAL HAZARDS IN THE WORK ENVIRONMENT",
+      "code": "DCEPD/SPH/143/2025",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Environmental and Occupational Health",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "cytology",
-        "cytotechnology"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "39",
-      "title": "Clinical Diagnosis Rare Disease",
-      "source_title": "Clinical Diagnosis Rare Disease",
-      "code": "DCEPD/SOM/039/2023",
-      "school": "School of Medicine",
-      "department": "Biochemistry and Molecular Biology",
-      "fee_tzs": "400000",
+      "id": "118",
+      "title": "CLIMATE CHANGE AND HEALTH",
+      "source_title": "CLIMATE CHANGE AND HEALTH",
+      "code": "DCEPD/SPH/118/2025",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Environmental and Occupational Health",
+      "fee_tzs": "",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "diagnosis",
-        "rare diseases"
-      ],
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "133",
+      "title": "Clinical Ethics",
+      "source_title": "Clinical Ethics",
+      "code": "DCEPD/SPH/133/2025",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Bioethics and Health Professionalism",
+      "fee_tzs": "400005",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -328,100 +264,71 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "29",
-      "title": "Clinical Pharmacokinetics",
-      "source_title": "Clinical Pharmacokinetics",
-      "code": "DCEPD/SOP/029/2016",
+      "id": "147",
+      "title": "COMPREHENSIVE FIRST AID TRAINING FOR SCHOOL AND HOME ENVIRONMENT",
+      "source_title": "COMPREHENSIVE FIRST AID TRAINING FOR SCHOOL AND HOME ENVIRONMENT",
+      "code": "DCEPD/CPD/147/2025",
+      "school": "Directorate of Continuing Education and Professional Development",
+      "department": "DCEPD",
+      "fee_tzs": "400011",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "110",
+      "title": "Comprehensive Fisrt Aid Training for Transport and Logistic Industry",
+      "source_title": "Comprehensive Fisrt Aid Training for Transport and Logistic Industry",
+      "code": "DCEPD/SBM/110/2024",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "171",
+      "title": "DATA ANALYTICS FOR INFORMED DECISION MAKING IN HEALTH SUPPLY CHAIN",
+      "source_title": "DATA ANALYTICS FOR INFORMED DECISION MAKING IN HEALTH SUPPLY CHAIN",
+      "code": "DCEPD/SOP/171/2026",
       "school": "School of Pharmacy",
-      "department": "Clinical Pharmacy and Pharmacology",
-      "fee_tzs": "400000",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "fee_tzs": "400035",
       "cpd_points": "",
-      "category": "Pharmacy, Medicines & Supply Chains",
-      "tags": [
-        "pharmacokinetics"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "28",
-      "title": "Clinical Teaching and Simulation Lab Tech",
-      "source_title": "Clinical Teaching and Simulation Lab Tech",
-      "code": "DCEPD/SON/028/2021",
-      "school": "School of Nursing",
-      "department": "SON",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "clinical teaching",
-        "simulation"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "79",
-      "title": "Computer Programming for Health Solutions Online Course",
-      "source_title": "Computer Programming for Health Solutions Online Course",
-      "code": "DCEPD/SPH/079/2019",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "digital health",
-        "online",
-        "programming"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "127",
-      "title": "Consultancy Proposal Writing",
-      "source_title": "Consultancy Proposal Writing",
-      "code": "DCEPD/DRP/127/1900",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "",
-      "fee_tzs": "400004",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "consultancy",
-        "proposal writing"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "87",
-      "title": "Demographic Health Survey and Complex Survey Analysis",
-      "source_title": "Demographic Health Survey and Complex Survey Analysis",
-      "code": "DCEPD/DRP/087/2018",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "DHS",
-        "statistics",
-        "survey analysis"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "114",
-      "title": "Disaster and Emergency Response",
-      "source_title": "Disaster and Emergency Response",
-      "code": "DCEPD/SOM/114/2024",
-      "school": "School of Medicine",
+      "id": "117",
+      "title": "EMERGENCY POINT OF CARE ULTRASOUND (E-POCUS) COURSE",
+      "source_title": "EMERGENCY POINT OF CARE ULTRASOUND (E-POCUS) COURSE",
+      "code": "DCEPD/SCM/117/2024",
+      "school": "School of Clinical Medicine",
       "department": "Emergency Medicine",
       "fee_tzs": "",
       "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
+      "category": "Other courses",
       "tags": [
-        "disaster response",
-        "emergency preparedness"
+        "POCUS",
+        "ultrasound"
       ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "160",
+      "title": "ESSENTIAL ELDERLY CARE FOR HEALTHCARE PROVIDERS",
+      "source_title": "ESSENTIAL ELDERLY CARE FOR HEALTHCARE PROVIDERS",
+      "code": "DCEPD/SON/160/2026",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400024",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -442,34 +349,150 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "92",
-      "title": "Essentials Malaria Microscopy Competence Building for Researchers",
-      "source_title": "Essentials Maralia Microscopy Compitence bilding for Reseachers",
-      "code": "DCEPD/DRP/092/2018",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "fee_tzs": "400000",
+      "id": "157",
+      "title": "ESSENTIAL PERIOPERATIVE PRACTICES FOR SAFE AND QUALITY PATIENT-CENTRED ANAESTHETIC CARE",
+      "source_title": "ESSENTIAL PERIOPERATIVE PRACTICES FOR SAFE AND QUALITY PATIENT-CENTRED ANAESTHETIC CARE",
+      "code": "DCEPD/SON/157/2026",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400021",
       "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "176",
+      "title": "ETHICS IN HEALTHCARE DELIVERY",
+      "source_title": "ETHICS IN HEALTHCARE DELIVERY",
+      "code": "DCEPD/SPH/176/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Bioethics and Health Professionalism",
+      "fee_tzs": "400040",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "172",
+      "title": "FINANCING AND FINANCIAL MANAGEMENT IN HEALTH SUPPLY CHAIN",
+      "source_title": "FINANCING AND FINANCIAL MANAGEMENT IN HEALTH SUPPLY CHAIN",
+      "code": "DCEPD/SOP/172/2026",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "fee_tzs": "400036",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "175",
+      "title": "FORECASTING AND SUPPLY PLANNING FOR HEALTH COMMODITIES",
+      "source_title": "FORECASTING AND SUPPLY PLANNING FOR HEALTH COMMODITIES",
+      "code": "DCEPD/SOP/175/2026",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "fee_tzs": "400039",
+      "cpd_points": "",
+      "category": "Other courses",
       "tags": [
-        "malaria",
-        "microscopy"
+        "forecasting",
+        "quantification",
+        "supply chain"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "37",
-      "title": "Essentials of Project Management short course",
-      "source_title": "Essentials of Project Management short course",
-      "code": "DCEPD/SOM/037/2023",
-      "school": "School of Medicine",
-      "department": "Hematology and Blood Transfusion",
+      "id": "177",
+      "title": "FOUNDATION OF HEALTHCARE SIMULATION",
+      "source_title": "FOUNDATION OF HEALTHCARE SIMULATION",
+      "code": "DCEPD/SPH/177/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Emergency Medicine",
+      "fee_tzs": "400041",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "150",
+      "title": "Foundational Gene Therapy Training Course for African Healthcare and Research Professionals",
+      "source_title": "Foundational Gene Therapy Training Course for African Healthcare and Research Professionals",
+      "code": "DCEPD/SBM/150/2026",
+      "school": "School of Biomedical Sciences",
+      "department": "Biochemistry and Molecular Biology",
+      "fee_tzs": "400014",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "165",
+      "title": "FOUNDATIONS OF CYBERSECURITY IN HEALTHCARE",
+      "source_title": "FOUNDATIONS OF CYBERSECURITY IN HEALTHCARE",
+      "code": "DCEPD/SPH/165/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
+      "fee_tzs": "400029",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "174",
+      "title": "FUNDAMENTALS OF HEALTH COMMODITIES SUPPLY CHAIN MANAGEMENT",
+      "source_title": "FUNDAMENTALS OF HEALTH COMMODITIES SUPPLY CHAIN MANAGEMENT",
+      "code": "DCEPD/SOP/174/2026",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "fee_tzs": "400038",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "107",
+      "title": "Fundamentals of Oral Health Care Delivery for Nurses and Medical Attendants",
+      "source_title": "Fundamentals of Oral Health Care Delivery for Nurses and Medical Attendants",
+      "code": "DCEPD/SOD/107/2025",
+      "school": "School of Dentistry",
+      "department": "Orthodontics, Pedodontics and Community Dentistry",
       "fee_tzs": "400000",
       "cpd_points": "",
-      "category": "Health Leadership, Management & Financing",
-      "tags": [
-        "project management"
-      ],
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "156",
+      "title": "FUNDAMENTALS OF PSYCHOSOCIAL INTERVENTIONS FOR SUBSTANCE USE DISORDERS",
+      "source_title": "FUNDAMENTALS OF PSYCHOSOCIAL INTERVENTIONS FOR SUBSTANCE USE DISORDERS",
+      "code": "DCEPD/SON/156/2026",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400020",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "103",
+      "title": "Global Laboratory Leadership Programme",
+      "source_title": "Global Laboratory Leadership Programme",
+      "code": "DCEPD/SDM/103/2024",
+      "school": "School of Diagnostic Medicine",
+      "department": "Microbiology and Immunology",
+      "fee_tzs": "400000",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -505,22 +528,6 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "35",
-      "title": "Grants writing and Research adminstration Workshop",
-      "source_title": "Grants writing and Research adminstration Workshop",
-      "code": "DCEPD/DRP/035/2018",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "grant writing",
-        "research administration"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
       "id": "122",
       "title": "Haemodialysis course for health care providers",
       "source_title": "HAEMODIALYSIS COURSE FOR HEALTH CARE PROVIDERS",
@@ -537,33 +544,16 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "66",
-      "title": "Health System Strengthening",
-      "source_title": "Health System Strengthening",
-      "code": "DCEPD/SPH/066/2022",
+      "id": "167",
+      "title": "Health Insurance Short Course",
+      "source_title": "Health Insurance Short Course",
+      "code": "DCEPD/SPH/167/2026",
       "school": "School of Public Health and Social Sciences",
-      "department": "SPHSS",
-      "fee_tzs": "400000",
+      "department": "Development Studies",
+      "fee_tzs": "400031",
       "cpd_points": "",
-      "category": "Health Leadership, Management & Financing",
-      "tags": [
-        "health systems"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "74",
-      "title": "Hospital Management For Health care Professionals (HMHP)",
-      "source_title": "Hospital Management For Health care Professionals (HMHP)",
-      "code": "DCEPD/SPH/074/2015",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Community Health Nursing",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Health Leadership, Management & Financing",
-      "tags": [
-        "hospital management"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -583,6 +573,19 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
+      "id": "170",
+      "title": "INDUCTION TO STUDYING DOCTOR OF PHILOSOPHY - PhD",
+      "source_title": "INDUCTION TO STUDYING DOCTOR OF PHILOSOPHY - PhD",
+      "code": "DCEPD/SPH/170/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Behavioral Sciences",
+      "fee_tzs": "400034",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
       "id": "131",
       "title": "Innovation and entrepreneurship in health care",
       "source_title": "INNOVATION AND ENTREPRENEURSHIP IN HEALTH CARE",
@@ -596,6 +599,36 @@
         "entrepreneurship",
         "innovation"
       ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "123",
+      "title": "INTEGRATED STEWARDSHIP: ANTIMICROBIAL, INFECTION-PREVENTION AND CONTROL, AND DIAGNOSTICS",
+      "source_title": "INTEGRATED STEWARDSHIP: ANTIMICROBIAL, INFECTION-PREVENTION AND CONTROL, AND DIAGNOSTICS",
+      "code": "DCEPD/SDM/123/2025",
+      "school": "School of Diagnostic Medicine",
+      "department": "Microbiology and Immunology",
+      "fee_tzs": "400000",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [
+        "AMR",
+        "antibiotics",
+        "antimicrobial resistance"
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "162",
+      "title": "INTERMEDIATE LEVEL ECHOCARDIOGRAPHY",
+      "source_title": "INTERMEDIATE LEVEL ECHOCARDIOGRAPHY",
+      "code": "DCEPD/SCM/162/2025",
+      "school": "School of Clinical Medicine",
+      "department": "Internal Medicine",
+      "fee_tzs": "400026",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -630,67 +663,44 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "64",
-      "title": "Introduction on approaches to clinical Research designing, Operational planning, conducting and reporting during drug development",
-      "source_title": "Introduction on approaches to clinical Research designing, Operational planning, conducting and reporting during drug development",
-      "code": "DCEPD/SOP/064/2024",
-      "school": "School of Pharmacy",
-      "department": "Clinical Pharmacy and Pharmacology",
-      "fee_tzs": "400000",
+      "id": "142",
+      "title": "INTRODUCTION TO GENE AND CELL THERAPY FOR EDUCATORS",
+      "source_title": "INTRODUCTION TO GENE AND CELL THERAPY FOR EDUCATORS",
+      "code": "DCEPD/SBM/142/2025",
+      "school": "School of Biomedical Sciences",
+      "department": "Biochemistry and Molecular Biology",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "clinical research",
-        "drug development"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "49",
-      "title": "Introduction to Biosafety Cabinet",
-      "source_title": "Introduction to Biosafety Cabinet",
-      "code": "DCEPD/SOM/049/2022",
-      "school": "School of Medicine",
-      "department": "Microbiology and Immunology",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "biosafety",
-        "laboratory safety"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "6",
-      "title": "Introduction to Computer",
-      "source_title": "Introduction to Computer",
-      "code": "DCEPD/DCT/006/2021",
-      "school": "Directorate of Communicateion Technology",
-      "department": "DICT",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "computer literacy"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "108",
-      "title": "Introduction to Health Data Analytics",
-      "source_title": "Introduction to Health Data Analytics",
-      "code": "DCEPD/DCT/108/2023",
-      "school": "Directorate of Communicateion Technology",
-      "department": "DICT",
+      "id": "113",
+      "title": "Introduction to Genetics, Ethics and Society",
+      "source_title": "Introduction to Genetics, Ethics and Society",
+      "code": "DCEPD/SBM/113/2024",
+      "school": "School of Biomedical Sciences",
+      "department": "Biochemistry and Molecular Biology",
       "fee_tzs": "",
       "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "164",
+      "title": "INTRODUCTION TO HEALTH DATA ANALYTICS",
+      "source_title": "INTRODUCTION TO HEALTH DATA ANALYTICS",
+      "code": "DCEPD/SPH/164/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
+      "fee_tzs": "400028",
+      "cpd_points": "",
+      "category": "Other courses",
       "tags": [
-        "DHA",
         "data analysis",
-        "digital health",
-        "health data analytics"
+        "digital health"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
@@ -698,7 +708,7 @@
       "id": "190",
       "title": "Introduction to Implementation Science in Health",
       "source_title": "Introduction to Implementation Science in Health",
-      "code": "",
+      "code": "DCEPD/SPH/190/2024",
       "school": "School of Public Health and Social Sciences",
       "department": "",
       "fee_tzs": "",
@@ -708,6 +718,19 @@
         "implementation research",
         "implementation science"
       ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "139",
+      "title": "INTRODUCTION TO POINT OF CARE EQUIPMENT",
+      "source_title": "INTRODUCTION TO POINT OF CARE EQUIPMENT",
+      "code": "DCEPD/SBM/139/2025",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "400005",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -728,180 +751,143 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "55",
-      "title": "Introductory Course in Palliative care",
-      "source_title": "Introductory Course in Palliative care",
-      "code": "DCEPD/SOM/055/2018",
-      "school": "School of Clinical Medicine",
-      "department": "Clinical Oncology",
-      "fee_tzs": "400000",
+      "id": "152",
+      "title": "IPC AND HOSPITAL CLEANLINESS",
+      "source_title": "IPC AND HOSPITAL CLEANLINESS",
+      "code": "DCEPD/SON/152/2025",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400016",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "palliative care"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "80",
-      "title": "Logistic Regression analysis (SPHSS)",
-      "source_title": "Logistic Regression analysis (SPHSS)",
-      "code": "DCEPD/SPH/080/2018",
+      "id": "155",
+      "title": "KEY AND VULNERABLE POPULATIONS HEALTH RESEARCH AND PROGRAMMING",
+      "source_title": "KEY AND VULNERABLE POPULATIONS HEALTH RESEARCH AND PROGRAMMING",
+      "code": "DCEPD/SPH/155/2026",
       "school": "School of Public Health and Social Sciences",
-      "department": "Epidemiology and Biostatistics",
+      "department": "Behavioral Sciences",
+      "fee_tzs": "600000",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "124",
+      "title": "LINUX FOR DATA SCIENCE",
+      "source_title": "LINUX FOR DATA SCIENCE",
+      "code": "DCEPD/SOP/124/2025",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutical Microbiology",
       "fee_tzs": "400000",
       "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
+      "category": "Other courses",
       "tags": [
-        "regression",
-        "statistics"
+        "Linux",
+        "data science"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "85",
-      "title": "Management and Leadership for Malaria Elimination",
-      "source_title": "Management and Leadership for Malaria Elimination",
-      "code": "DCEPD/SPH/085/2022",
+      "id": "112",
+      "title": "Management Priority Mental Health Disoders for Primary Healthcare",
+      "source_title": "Management Priority Mental Health Disoders for Primary Healthcare",
+      "code": "DCEPD/SOM/112/2024",
+      "school": "School of Medicine",
+      "department": "Psychiatry and Mental Health",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "173",
+      "title": "MASTERING INVENTORY CONTROL AND LOGISTICS FOR HEALTH COMMODITIES",
+      "source_title": "MASTERING INVENTORY CONTROL AND LOGISTICS FOR HEALTH COMMODITIES",
+      "code": "DCEPD/SOP/173/2026",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "fee_tzs": "400037",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [
+        "health commodities",
+        "inventory control",
+        "supply chain"
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "145",
+      "title": "MONITORING AND EVALUATION OF HEALTH INTERVENTIONS",
+      "source_title": "MONITORING AND EVALUATION OF HEALTH INTERVENTIONS",
+      "code": "DCEPD/SPH/145/2025",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "fee_tzs": "400000",
+      "fee_tzs": "400009",
       "cpd_points": "",
-      "category": "Public Health, One Health & Environment",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "197",
+      "title": "Neonatology course for doctors",
+      "source_title": "Neonatology course for doctors",
+      "code": "DCEPD/SCM/197/2026",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "198",
+      "title": "Neonatology short course for nurses",
+      "source_title": "Neonatology short course for nurses",
+      "code": "DCEPD/SCM/198/2026",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "135",
+      "title": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "source_title": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "code": "DCEPD/SBM/135/2025",
+      "school": "School of Biomedical Sciences",
+      "department": "Radiology and Imaging",
+      "fee_tzs": "400005",
+      "cpd_points": "",
+      "category": "Other courses",
       "tags": [
-        "leadership",
-        "malaria elimination"
+        "POCUS",
+        "ultrasound"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "57",
-      "title": "Management of sore throat, acute rheumatic fever and heart disease in primary health care",
-      "source_title": "Management of sore throat, acute rheumatic fever and heart disease in primary health care",
-      "code": "DCEPD/SOM/057/2022",
-      "school": "School of Medicine",
-      "department": "Internal Medicine",
-      "fee_tzs": "400000",
+      "id": "144",
+      "title": "One Health Approach in Pandemic Preparedness and Response in Tanzania",
+      "source_title": "One Health Approach in Pandemic Preparedness and Response in Tanzania",
+      "code": "DCEPD/CPD/144/2026",
+      "school": "Directorate of Continuing Education and Professional Development",
+      "department": "DCEPD",
+      "fee_tzs": "400008",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "primary care",
-        "rheumatic heart disease"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "90",
-      "title": "Mentorship Training",
-      "source_title": "Mentorship Training",
-      "code": "DCEPD/SPH/090/2018",
-      "school": "School of Public Health and Social Sciences",
-      "department": "SPHSS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "mentorship"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "94",
-      "title": "Mentorship Workshop",
-      "source_title": "Mentorship Workshop",
-      "code": "DCEPD/SPH/094/2018",
-      "school": "School of Public Health and Social Sciences",
-      "department": "PCOR- Project",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "mentorship"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "4",
-      "title": "Micro Computer Applications",
-      "source_title": "Micro Computer Applications",
-      "code": "DCEPD/DCT/004/2023",
-      "school": "Directorate of Communicateion Technology",
-      "department": "DICT",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "computer literacy",
-        "office applications"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "5",
-      "title": "Micro Computer Applications",
-      "source_title": "Micro Computer Applications",
-      "code": "DCEPD/DCT/005/2022",
-      "school": "Directorate of Communicateion Technology",
-      "department": "DICT",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Digital Health, Data Science & Informatics",
-      "tags": [
-        "computer literacy",
-        "office applications"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "38",
-      "title": "Multidisciplinary management of Sickle Cell disease; a short course for health care workers",
-      "source_title": "Multidisciplinary management of Sickle Cell disease; a short course for health care workers",
-      "code": "DCEPD/SOM/038/2023",
-      "school": "School of Medicine",
-      "department": "Biochemistry and Molecular Biology",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "SCD",
-        "sickle cell disease"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "15",
-      "title": "Open access and artificial intelligence and improving health research and academic publishing life cycle",
-      "source_title": "Open acces and artificial intelligence and improving health research and academicpublishing life cycle",
-      "code": "DCEPD/DLS/015/2023",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "AI",
-        "academic publishing",
-        "artificial intelligence",
-        "open access"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "18",
-      "title": "Open access, open data, open science and predatory",
-      "source_title": "Open acces, open data, open science and predatory",
-      "code": "DCEPD/DLS/018/2022",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "open access",
-        "open data",
-        "open science",
-        "predatory publishing"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -921,51 +907,16 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "44",
-      "title": "Pediatric Emergency Care",
-      "source_title": "Pediatric Emergency Care",
-      "code": "DCEPD/SOM/044/2017",
+      "id": "111",
+      "title": "Perinatal Mental Health",
+      "source_title": "Perinatal Mental Health",
+      "code": "DCEPD/SOM/111/2024",
       "school": "School of Medicine",
-      "department": "Emergency Medicine",
-      "fee_tzs": "400000",
+      "department": "Psychiatry and Mental Health",
+      "fee_tzs": "",
       "cpd_points": "",
-      "category": "Maternal, Newborn & Child Health",
-      "tags": [
-        "emergency care",
-        "paediatric",
-        "pediatric"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "59",
-      "title": "Pharmacovigilance and Vigilance for Healthcare Professionals",
-      "source_title": "Pharmacovigilance and Vigilance for Healthcare Professionals",
-      "code": "DCEPD/SOP/059/2019",
-      "school": "School of Pharmacy",
-      "department": "Pharmaceutics and Pharmacy Practice",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Pharmacy, Medicines & Supply Chains",
-      "tags": [
-        "medicine safety",
-        "pharmacovigilance"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "88",
-      "title": "Philosophy of Science in Research",
-      "source_title": "Phylosophy of Science in Research",
-      "code": "DCEPD/DPG/088/2023",
-      "school": "Directorate of Postgraduate Studies",
-      "department": "DPGS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "philosophy of science"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -984,64 +935,42 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "76",
-      "title": "Policy Briefs",
-      "source_title": "Policy Briefs",
-      "code": "DCEPD/SPH/076/2019",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Development Studies",
-      "fee_tzs": "400000",
+      "id": "140",
+      "title": "PHYSICAL REHABILITATION IN PROSTHETICS AND ORTHOTICS",
+      "source_title": "PHYSICAL REHABILITATION IN PROSTHETICS AND ORTHOTICS",
+      "code": "DCEPD/SBM/140/2025",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "policy briefs"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "61",
-      "title": "Policy Briefs Development",
-      "source_title": "Policy Briefs Development",
-      "code": "DCEPD/DRP/061/2018",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "fee_tzs": "400000",
+      "id": "158",
+      "title": "PRECEPTORSHIP AND PROFESSIONAL MENTORSHIP FOR CLINICAL INSTRUCTORS",
+      "source_title": "PRECEPTORSHIP AND PROFESSIONAL MENTORSHIP FOR CLINICAL INSTRUCTORS",
+      "code": "DCEPD/SON/158/2026",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "fee_tzs": "400022",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "policy briefs"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "120",
-      "title": "Postgraduate Supervision Course",
-      "source_title": "Postgragraduate Supervision Course",
-      "code": "DCEPD/DPG/120/2018",
-      "school": "Directorate of Postgraduate Studies",
-      "department": "DPGS",
-      "fee_tzs": "",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "postgraduate supervision"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "58",
-      "title": "Practical Electrocardiography",
-      "source_title": "Practical Electrocardiography",
-      "code": "DCEPD/SOM/058/2023",
-      "school": "School of Medicine",
-      "department": "Internal Medicine",
+      "id": "63",
+      "title": "Preventive Orthodontics for Dental practitioners",
+      "source_title": "Preventive Orthodontics for Dental practitioners",
+      "code": "DCEPD/SOD/063/2025",
+      "school": "School of Dentistry",
+      "department": "Orthodontics, Pedodontics and Community Dentistry",
       "fee_tzs": "400000",
       "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "ECG",
-        "electrocardiography"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -1062,101 +991,16 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "20",
-      "title": "Quality Control and Regulations governing Medicinal Plants and finished herbal products (Herbal Medicine Development Level III)",
-      "source_title": "Quality Control and Regulations governing Medicinal Plants and finished herbal products (Herbal Medicine Development Level III)",
-      "code": "DCEPD/ITM/020/2016",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Traditional Medicine & Natural Products",
-      "tags": [
-        "herbal products",
-        "level III",
-        "quality control",
-        "regulation"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "72",
-      "title": "Research Ethics",
-      "source_title": "Research Ethics",
-      "code": "DCEPD/SPH/072/2022",
+      "id": "146",
+      "title": "PROJECT MANAGEMENT IN HEALTH",
+      "source_title": "PROJECT MANAGEMENT IN HEALTH",
+      "code": "DCEPD/SPH/146/2025",
       "school": "School of Public Health and Social Sciences",
-      "department": "DPGS",
-      "fee_tzs": "400000",
+      "department": "Development Studies",
+      "fee_tzs": "400010",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "research ethics"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "93",
-      "title": "Research in Children Under five years",
-      "source_title": "Research in Children Under five years",
-      "code": "DCEPD/SOM/093/2018",
-      "school": "School of Medicine",
-      "department": "Pediatric and Child Health",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "child health",
-        "paediatric research"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "2",
-      "title": "Research Mentoring",
-      "source_title": "Research Mentoring",
-      "code": "DCEPD/DRP/002/2019",
-      "school": "Directorate of Research, Publications and Innovation",
-      "department": "DRPI",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "mentorship",
-        "research supervision"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "73",
-      "title": "Responsible Conduct Research",
-      "source_title": "Responsible Conduct Research",
-      "code": "DCEPD/SPH/073/2022",
-      "school": "School of Public Health and Social Sciences",
-      "department": "Bioethics and Health Professionalism",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "research integrity",
-        "responsible conduct"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "67",
-      "title": "Risk communication and Community engagement",
-      "source_title": "Risk communication and Community engagement",
-      "code": "DCEPD/SPH/067/2023",
-      "school": "School of Public Health and Social Sciences",
-      "department": "SPHSS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Public Health, One Health & Environment",
-      "tags": [
-        "RCCE",
-        "community engagement",
-        "risk communication"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -1177,202 +1021,57 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "13",
-      "title": "Scientific writing and communication",
-      "source_title": "Scientific writing and communication",
-      "code": "DCEPD/DLS/013/2022",
+      "id": "95",
+      "title": "Scientific writing and information literacy",
+      "source_title": "Scientific writing and information literacy",
+      "code": "DCEPD/DLS/095/2025",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "fee_tzs": "400000",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "academic writing",
-        "research communication"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "41",
-      "title": "Short course on Universal Anesthesia machine",
-      "source_title": "Short course on Universal Anesthesia machine",
-      "code": "DCEPD/SOM/041/2023",
-      "school": "School of Medicine",
-      "department": "Anesthesiology",
-      "fee_tzs": "400000",
+      "id": "166",
+      "title": "SPIROMETRY",
+      "source_title": "SPIROMETRY",
+      "code": "DCEPD/SBM/166/2026",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "400030",
       "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "anaesthesia",
-        "anesthesia"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "17",
-      "title": "Strategies for discovery and utilization for scholarly content to enhance academic integrity and scientific writing",
-      "source_title": "Strategies for discovery and utilization for shcolary content to enhance academic integrity and scientific writting",
-      "code": "DCEPD/DLS/017/2024",
+      "id": "125",
+      "title": "Systematic Reviews and Meta Analysis",
+      "source_title": "Systematic Reviews and Meta Analysis",
+      "code": "DCEPD/DLS/125/2025",
       "school": "Directorate of Library Services",
       "department": "DLS",
-      "fee_tzs": "400000",
+      "fee_tzs": "400005",
       "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
+      "category": "Other courses",
       "tags": [
-        "academic integrity",
-        "information literacy",
-        "scientific writing"
+        "evidence synthesis"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
-      "id": "24",
-      "title": "Substance Use Disorders and Addiction",
-      "source_title": "Substance Use Disoders and Addiction",
-      "code": "DCEPD/SON/024/2020",
-      "school": "School of Nursing",
-      "department": "Clinical Nursing",
-      "fee_tzs": "400000",
+      "id": "169",
+      "title": "TANZANIA CLIMATE AND HEALTH RESPONDERS COURSE",
+      "source_title": "TANZANIA CLIMATE AND HEALTH RESPONDERS COURSE",
+      "code": "DCEPD/SPH/169/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Environmental and Occupational Health",
+      "fee_tzs": "400033",
       "cpd_points": "",
-      "category": "Mental Health, Rehabilitation & Wellbeing",
-      "tags": [
-        "addiction",
-        "mental health",
-        "substance use disorders"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "12",
-      "title": "Systematic Reviews and Meta-Analysis",
-      "source_title": "Systematic Reviews and Meta-Analysis",
-      "code": "DCEPD/DLS/012/2023",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "evidence synthesis",
-        "meta analysis",
-        "systematic reviews"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "27",
-      "title": "Teaching Methodology for Education and Health care Professionals",
-      "source_title": "Teaching Methodology for Education and Health care Pofessionals",
-      "code": "DCEPD/SON/027/2021",
-      "school": "School of Nursing",
-      "department": "Clinical Nursing",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Education, Mentorship & Simulation",
-      "tags": [
-        "health professions education",
-        "teaching methods"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "89",
-      "title": "Traditional Medicine Development Systematic Review and Meta analysis",
-      "source_title": "Traditional Medicine Development Systemetic Review and Meta analysis",
-      "code": "DCEPD/ITM/089/2018",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Traditional Medicine & Natural Products",
-      "tags": [
-        "evidence synthesis",
-        "herbal medicine",
-        "meta analysis",
-        "systematic reviews"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "105",
-      "title": "Traditional Medicine Development Training Level II",
-      "source_title": "Traditional Medicine Developmen Training Level II",
-      "code": "DCEPD/ITM/105/2021",
-      "school": "Institute of Traditional Medicine",
-      "department": "",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Traditional Medicine & Natural Products",
-      "tags": [
-        "herbal medicine",
-        "level II"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "40",
-      "title": "Trainers of Trainers short course for use Universal Anesthesia machine",
-      "source_title": "Trainers of Trainers short course for use Universal Anesthesia machine",
-      "code": "DCEPD/SOM/040/2023",
-      "school": "School of Medicine",
-      "department": "Anesthesiology",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Emergency, Critical Care & Patient Safety",
-      "tags": [
-        "anaesthesia",
-        "anesthesia",
-        "training of trainers"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "19",
-      "title": "Training on Traditional and Herbal Medicine Development Level I",
-      "source_title": "Training on Traditional and Herbal Medicine Development Level I",
-      "code": "DCEPD/ITM/019/2021",
-      "school": "Institute of Traditional Medicine",
-      "department": "ITM",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Traditional Medicine & Natural Products",
-      "tags": [
-        "herbal medicine",
-        "level I"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "54",
-      "title": "Transcranial Doppler (TCD) Training",
-      "source_title": "Transacranial Doppler (TCD) Training",
-      "code": "DCEPD/SOM/054/2021",
-      "school": "School of Medicine",
-      "department": "Radiology and Imaging",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Clinical Care & Diagnostics",
-      "tags": [
-        "TCD",
-        "transcranial Doppler",
-        "ultrasound"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "14",
-      "title": "Use of Evidence based on Database in Clinical Nursing",
-      "source_title": "Use of Evidence based on Database in Clinical Nursing",
-      "code": "DCEPD/DLS/014/2022",
-      "school": "Directorate of Library Services",
-      "department": "DLS",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Research Methods, Evidence & Scientific Writing",
-      "tags": [
-        "evidence based practice",
-        "nursing"
-      ],
+      "category": "Other courses",
+      "tags": [],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
@@ -1389,37 +1088,6 @@
         "clinical trials",
         "regulatory assessment",
         "vaccines"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "86",
-      "title": "Values based Leadership Development",
-      "source_title": "Values based Leadreship Development",
-      "code": "DCEPD/SCM/086/2018",
-      "school": "School of Clinical Medicine",
-      "department": "Gender unit",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Health Leadership, Management & Financing",
-      "tags": [
-        "leadership"
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
-    },
-    {
-      "id": "50",
-      "title": "Virtual and Individualized Training For African Laboratory Leaders Course",
-      "source_title": "Virtual and Individualized Training For African Laboratory Leaders Course",
-      "code": "DCEPD/SOM/050/2018",
-      "school": "School of Medicine",
-      "department": "Microbiology and Immunology",
-      "fee_tzs": "400000",
-      "cpd_points": "",
-      "category": "Laboratory Sciences, Genomics & Biotechnology",
-      "tags": [
-        "laboratory leadership",
-        "online training"
       ],
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
