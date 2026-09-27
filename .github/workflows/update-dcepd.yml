@@ -97,6 +97,22 @@ jobs:
           python scripts/update_dcepd_catalogue.py
           python scripts/build_dcepd_dashboard.py
 
+      - name: Build DCEPD management reporting packet
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        run: |
+          python scripts/build_dcepd_management_packet.py \
+            --runtime .project75-runtime \
+            --catalogue dcepd-courses/catalogue.json
+
+      - name: Upload DCEPD management reporting packet
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dcepd-management-${{ github.run_id }}
+          path: .project75-runtime/management
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Validate and update search metadata
         run: |
           python -m unittest discover -s tests -p 'test_dcepd*.py'
