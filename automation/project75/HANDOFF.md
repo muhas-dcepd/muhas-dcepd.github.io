@@ -60,3 +60,118 @@ Project 79 is read-only to the automation. Existing mapped application records a
 ## If something fails
 
 Stop the run; do not manually force later stages. A new run always begins with a fresh export and will propose only what remains incorrect. For structural loss, restore the correct dictionary first and check whether stored data reappear before importing any record backup.
+
+
+## Operational status — 27 September 2026
+
+The automation is now in routine operational monitoring.
+
+The first successful GitHub-hosted LIVE proof was workflow run #21 (26 September 2026, 06:44 EAT):
+
+- P75 structure: 48 fields
+- P79 structure: 53 fields
+- master changes: 0
+- run-log changes: 0
+- P75 manual metadata actions: 0
+- P79 manual choice additions: 0
+- QC errors: 0
+- QC warnings: 100
+- QC information items: 5
+- verification master differences: 0
+- verification run differences: 0
+- verified archive: `archive/verified/20260926_064450`
+- public catalogue after refresh: 77 courses
+
+The warning baseline is mainly programme-management work rather than a technical failure: 97 courses were overdue for reaccreditation, one was due soon, and a small number of chronology/reviewer/accreditation-history items remained for review.
+
+## GitHub schedule and server-side sequence
+
+The workflow is `.github/workflows/update-dcepd.yml`.
+
+Cron: `37 1 * * *` = 04:37 EAT daily.
+
+On scheduled or manual API-refresh runs the workflow:
+
+1. sets up R and required system/R dependencies;
+2. reconstructs and checksum-verifies the V2.2.12 runtime;
+3. runs the LIVE Project 75/79 refresh with GitHub secrets;
+4. uploads the full sync audit artifact;
+5. refreshes the public catalogue and dashboard;
+6. builds a management reporting packet;
+7. uploads that packet as a separate artifact;
+8. regenerates SEO/sitemap files;
+9. deploys GitHub Pages.
+
+Ordinary pushes to `main` do not run the REDCap R sync.
+
+Required GitHub secrets:
+
+- `REDCAP_PROJECT75_TOKEN`
+- `REDCAP_PROJECT79_TOKEN`
+
+Never put tokens in source, logs, documentation or public files.
+
+## Management reporting
+
+DCEPD management should not need GitHub access.
+
+The read-only reporting script is:
+
+`scripts/build_dcepd_management_packet.py`
+
+After a successful scheduled/manual refresh it creates:
+
+- `management_summary.json`
+- `management_summary.md`
+- `action_list.csv`
+- `overdue_reaccreditation.csv`
+
+These are uploaded as:
+
+`dcepd-management-<github_run_id>`
+
+with 90-day artifact retention.
+
+Routine management recipients are:
+
+- Prof. Raphael Sangeda — `sangeda@gmail.com`
+- Dr. Emmy Metta — `emetta2000@gmail.com`
+- Dr. David Myemba — `dmyemba09@gmail.com`
+- Erick Billy — `billyrique@gmail.com`
+
+Agreed distribution:
+
+- Prof. Sangeda, Dr. Emmy Metta and Dr. David Myemba as primary recipients;
+- Erick Billy copied for administrative follow-up;
+- technical GitHub/R/REDCap failures go to Prof. Sangeda only unless operational escalation is needed.
+
+A weekly management report is scheduled for Friday at 08:00 EAT. The report contains a management summary, action list and overdue-reaccreditation list.
+
+## Files to inspect after a run
+
+Full technical audit artifact `project75-sync-<run_id>`:
+
+- `output/run_*/project75_qc_summary.csv`
+- `output/run_*/project75_qc_issues.csv`
+- `output/run_*/verification_master_differences.csv`
+- `output/run_*/verification_run_differences.csv`
+- `logs/project75_v2_2_*.log`
+- `archive/verified/*`
+
+Management artifact `dcepd-management-<run_id>`:
+
+- `management_summary.json`
+- `management_summary.md`
+- `action_list.csv`
+- `overdue_reaccreditation.csv`
+
+## Recovery material
+
+Keep the emergency recovery packages outside the public repository:
+
+- `Project75_EMERGENCY_RECOVERY_2026-09-25.zip`
+- `Project79_EMERGENCY_RECOVERY_FIXED_2026-09-25.zip`
+
+A clean pre-GitHub local verified baseline exists at `archive/verified/20260926_000640`. The first successful GitHub-hosted verified archive is `archive/verified/20260926_064450`.
+
+If structural loss is suspected, stop automation, restore the correct dictionary first, verify that stored record data reappear, and only then consider any record restore. Metadata API import remains prohibited.
