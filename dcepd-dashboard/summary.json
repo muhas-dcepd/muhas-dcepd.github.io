@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-27T07:06:28+00:00",
-    "as_of": "2026-09-27",
+    "source_at": "2026-09-28T07:34:54+00:00",
+    "as_of": "2026-09-28",
     "registered_courses": 195,
     "listed_courses": 77,
-    "application_records": 928,
+    "application_records": 935,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -5160,7 +5160,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 514,
+      "applications": 515,
       "withheld": false
     },
     {
@@ -5171,8 +5171,8 @@
       "year": "Unknown",
       "fy": "Unknown",
       "quarter": "Unknown",
-      "applications": null,
-      "withheld": true
+      "applications": 7,
+      "withheld": false
     }
   ],
   "geography": [
@@ -5186,7 +5186,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 38
+      "applications": 39
     },
     {
       "location": "Morogoro",
@@ -5245,6 +5245,10 @@
       "applications": 15
     },
     {
+      "location": "Unknown",
+      "applications": 14
+    },
+    {
       "location": "Shinyanga",
       "applications": 14
     },
@@ -5269,10 +5273,6 @@
       "applications": 8
     },
     {
-      "location": "Unknown",
-      "applications": 8
-    },
-    {
       "location": "Njombe",
       "applications": 8
     },
@@ -5288,7 +5288,7 @@
   "countries": [
     {
       "location": "Uganda",
-      "applications": 11
+      "applications": 12
     },
     {
       "location": "Other small groups (combined)",
