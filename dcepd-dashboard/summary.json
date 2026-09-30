@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-09-29T07:31:32+00:00",
-    "as_of": "2026-09-29",
+    "source_at": "2026-09-30T07:21:04+00:00",
+    "as_of": "2026-09-30",
     "registered_courses": 195,
     "listed_courses": 77,
-    "application_records": 937,
+    "application_records": 938,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -5160,7 +5160,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 517,
+      "applications": 518,
       "withheld": false
     },
     {
@@ -5197,12 +5197,12 @@
       "applications": 27
     },
     {
-      "location": "Iringa",
+      "location": "Arusha",
       "applications": 25
     },
     {
-      "location": "Arusha",
-      "applications": 24
+      "location": "Iringa",
+      "applications": 25
     },
     {
       "location": "Mwanza",
