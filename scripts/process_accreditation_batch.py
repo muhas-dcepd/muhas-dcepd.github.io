@@ -107,7 +107,7 @@ def claim():
         return
     missing=[]
     for r in sel:
-        for f in ('accreditation_date','accreditation_date_first','course_director_id','course_department_code','course_school_code'):
+        for f in ('accreditation_date','course_director_id','course_department_code','course_school_code'):
             if not (r.get(f) or '').strip():missing.append(f"record {r['record_id']}: {f}")
     if missing:
         update_admin(i,{'apc_status':'4','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_qc_errors':len(missing),'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':'Missing required fields: '+'; '.join(missing[:20])}); raise RuntimeError('; '.join(missing))
