@@ -17,6 +17,8 @@ concurrency:
 jobs:
   process:
     runs-on: ubuntu-latest
+    outputs:
+      has_request: ${{ steps.claim.outputs.has_request }}
 
     steps:
       - uses: actions/checkout@v6
@@ -188,7 +190,7 @@ jobs:
 
   deploy:
     needs: process
-    if: needs.process.result == 'success'
+    if: needs.process.result == 'success' && needs.process.outputs.has_request == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
