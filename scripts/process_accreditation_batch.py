@@ -139,7 +139,7 @@ def claim():
         ref=(r.get('approval_reference') or '').strip()
         if not ref:ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
         refs[r['record_id']]=ref
-    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
+    batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'\n    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
     writes=[]
     letter_dates={}
     for rid,ref in refs.items():
@@ -160,28 +160,66 @@ def claim():
         if chk.get(rid,{}).get('approval_reference')!=ref: bad.append(rid)
         if reset_dates and chk.get(rid,{}).get('approval_date')!=today.isoformat(): bad.append(rid)
     if bad:raise RuntimeError('Post-write verification failed: '+','.join(sorted(set(bad))))
-    vals=list(refs.values()); state={'instance':i,'trigger_date':today.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
+    vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':today.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
     STATE.write_text(json.dumps(state,indent=2),encoding='utf-8'); print('has_request=true');print(f'instance={i}');print(f'selected={len(refs)}')
 
-def letter_pdf(rec,lab,ref,dt,path):
-    from reportlab.lib.pagesizes import A4
-    from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
-    from reportlab.lib.enums import TA_CENTER,TA_JUSTIFY
-    from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,Table,TableStyle
-    from reportlab.lib import colors
-    from reportlab.lib.units import mm
-    doc=SimpleDocTemplate(str(path),pagesize=A4,leftMargin=22*mm,rightMargin=22*mm,topMargin=14*mm,bottomMargin=14*mm)
-    st=getSampleStyleSheet(); b=ParagraphStyle('b',parent=st['Normal'],fontSize=9.5,leading=12.3,alignment=TA_JUSTIFY,spaceAfter=4); c=ParagraphStyle('c',parent=b,alignment=TA_CENTER,fontName='Helvetica-Bold',fontSize=10.4,leading=13); t=ParagraphStyle('t',parent=b,alignment=TA_CENTER,fontName='Helvetica-Bold',fontSize=10.2,leading=12.5,spaceBefore=5,spaceAfter=6); sm=ParagraphStyle('sm',parent=b,fontSize=7,leading=8)
-    course=(lab.get('course_name') or rec.get('course_name') or '').strip(); director=(lab.get('course_director_id') or '').strip(); dept=(lab.get('course_department_code') or '').strip(); school=(lab.get('course_school_code') or '').strip(); code=(rec.get('course_code') or '').strip(); ds=datetime.strptime(dt,'%Y-%m-%d').strftime('%-m/%-d/%Y')
-    story=[Paragraph('UNITED REPUBLIC OF TANZANIA',c),Paragraph('<font color="#315D8A">MINISTRY OF EDUCATION, SCIENCE AND TECHNOLOGY<br/>MUHIMBILI UNIVERSITY OF HEALTH AND ALLIED SCIENCES</font>',c),Paragraph('OFFICE OF THE DIRECTOR – CONTINUING EDUCATION<br/>AND PROFESSIONAL DEVELOPMENT',c),Spacer(1,1*mm)]
-    bar=Table([['']],colWidths=[170*mm],rowHeights=[0.6*mm]);bar.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,-1),colors.HexColor('#1D4E89'))]));story+=[bar,Spacer(1,2*mm),Paragraph('In reply quote;',b)]
-    rr=Table([[Paragraph(f'<b>Ref. No: {ref}</b>',b),Paragraph(f'<b>Date: {ds}</b>',b)]],colWidths=[115*mm,55*mm]);rr.setStyle(TableStyle([('ALIGN',(1,0),(1,0),'RIGHT'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0)]));story+=[rr,Spacer(1,2*mm),Paragraph(director,b),Paragraph(('Department of '+dept if dept and not dept.lower().startswith('department') else dept)+',',b),Paragraph(school+', MUHAS',b),Spacer(1,3*mm),Paragraph(f'RE: &nbsp; ACCREDITATION OF SHORT COURSE “{course.upper()}”',t)]
-    story+=[Paragraph(f'I am pleased to inform you that the Chairperson of the Senate Continuing Education and Professional Development (SCEPD) accredited the short course, namely <b>“{course.upper()}”</b> after you successfully addressed the comments that you were given. The course code shall be <b>{code}</b>. With this letter, you can initiate procedures to advertise and conduct the accredited short course.',b),Paragraph('Please note that you will have to register for this short course with the Professional Council(s) so that they can give credit points to professionals who have successfully attended the accredited short course.',b),Paragraph('As the course Director, you are requested to ensure that you accomplish the following: -',b)]
-    for n,x in enumerate(['Conduct the accredited short course at least once annually.','Liaise with DCEPD at least a week before conducting the short course (include course advertisement that will be posted on the MUHAS website, timetable, and course venue.','Submit, before the end of training, a list of course participants and liaise with the DCEPD administrator to prepare certificates for participants.','Submit the activity report within a week of conducting the short course.'],1):story.append(Paragraph(f'{n}.&nbsp;&nbsp;{x}',b))
-    story+=[Paragraph('I wish you success in running the short course that has been accredited.',b),Spacer(1,8*mm),Paragraph('______________________________<br/><i>Authorized signature</i>',b),Spacer(1,3*mm),Paragraph('Cc. Deputy Vice-Chancellor- Academics, <b>MUHAS</b>',b)]
-    if school:story.append(Paragraph(f"Cc. {'Dean' if 'School' in school else 'Director'}, {school}, <b>MUHAS</b>",b))
-    if dept:story.append(Paragraph(f'Cc. HOD, Department of {dept}, <b>MUHAS</b>',b))
-    story+=[Spacer(1,2*mm),Paragraph('9 United Nations Road; Upanga West; P.O. Box 65001, Dar Es Salaam; Tel. G/Line: +255-22-2150302/6; Ext. 1236; Direct Line:+255-22-2152635; Telefax:+255-22-2150465; E-mail: dvcarc@muhas.ac.tz; Web: https://www.muhas.ac.tz',sm)];doc.build(story)
+TEMPLATE=Path(os.getenv('APC_DOCX_TEMPLATE','automation/accreditation/DCEPD_Accreditation_Letter_FINAL_ONE_PAGE_TNR_NO_MAILMERGE.docx'))
+
+def letter_docx(rec,lab,ref,dt,path):
+    """Create one accreditation DOCX from the authoritative one-page MUHAS template.
+
+    Only approved variable text is substituted. All formatting, logos, footer,
+    Times New Roman typography, one-page layout and the blank Director signature
+    line remain those of the authoritative template.
+    """
+    if not TEMPLATE.exists():
+        raise RuntimeError(f'Authoritative accreditation DOCX template not found: {TEMPLATE}')
+    course=(lab.get('course_name') or rec.get('course_name') or '').strip()
+    director=(lab.get('course_director_id') or '').strip()
+    dept=(lab.get('course_department_code') or '').strip()
+    school=(lab.get('course_school_code') or '').strip()
+    code=(rec.get('course_code') or '').strip()
+    if not all((course,director,dept,school,code,ref,dt)):
+        raise RuntimeError(f"record {rec.get('record_id','')}: incomplete letter data")
+    try:
+        ds=datetime.strptime(dt,'%Y-%m-%d').strftime('%d/%m/%Y')
+    except Exception:
+        raise RuntimeError(f"record {rec.get('record_id','')}: invalid approval_date {dt!r}")
+
+    # The uploaded/final template deliberately contains these simulation values.
+    # Replacing only these tokens keeps the approved wording and layout unchanged.
+    replacements={
+        'KB 328/364/25/0XX':ref,
+        '01/10/2026':ds,
+        'Prof Reuben Mutagaywa':director,
+        'Internal Medicine':dept,
+        'School of Clinical Medicine':school,
+        'SPORTS CARDIOLOGY':course.upper(),
+        'DCEPD/SCM/203/2026':code,
+    }
+
+    from xml.sax.saxutils import escape
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with zipfile.ZipFile(TEMPLATE,'r') as zin, zipfile.ZipFile(path,'w') as zout:
+        for item in zin.infolist():
+            data=zin.read(item.filename)
+            if item.filename=='word/document.xml':
+                xml=data.decode('utf-8')
+                missing=[old for old in replacements if old not in xml]
+                if missing:
+                    raise RuntimeError('Authoritative accreditation template tokens missing: '+', '.join(missing))
+                for old,new in replacements.items():
+                    xml=xml.replace(old,escape(new))
+                data=xml.encode('utf-8')
+            zout.writestr(item,data)
+
+    # Structural guard: APC output must not recreate an old mail-merge data source.
+    with zipfile.ZipFile(path,'r') as z:
+        for name in z.namelist():
+            if name.endswith(('.xml','.rels')):
+                text=z.read(name).decode('utf-8','ignore')
+                if 'mailMerge' in text or 'dataSource' in text:
+                    raise RuntimeError(f'Generated DOCX contains prohibited mail-merge linkage in {name}')
 
 def finalize():
     st=json.loads(STATE.read_text()); raw=export_records(); lab=export_records(True); rm={r['record_id']:r for r in masters(raw)};lm={r['record_id']:r for r in masters(lab)};errs=[]
@@ -192,11 +230,11 @@ def finalize():
     if errs:raise RuntimeError('; '.join(errs))
     letters=OUT/'letters';letters.mkdir(parents=True,exist_ok=True);reg=[]
     for rid in st['record_ids']:
-        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.pdf';letter_pdf(r,l,ref,st['letter_dates'][rid],letters/fn);reg.append({'record_id':rid,'approval_reference':ref,'letter_date':st['letter_dates'][rid],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
+        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.docx';letter_docx(r,l,ref,st['letter_dates'][rid],letters/fn);reg.append({'record_id':rid,'approval_reference':ref,'letter_date':st['letter_dates'][rid],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
     regp=OUT/'accreditation_register.csv'
     with regp.open('w',newline='',encoding='utf-8-sig') as f:w=csv.DictWriter(f,fieldnames=reg[0]);w.writeheader();w.writerows(reg)
     zp=OUT/f"DCEPD_Accreditation_Pack_{st['fiscal_year'].replace('/','-')}_{st['quarter']}_{st['trigger_date']}.zip"
-    with zipfile.ZipFile(zp,'w',zipfile.ZIP_DEFLATED) as z:z.write(regp,regp.name);[z.write(p,'letters/'+p.name) for p in letters.glob('*.pdf')]
+    with zipfile.ZipFile(zp,'w',zipfile.ZIP_DEFLATED) as z:\n        z.write(regp,regp.name)\n        [z.write(p,'letters/'+p.name) for p in letters.glob('*.docx')]\n        repair_audit=OUT/'reference_repairs.csv'\n        if repair_audit.exists(): z.write(repair_audit,repair_audit.name)
     email_status='0';email_msg='Package available as GitHub artifact; email not configured.';rec=[]
     for k in ('DCEPD_EMAIL_1','DCEPD_EMAIL_2','DCEPD_EMAIL_3','DCEPD_EMAIL_4'):
         if os.getenv(k,'').strip():rec.append(os.getenv(k).strip())
@@ -207,7 +245,7 @@ def finalize():
             with smtplib.SMTP(host,port,timeout=60) as s:s.starttls(context=ssl.create_default_context());s.login(user,pwd);s.send_message(m)
             email_status='1';email_msg=f'Package emailed to {len(rec)} recipient(s).'
         except Exception as e:email_status='3';email_msg='Email failed: '+str(e)[:300]
-    now=datetime.now(TZ);update_admin(st['instance'],{'apc_status':'3','apc_selected_records':', '.join(st['record_ids']),'apc_reference_range':st['reference_range'],'apc_letters_generated':len(reg),'apc_qc_errors':'0','apc_qc_warnings':'0','apc_email_status':email_status,'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':f'Successful. Generated {len(reg)} draft accreditation letter(s). {email_msg}'})
+    now=datetime.now(TZ);update_admin(st['instance'],{'apc_status':'3','apc_selected_records':', '.join(st['record_ids']),'apc_reference_range':st['reference_range'],'apc_letters_generated':len(reg),'apc_qc_errors':'0','apc_qc_warnings':'0','apc_email_status':email_status,'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':f'Successful. Generated {len(reg)} official accreditation DOCX letter(s). {email_msg}'})
 
 def fail():
     if not STATE.exists():return
