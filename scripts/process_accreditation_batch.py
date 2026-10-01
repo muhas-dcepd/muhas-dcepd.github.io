@@ -71,7 +71,19 @@ def claim():
     i=inst(req); now=datetime.now(TZ); today=now.date(); qs,qe,q,fy=quarter(today); ms=masters(rows)
     sel=[r for r in ms if (d:=pdate(r.get('accreditation_date'))) and qs<=d<=qe]
     if not sel:
-        update_admin(i,{'apc_status':'4','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_qc_errors':'1','apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':f'No courses accredited between {qs} and {qe}.'}); raise RuntimeError('No courses selected')
+        update_admin(i,{
+            'apc_status':'3',
+            'apc_trigger_date':today,
+            'apc_quarter':f'{fy} {q}',
+            'apc_letters_generated':'0',
+            'apc_qc_errors':'0',
+            'apc_qc_warnings':'0',
+            'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),
+            'apc_result_message':f'No action required: no courses accredited between {qs} and {qe}.'
+        })
+        print('has_request=false')
+        print('no_action=true')
+        return
     missing=[]
     for r in sel:
         for f in ('accreditation_date','accreditation_date_first','course_director_id','course_department_code','course_school_code'):
