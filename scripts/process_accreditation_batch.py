@@ -80,6 +80,25 @@ def current_settings(adm,ms):
         vol=max(c,key=lambda x:x[0])[1] if c else DEFAULT_VOLUME
     return stem,vol.strip()
 
+def is_reaccreditation_approval(r):
+    """True only when this looks like a genuine new accreditation cycle.
+
+    The stored approval_date/reference describe the previous issued letter until
+    APC issues the new one. A newer resubmission must therefore post-date that
+    previous letter, and the newly entered accreditation_date must not pre-date
+    the resubmission. This deliberately avoids inferring re-accreditation from
+    legacy cleaning dates or minor accreditation-date corrections.
+    """
+    acc=pdate(r.get('accreditation_date'))
+    submitted=pdate(r.get('date_submitted'))
+    previous_letter=pdate(r.get('approval_date'))
+    previous_ref=(r.get('approval_reference') or '').strip()
+    return bool(
+        acc and submitted and previous_letter and previous_ref
+        and submitted > previous_letter
+        and acc >= submitted
+    )
+
 def get_pending(adm):
     resume=(os.getenv('APC_RESUME_INSTANCE','') or '').strip()
     if resume:
@@ -135,11 +154,20 @@ def claim():
             n=int(m.group(1));mx=max(mx,n);seen.setdefault(n,[]).append(r['record_id'])
     dup={k:v for k,v in seen.items() if len(v)>1}
     if dup:raise RuntimeError('Duplicate serials: '+json.dumps(dup))
-    refs={}; nxt=mx+1
+    refs={}; reaccreditation_ids=set(); previous_letters={}; nxt=mx+1
     for r in sorted(sel,key=lambda r:(r.get('accreditation_date') or '',int(r['record_id']))):
+        rid=r['record_id']
+        is_reacc=is_reaccreditation_approval(r)
+        if is_reacc:
+            reaccreditation_ids.add(rid)
+            previous_letters[rid]={
+                'approval_reference':(r.get('approval_reference') or '').strip(),
+                'approval_date':(r.get('approval_date') or '').strip()
+            }
         ref=(r.get('approval_reference') or '').strip()
-        if not ref:ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
-        refs[r['record_id']]=ref
+        if is_reacc or not ref:
+            ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
+        refs[rid]=ref
     batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'
     update_admin(i,{'apc_status':'2','apc_trigger_date':trigger_date,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'{"Resumed" if resuming else "Claimed"} by GitHub; processing {fy} {q}. Original trigger date preserved: {trigger_date}.'})
     writes=[]
@@ -147,12 +175,15 @@ def claim():
     for rid,ref in refs.items():
         row={'record_id':rid,'approval_reference':ref}
         existing=(next(r for r in sel if r['record_id']==rid).get('approval_date') or '').strip()
-        if resuming and existing:
+        is_reacc=rid in reaccreditation_ids
+        if resuming and existing and not is_reacc:
             letter_dates[rid]=existing
         elif reset_dates:
             row['approval_date']=trigger_date.isoformat()
             letter_dates[rid]=trigger_date.isoformat()
         else:
+            if is_reacc:
+                raise RuntimeError(f'record {rid}: re-accreditation needs a new approval letter date, but the selected quarter is outside the automatic date-reset window')
             if not existing:
                 raise RuntimeError(f'record {rid}: approval_date is blank and selected quarter is outside the automatic date-reset window')
             letter_dates[rid]=existing
@@ -164,7 +195,7 @@ def claim():
         if chk.get(rid,{}).get('approval_reference')!=ref: bad.append(rid)
         if (not resuming) and reset_dates and chk.get(rid,{}).get('approval_date')!=trigger_date.isoformat(): bad.append(rid)
     if bad:raise RuntimeError('Post-write verification failed: '+','.join(sorted(set(bad))))
-    vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
+    vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reaccreditation_record_ids':sorted(reaccreditation_ids,key=int),'previous_letters':previous_letters,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
     STATE.write_text(json.dumps(state,indent=2),encoding='utf-8'); print('has_request=true');print(f'instance={i}');print(f'selected={len(refs)}')
 
 TEMPLATE=Path(os.getenv('APC_DOCX_TEMPLATE','automation/accreditation/DCEPD_Accreditation_Letter_FINAL_ONE_PAGE_TNR_NO_MAILMERGE.docx'))
@@ -233,8 +264,9 @@ def finalize():
         if r.get('approval_reference')!=st['references'][rid] or r.get('approval_date')!=st['letter_dates'][rid]:errs.append(f'record {rid}: verification mismatch')
     if errs:raise RuntimeError('; '.join(errs))
     letters=OUT/'letters';letters.mkdir(parents=True,exist_ok=True);reg=[]
+    reacc_ids=set(st.get('reaccreditation_record_ids',[])); previous_letters=st.get('previous_letters',{})
     for rid in st['record_ids']:
-        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.docx';letter_docx(r,l,ref,st['letter_dates'][rid],letters/fn);reg.append({'record_id':rid,'approval_reference':ref,'letter_date':st['letter_dates'][rid],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
+        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.docx';letter_docx(r,l,ref,st['letter_dates'][rid],letters/fn);prev=previous_letters.get(rid,{});reg.append({'record_id':rid,'accreditation_type':'Re-accreditation' if rid in reacc_ids else 'Accreditation','previous_approval_reference':prev.get('approval_reference',''),'previous_approval_date':prev.get('approval_date',''),'approval_reference':ref,'letter_date':st['letter_dates'][rid],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
     regp=OUT/'accreditation_register.csv'
     with regp.open('w',newline='',encoding='utf-8-sig') as f:w=csv.DictWriter(f,fieldnames=reg[0]);w.writeheader();w.writerows(reg)
     zp=OUT/f"DCEPD_Accreditation_Pack_{st['fiscal_year'].replace('/','-')}_{st['quarter']}_{st['trigger_date']}.zip"

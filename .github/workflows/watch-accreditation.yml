@@ -49,7 +49,7 @@ jobs:
         id: peek
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
-          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || (github.event_name == 'push' && contains(github.event.head_commit.message, '[resume-apc-4]') && '4') || '' }}
+          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || '' }}
           TZ: Africa/Dar_es_Salaam
         shell: bash
         run: |
@@ -123,7 +123,7 @@ jobs:
         if: steps.peek.outputs.has_request == 'true'
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
-          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || (github.event_name == 'push' && contains(github.event.head_commit.message, '[resume-apc-4]') && '4') || '' }}
+          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || '' }}
           TZ: Africa/Dar_es_Salaam
         shell: bash
         run: |
@@ -213,10 +213,13 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          tar -czf /tmp/dcepd-public-refresh.tgz             index.html             dcepd-courses/index.html             dcepd-courses/catalogue.json             dcepd-courses/courses             dcepd-dashboard/index.html             dcepd-dashboard/summary.json             robots.txt sitemap.xml
+          git fetch origin main
+          git reset --hard origin/main
+          tar -xzf /tmp/dcepd-public-refresh.tgz
           git add index.html dcepd-courses/index.html dcepd-courses/catalogue.json dcepd-courses/courses dcepd-dashboard/index.html dcepd-dashboard/summary.json robots.txt sitemap.xml
           if ! git diff --cached --quiet; then
             git commit -m 'Refresh DCEPD after accreditation batch'
-            git pull --rebase origin main
             git push origin HEAD:main
           fi
 

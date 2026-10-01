@@ -116,12 +116,33 @@ def main() -> None:
             "issue_code": q.get("issue_code", ""),
             "detail": q.get("detail", ""),
             "accreditation_date": r.get("accreditation_date", ""),
+            "date_submitted": r.get("date_submitted", ""),
+            "review_sent_date": r.get("review_sent_date", ""),
+            "approval_date": r.get("approval_date", ""),
             "last_date_conducted": r.get("last_date_conducted", ""),
             "interested_applicants": r.get("interested_applicants", ""),
             "public_catalogue": public_catalogue_label(r),
         })
 
     overdue = [x for x in enriched if x["issue_code"] == "REACCREDITATION_OVERDUE"]
+
+    def reaccreditation_in_progress(row: dict[str, str]) -> bool:
+        """Use explicit newer resubmission evidence; never infer from a magic date."""
+        try:
+            acc = datetime.strptime((row.get("accreditation_date") or "").strip(), "%Y-%m-%d").date()
+            submitted = datetime.strptime((row.get("date_submitted") or "").strip(), "%Y-%m-%d").date()
+            return submitted > acc
+        except (TypeError, ValueError):
+            return False
+
+    for x in overdue:
+        x["reaccreditation_progress"] = (
+            "Re-accreditation in progress" if reaccreditation_in_progress(x)
+            else "No newer re-accreditation submission recorded"
+        )
+
+    overdue_in_progress = [x for x in overdue if x["reaccreditation_progress"] == "Re-accreditation in progress"]
+    overdue_no_activity = [x for x in overdue if x["reaccreditation_progress"] != "Re-accreditation in progress"]
     action_list = [
         x for x in enriched
         if x["issue_code"] != "REACCREDITATION_OVERDUE"
@@ -155,6 +176,8 @@ def main() -> None:
         "qc_warnings": by_severity["WARNING"],
         "qc_info": by_severity["INFO"],
         "reaccreditation_overdue": by_issue[("WARNING", "REACCREDITATION_OVERDUE")],
+        "reaccreditation_overdue_in_progress": len(overdue_in_progress),
+        "reaccreditation_overdue_no_new_submission": len(overdue_no_activity),
         "reaccreditation_due_soon": by_issue[("INFO", "REACCREDITATION_DUE_SOON")],
         "review_date_without_reviewer": by_issue[("WARNING", "REVIEW_DATE_WITHOUT_REVIEWER")],
         "run_without_completed_accreditation_warning": by_issue[("WARNING", "RUN_WITHOUT_COMPLETED_ACCREDITATION")],
@@ -180,6 +203,8 @@ def main() -> None:
         f"- **QC warnings:** {by_severity['WARNING']}",
         f"- **QC information items:** {by_severity['INFO']}",
         f"- **Reaccreditation overdue:** {summary['reaccreditation_overdue']}",
+        f"  - with newer re-accreditation submission: {summary['reaccreditation_overdue_in_progress']}",
+        f"  - no newer re-accreditation submission recorded: {summary['reaccreditation_overdue_no_new_submission']}",
         f"- **Reaccreditation due soon:** {summary['reaccreditation_due_soon']}",
         f"- **P75 manual metadata actions:** {p75_manual}",
         f"- **P79 manual choice additions:** {p79_manual}",
@@ -193,7 +218,8 @@ def main() -> None:
 
     fields = [
         "record_id", "course_code", "course_name", "severity", "issue_code", "detail",
-        "accreditation_date", "last_date_conducted", "interested_applicants", "public_catalogue",
+        "accreditation_date", "date_submitted", "review_sent_date", "approval_date",
+        "reaccreditation_progress", "last_date_conducted", "interested_applicants", "public_catalogue",
     ]
     write_csv(out_dir / "action_list.csv", action_list, fields)
     write_csv(out_dir / "overdue_reaccreditation.csv", overdue, fields)
