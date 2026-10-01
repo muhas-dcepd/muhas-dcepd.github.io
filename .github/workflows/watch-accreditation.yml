@@ -12,6 +12,11 @@ on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
+    inputs:
+      resume_instance:
+        description: Explicitly resume one failed APC repeat instance
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -44,6 +49,7 @@ jobs:
         id: peek
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || '' }}
           TZ: Africa/Dar_es_Salaam
         shell: bash
         run: |
@@ -117,6 +123,7 @@ jobs:
         if: steps.peek.outputs.has_request == 'true'
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          APC_RESUME_INSTANCE: ${{ github.event_name == 'workflow_dispatch' && inputs.resume_instance || '' }}
           TZ: Africa/Dar_es_Salaam
         shell: bash
         run: |
