@@ -43,6 +43,25 @@ def quarter(d):
     if m<=3:return date(y,1,1),date(y,3,31),'Q3',f'{y-1}/{y%100:02d}'
     return date(y,4,1),date(y,6,30),'Q4',f'{y-1}/{y%100:02d}'
 
+def selected_period(fy_raw, q_raw):
+    m=re.fullmatch(r'FY(\d{4})_(\d{2})',(fy_raw or '').strip())
+    if not m: raise RuntimeError('Select a valid fiscal year before requesting the batch.')
+    start_year=int(m.group(1))
+    q=str(q_raw or '').strip()
+    if q=='1': return date(start_year,7,1),date(start_year,9,30),'Q1',f'{start_year}/{(start_year+1)%100:02d}'
+    if q=='2': return date(start_year,10,1),date(start_year,12,31),'Q2',f'{start_year}/{(start_year+1)%100:02d}'
+    if q=='3': return date(start_year+1,1,1),date(start_year+1,3,31),'Q3',f'{start_year}/{(start_year+1)%100:02d}'
+    if q=='4': return date(start_year+1,4,1),date(start_year+1,6,30),'Q4',f'{start_year}/{(start_year+1)%100:02d}'
+    raise RuntimeError('Select a valid quarter before requesting the batch.')
+
+def date_reset_allowed(today, selected_start, selected_end):
+    current_start,current_end,_,_=quarter(today)
+    if selected_start==current_start and selected_end==current_end:
+        return True
+    previous_end=current_start.fromordinal(current_start.toordinal()-1)
+    previous_start,_,_,_=quarter(previous_end)
+    return selected_start==previous_start and selected_end==previous_end and (today-current_start).days <= 19
+
 def update_admin(i,fields):
     row={'record_id':'1','redcap_repeat_instrument':ADMIN,'redcap_repeat_instance':str(i),**{k:str(v) for k,v in fields.items()}}
     import_rows([row])
@@ -68,7 +87,9 @@ def claim():
     rows=export_records(); adm=admins(rows); req=get_pending(adm); OUT.mkdir(parents=True,exist_ok=True)
     if not req:
         print('has_request=false'); return
-    i=inst(req); now=datetime.now(TZ); today=now.date(); qs,qe,q,fy=quarter(today); ms=masters(rows)
+    i=inst(req); now=datetime.now(TZ); today=now.date(); ms=masters(rows)
+    qs,qe,q,fy=selected_period(req.get('apc_process_fiscal_year'),req.get('apc_process_quarter'))
+    reset_dates=date_reset_allowed(today,qs,qe)
     sel=[r for r in ms if (d:=pdate(r.get('accreditation_date'))) and qs<=d<=qe]
     if not sel:
         update_admin(i,{
@@ -102,11 +123,28 @@ def claim():
         ref=(r.get('approval_reference') or '').strip()
         if not ref:ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
         refs[r['record_id']]=ref
-    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':'Claimed by GitHub; processing started.'})
-    import_rows([{'record_id':rid,'approval_reference':ref,'approval_date':today.isoformat()} for rid,ref in refs.items()])
-    chk={r['record_id']:r for r in masters(export_records())}; bad=[rid for rid,ref in refs.items() if chk.get(rid,{}).get('approval_reference')!=ref or chk.get(rid,{}).get('approval_date')!=today.isoformat()]
-    if bad:raise RuntimeError('Post-write verification failed: '+','.join(bad))
-    vals=list(refs.values()); state={'instance':i,'trigger_date':today.isoformat(),'quarter':q,'fiscal_year':fy,'record_ids':list(refs),'references':refs,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
+    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
+    writes=[]
+    letter_dates={}
+    for rid,ref in refs.items():
+        row={'record_id':rid,'approval_reference':ref}
+        if reset_dates:
+            row['approval_date']=today.isoformat()
+            letter_dates[rid]=today.isoformat()
+        else:
+            existing=(next(r for r in sel if r['record_id']==rid).get('approval_date') or '').strip()
+            if not existing:
+                raise RuntimeError(f'record {rid}: approval_date is blank and selected quarter is outside the automatic date-reset window')
+            letter_dates[rid]=existing
+        writes.append(row)
+    import_rows(writes)
+    chk={r['record_id']:r for r in masters(export_records())}
+    bad=[]
+    for rid,ref in refs.items():
+        if chk.get(rid,{}).get('approval_reference')!=ref: bad.append(rid)
+        if reset_dates and chk.get(rid,{}).get('approval_date')!=today.isoformat(): bad.append(rid)
+    if bad:raise RuntimeError('Post-write verification failed: '+','.join(sorted(set(bad))))
+    vals=list(refs.values()); state={'instance':i,'trigger_date':today.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
     STATE.write_text(json.dumps(state,indent=2),encoding='utf-8'); print('has_request=true');print(f'instance={i}');print(f'selected={len(refs)}')
 
 def letter_pdf(rec,lab,ref,dt,path):
@@ -134,11 +172,11 @@ def finalize():
     for rid in st['record_ids']:
         r=rm.get(rid,{})
         if not r.get('course_code'):errs.append(f'record {rid}: course_code blank')
-        if r.get('approval_reference')!=st['references'][rid] or r.get('approval_date')!=st['trigger_date']:errs.append(f'record {rid}: verification mismatch')
+        if r.get('approval_reference')!=st['references'][rid] or r.get('approval_date')!=st['letter_dates'][rid]:errs.append(f'record {rid}: verification mismatch')
     if errs:raise RuntimeError('; '.join(errs))
     letters=OUT/'letters';letters.mkdir(parents=True,exist_ok=True);reg=[]
     for rid in st['record_ids']:
-        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.pdf';letter_pdf(r,l,ref,st['trigger_date'],letters/fn);reg.append({'record_id':rid,'approval_reference':ref,'letter_date':st['trigger_date'],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
+        r=rm[rid];l=lm.get(rid,r);ref=st['references'][rid];fn=re.sub(r'[^A-Za-z0-9._-]+','_',ref.replace('/','-')+'_'+(l.get('course_name') or rid))[:120]+'.pdf';letter_pdf(r,l,ref,st['letter_dates'][rid],letters/fn);reg.append({'record_id':rid,'approval_reference':ref,'letter_date':st['letter_dates'][rid],'course_code':r.get('course_code',''),'course_name':l.get('course_name',''),'course_director':l.get('course_director_id',''),'file':fn})
     regp=OUT/'accreditation_register.csv'
     with regp.open('w',newline='',encoding='utf-8-sig') as f:w=csv.DictWriter(f,fieldnames=reg[0]);w.writeheader();w.writerows(reg)
     zp=OUT/f"DCEPD_Accreditation_Pack_{st['fiscal_year'].replace('/','-')}_{st['quarter']}_{st['trigger_date']}.zip"
