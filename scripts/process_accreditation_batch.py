@@ -80,6 +80,16 @@ def current_settings(adm,ms):
     return stem,vol.strip()
 
 def get_pending(adm):
+    resume=(os.getenv('APC_RESUME_INSTANCE','') or '').strip()
+    if resume:
+        try:
+            target=int(resume)
+        except Exception:
+            raise RuntimeError('APC_RESUME_INSTANCE must be an integer repeat-instance number.')
+        x=[r for r in adm if inst(r)==target and r.get('apc_action_type')=='2' and r.get('apc_trigger_requested')=='1' and r.get('apc_trigger_warning_ack')=='1' and (r.get('apc_status') or '') in ('','1','4')]
+        if not x:
+            raise RuntimeError(f'APC repeat instance {target} is not eligible for explicit resume.')
+        return x[0]
     x=[r for r in adm if r.get('apc_action_type')=='2' and r.get('apc_trigger_requested')=='1' and r.get('apc_trigger_warning_ack')=='1' and (r.get('apc_status') or '') in ('','1')]
     return min(x,key=inst) if x else None
 
@@ -190,7 +200,7 @@ def finalize():
     email_status='0';email_msg='Package available as GitHub artifact; email not configured.';rec=[]
     for k in ('DCEPD_EMAIL_1','DCEPD_EMAIL_2','DCEPD_EMAIL_3','DCEPD_EMAIL_4'):
         if os.getenv(k,'').strip():rec.append(os.getenv(k).strip())
-    host=os.getenv('DCEPD_SMTP_HOST','').strip();user=os.getenv('DCEPD_SMTP_USERNAME','').strip();pwd=os.getenv('DCEPD_SMTP_PASSWORD','').strip();port=int(os.getenv('DCEPD_SMTP_PORT','587'))
+    host=os.getenv('DCEPD_SMTP_HOST','').strip();user=os.getenv('DCEPD_SMTP_USERNAME','').strip();pwd=os.getenv('DCEPD_SMTP_PASSWORD','').strip();port=int((os.getenv('DCEPD_SMTP_PORT','').strip() or '587'))
     if host and user and pwd and rec:
         try:
             m=EmailMessage();m['Subject']=f"DCEPD accreditation batch {st['fiscal_year']} {st['quarter']}";m['From']=user;m['To']=', '.join(rec);m.set_content(f"Batch completed. Letters: {len(reg)}\nReference range: {st['reference_range']}\nDate: {st['trigger_date']}");m.add_attachment(zp.read_bytes(),maintype='application',subtype='zip',filename=zp.name)
