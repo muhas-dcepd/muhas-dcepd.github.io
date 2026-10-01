@@ -14,6 +14,7 @@ OUT=Path(os.getenv('APC_OUTPUT_DIR','.project75-runtime/accreditation'))
 STATE=OUT/'state.json'
 DEFAULT_STEM='KB 328/364/'
 DEFAULT_VOLUME='25'
+# APC recovery trigger marker: instance 4 resumed only by an explicit tagged push or workflow_dispatch input.
 
 def api(data):
     if not TOKEN: raise RuntimeError('REDCAP_PROJECT75_TOKEN missing')
