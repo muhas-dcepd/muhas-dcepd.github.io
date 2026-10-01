@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "source": "Project 75 API",
-  "source_at": "2026-10-01T07:46:14+00:00",
-  "api_refreshed_at": "2026-10-01T07:46:14+00:00",
+  "source_at": "2026-10-01T15:44:29+00:00",
+  "api_refreshed_at": "2026-10-01T15:44:29+00:00",
   "count": 77,
   "courses": [
     {
@@ -23,8 +23,8 @@
     },
     {
       "id": "149",
-      "title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
-      "source_title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Pharmacy Practice",
+      "title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Healthcare Delivery",
+      "source_title": "Antimicrobial Resistance and Rational Use of Antimicrobials in Healthcare Delivery",
       "code": "DCEPD/SOP/149/2026",
       "school": "School of Pharmacy",
       "department": "Pharmaceutical Microbiology",
