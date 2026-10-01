@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/workflows/watch-accreditation.yml'
       - 'scripts/process_accreditation_batch.py'
+      - 'scripts/repair_accreditation_references.py'
+      - 'scripts/mark_accreditation_failure.py'
       - 'automation/project75-v2.2.13-patch/**'
   schedule:
     - cron: '*/5 * * * *'
@@ -102,6 +104,13 @@ jobs:
           DCEPD_DRY_RUN: 'false'
           TZ: Africa/Dar_es_Salaam
         run: Rscript project75_refresh_v2_2.R
+
+      - name: Normalize duplicate DCEPD approval references
+        if: steps.peek.outputs.has_request == 'true'
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          TZ: Africa/Dar_es_Salaam
+        run: python scripts/repair_accreditation_references.py
 
       - name: Claim and prepare selected accreditation batch
         id: claim
@@ -213,13 +222,15 @@ jobs:
         with:
           path: _site
 
-      - name: Mark claimed request failed if processing failed
-        if: failure() && steps.claim.outputs.has_request == 'true'
+      - name: Mark accreditation request failed if processing failed
+        if: failure() && steps.peek.outputs.has_request == 'true'
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           TZ: Africa/Dar_es_Salaam
-          APC_FAILURE_REASON: GitHub accreditation workflow failed after the request was claimed. Review the workflow log and submit a new repeat instance to retry.
-        run: python scripts/process_accreditation_batch.py fail
+          APC_FAILURE_REASON: GitHub accreditation workflow failed. Review the workflow log and correct the reported issue before retrying.
+        run: |
+          python scripts/process_accreditation_batch.py fail
+          python scripts/mark_accreditation_failure.py
 
   deploy:
     needs: process
