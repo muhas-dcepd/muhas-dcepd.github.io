@@ -103,7 +103,7 @@ def claim():
     rows=export_records(); adm=admins(rows); req=get_pending(adm); OUT.mkdir(parents=True,exist_ok=True)
     if not req:
         print('has_request=false'); return
-    i=inst(req); now=datetime.now(TZ); today=now.date(); ms=masters(rows)
+    i=inst(req); now=datetime.now(TZ); today=now.date(); ms=masters(rows); resuming=(req.get('apc_status') or '')=='4'; trigger_date=(pdate(req.get('apc_trigger_date')) if resuming else None) or today
     qs,qe,q,fy=selected_period(req.get('apc_process_fiscal_year'),req.get('apc_process_quarter'))
     reset_dates=date_reset_allowed(today,qs,qe)
     sel=[r for r in ms if (d:=pdate(r.get('accreditation_date'))) and qs<=d<=qe]
@@ -140,16 +140,18 @@ def claim():
         if not ref:ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
         refs[r['record_id']]=ref
     batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'
-    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
+    update_admin(i,{'apc_status':'2','apc_trigger_date':trigger_date,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'{"Resumed" if resuming else "Claimed"} by GitHub; processing {fy} {q}. Original trigger date preserved: {trigger_date}.'})
     writes=[]
     letter_dates={}
     for rid,ref in refs.items():
         row={'record_id':rid,'approval_reference':ref}
-        if reset_dates:
-            row['approval_date']=today.isoformat()
-            letter_dates[rid]=today.isoformat()
+        existing=(next(r for r in sel if r['record_id']==rid).get('approval_date') or '').strip()
+        if resuming and existing:
+            letter_dates[rid]=existing
+        elif reset_dates:
+            row['approval_date']=trigger_date.isoformat()
+            letter_dates[rid]=trigger_date.isoformat()
         else:
-            existing=(next(r for r in sel if r['record_id']==rid).get('approval_date') or '').strip()
             if not existing:
                 raise RuntimeError(f'record {rid}: approval_date is blank and selected quarter is outside the automatic date-reset window')
             letter_dates[rid]=existing
@@ -159,9 +161,9 @@ def claim():
     bad=[]
     for rid,ref in refs.items():
         if chk.get(rid,{}).get('approval_reference')!=ref: bad.append(rid)
-        if reset_dates and chk.get(rid,{}).get('approval_date')!=today.isoformat(): bad.append(rid)
+        if (not resuming) and reset_dates and chk.get(rid,{}).get('approval_date')!=trigger_date.isoformat(): bad.append(rid)
     if bad:raise RuntimeError('Post-write verification failed: '+','.join(sorted(set(bad))))
-    vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':today.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
+    vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
     STATE.write_text(json.dumps(state,indent=2),encoding='utf-8'); print('has_request=true');print(f'instance={i}');print(f'selected={len(refs)}')
 
 TEMPLATE=Path(os.getenv('APC_DOCX_TEMPLATE','automation/accreditation/DCEPD_Accreditation_Letter_FINAL_ONE_PAGE_TNR_NO_MAILMERGE.docx'))
