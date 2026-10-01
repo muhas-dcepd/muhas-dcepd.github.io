@@ -139,7 +139,8 @@ def claim():
         ref=(r.get('approval_reference') or '').strip()
         if not ref:ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
         refs[r['record_id']]=ref
-    batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'\n    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
+    batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'
+    update_admin(i,{'apc_status':'2','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'Claimed by GitHub; processing {fy} {q}. Date reset allowed: {reset_dates}.'})
     writes=[]
     letter_dates={}
     for rid,ref in refs.items():
@@ -234,7 +235,11 @@ def finalize():
     regp=OUT/'accreditation_register.csv'
     with regp.open('w',newline='',encoding='utf-8-sig') as f:w=csv.DictWriter(f,fieldnames=reg[0]);w.writeheader();w.writerows(reg)
     zp=OUT/f"DCEPD_Accreditation_Pack_{st['fiscal_year'].replace('/','-')}_{st['quarter']}_{st['trigger_date']}.zip"
-    with zipfile.ZipFile(zp,'w',zipfile.ZIP_DEFLATED) as z:\n        z.write(regp,regp.name)\n        [z.write(p,'letters/'+p.name) for p in letters.glob('*.docx')]\n        repair_audit=OUT/'reference_repairs.csv'\n        if repair_audit.exists(): z.write(repair_audit,repair_audit.name)
+    with zipfile.ZipFile(zp,'w',zipfile.ZIP_DEFLATED) as z:
+        z.write(regp,regp.name)
+        [z.write(p,'letters/'+p.name) for p in letters.glob('*.docx')]
+        repair_audit=OUT/'reference_repairs.csv'
+        if repair_audit.exists(): z.write(repair_audit,repair_audit.name)
     email_status='0';email_msg='Package available as GitHub artifact; email not configured.';rec=[]
     for k in ('DCEPD_EMAIL_1','DCEPD_EMAIL_2','DCEPD_EMAIL_3','DCEPD_EMAIL_4'):
         if os.getenv(k,'').strip():rec.append(os.getenv(k).strip())
