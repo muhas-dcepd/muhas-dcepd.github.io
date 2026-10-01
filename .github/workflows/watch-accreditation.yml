@@ -38,15 +38,15 @@ jobs:
       - name: Install lightweight listener dependencies
         run: python -m pip install --disable-pip-version-check requests reportlab
 
-      - name: Check and claim pending REDCap accreditation request
-        id: claim
+      - name: Check for pending REDCap accreditation request
+        id: peek
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           TZ: Africa/Dar_es_Salaam
         shell: bash
         run: |
           set -euo pipefail
-          output="$(python scripts/process_accreditation_batch.py claim)"
+          output="$(python scripts/process_accreditation_batch.py peek)"
           echo "$output"
           while IFS= read -r line; do
             if [[ "$line" == *=* ]]; then
@@ -55,23 +55,23 @@ jobs:
           done <<< "$output"
 
       - uses: r-lib/actions/setup-r@v2
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         with:
           r-version: 'release'
 
       - name: Install system dependency for R curl
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev
 
       - name: Install R dependencies for Project 75 sync
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           Rscript -e 'install.packages(c("httr","readr","dplyr","stringr","lubridate","jsonlite","tibble"), repos="https://cloud.r-project.org")'
 
       - name: Unpack verified Project 75 runtime
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           rm -rf .project75-runtime
           mkdir -p .project75-runtime
@@ -87,13 +87,40 @@ jobs:
           unzip -q /tmp/project75-v2.2.12-runtime.zip -d .project75-runtime
 
       - name: Apply Project 75 V2.2.13 APC compatibility patch
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           cp automation/project75-v2.2.13-patch/config.R .project75-runtime/config/config.R
           cp automation/project75-v2.2.13-patch/00_utils.R .project75-runtime/R/00_utils.R
           cp automation/project75-v2.2.13-patch/03_derive_project75.R .project75-runtime/R/03_derive_project75.R
 
-      - name: Run verified Project 75 refresh for accreditation batch
+      - name: Run normal verified Project 75 refresh before accreditation claim
+        if: steps.peek.outputs.has_request == 'true'
+        working-directory: .project75-runtime
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          DCEPD_DRY_RUN: 'false'
+          TZ: Africa/Dar_es_Salaam
+        run: Rscript project75_refresh_v2_2.R
+
+      - name: Claim and prepare selected accreditation batch
+        id: claim
+        if: steps.peek.outputs.has_request == 'true'
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          TZ: Africa/Dar_es_Salaam
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$(python scripts/process_accreditation_batch.py claim)"
+          echo "$output"
+          while IFS= read -r line; do
+            if [[ "$line" == *=* ]]; then
+              echo "$line" >> "$GITHUB_OUTPUT"
+            fi
+          done <<< "$output"
+
+      - name: Run verified Project 75 refresh after accreditation claim
         if: steps.claim.outputs.has_request == 'true'
         working-directory: .project75-runtime
         env:
@@ -104,7 +131,7 @@ jobs:
         run: Rscript project75_refresh_v2_2.R
 
       - name: Finalize accreditation letters and package
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           TZ: Africa/Dar_es_Salaam
@@ -119,7 +146,7 @@ jobs:
         run: python scripts/process_accreditation_batch.py finalize
 
       - name: Upload accreditation batch package
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: dcepd-accreditation-${{ github.run_id }}
@@ -128,7 +155,7 @@ jobs:
           retention-days: 180
 
       - name: Refresh public catalogue and aggregate dashboard
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
@@ -137,14 +164,14 @@ jobs:
           python scripts/build_dcepd_dashboard.py
 
       - name: Build DCEPD management reporting packet
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           python scripts/build_dcepd_management_packet.py \
             --runtime .project75-runtime \
             --catalogue dcepd-courses/catalogue.json
 
       - name: Upload Project 75 and management audit
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: dcepd-accreditation-audit-${{ github.run_id }}
@@ -157,13 +184,13 @@ jobs:
           retention-days: 180
 
       - name: Validate and update search metadata
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           python -m unittest discover -s tests -p 'test_dcepd*.py'
           python scripts/build_site_seo.py
 
       - name: Save successful public refresh
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -175,14 +202,14 @@ jobs:
           fi
 
       - name: Stage public website
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         run: python scripts/stage_dcepd_site.py
 
       - uses: actions/configure-pages@v5
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
 
       - uses: actions/upload-pages-artifact@v4
-        if: steps.claim.outputs.has_request == 'true'
+        if: steps.peek.outputs.has_request == 'true'
         with:
           path: _site
 
