@@ -1,6 +1,10 @@
 name: Watch DCEPD accreditation requests
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/watch-accreditation.yml'
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
