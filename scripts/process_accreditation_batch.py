@@ -83,6 +83,12 @@ def get_pending(adm):
     x=[r for r in adm if r.get('apc_action_type')=='2' and r.get('apc_trigger_requested')=='1' and r.get('apc_trigger_warning_ack')=='1' and (r.get('apc_status') or '') in ('','1')]
     return min(x,key=inst) if x else None
 
+def peek():
+    rows=export_records(); req=get_pending(admins(rows))
+    print('has_request=' + ('true' if req else 'false'))
+    if req:
+        print(f'instance={inst(req)}')
+
 def claim():
     rows=export_records(); adm=admins(rows); req=get_pending(adm); OUT.mkdir(parents=True,exist_ok=True)
     if not req:
@@ -199,5 +205,5 @@ def fail():
 
 if __name__=='__main__':
     phase=sys.argv[1] if len(sys.argv)>1 else 'claim'
-    try:{'claim':claim,'finalize':finalize,'fail':fail}[phase]()
+    try:{'peek':peek,'claim':claim,'finalize':finalize,'fail':fail}[phase]()
     except Exception as e:print('ERROR:',e,file=sys.stderr);sys.exit(1)
