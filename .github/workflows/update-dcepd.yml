@@ -46,7 +46,7 @@ jobs:
         run: |
           Rscript -e 'install.packages(c("httr","readr","dplyr","stringr","lubridate","jsonlite","tibble"), repos="https://cloud.r-project.org")'
 
-      - name: Unpack verified Project 75 V2.2.12 runtime
+      - name: Unpack verified Project 75 base runtime
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         run: |
           rm -rf .project75-runtime
@@ -61,6 +61,13 @@ jobs:
             | base64 -d > /tmp/project75-v2.2.12-runtime.zip
           echo "3074e99682a3a1d338053e24f7c409ebaa6d47f5ea0acd4085d5286ee0c82a49  /tmp/project75-v2.2.12-runtime.zip" | sha256sum -c -
           unzip -q /tmp/project75-v2.2.12-runtime.zip -d .project75-runtime
+
+      - name: Apply Project 75 V2.2.13 APC compatibility patch
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        run: |
+          cp automation/project75-v2.2.13-patch/config.R .project75-runtime/config/config.R
+          cp automation/project75-v2.2.13-patch/00_utils.R .project75-runtime/R/00_utils.R
+          cp automation/project75-v2.2.13-patch/03_derive_project75.R .project75-runtime/R/03_derive_project75.R
 
       - name: Sync and verify Project 75 derived record fields
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
