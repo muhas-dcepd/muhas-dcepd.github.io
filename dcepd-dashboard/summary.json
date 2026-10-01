@@ -2,10 +2,10 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-01T19:17:39+00:00",
+    "source_at": "2026-10-01T22:05:19+00:00",
     "as_of": "2026-10-01",
     "registered_courses": 195,
-    "listed_courses": 77,
+    "listed_courses": 81,
     "application_records": 977,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
@@ -1504,7 +1504,7 @@
       "code": "DCEPD/SBM/199/2026",
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "200",
@@ -1517,10 +1517,10 @@
     {
       "id": "201",
       "course": "BIOMEDICAL AND PHARMACEUTICAL SCIENCES BRIDGING COURSE FOR PHARMACY GRADUATES",
-      "code": "",
+      "code": "DCEPD/SOP/201/2026",
       "school": "School of Pharmacy",
       "department": "Clinical Pharmacy and Pharmacology",
-      "listed": false
+      "listed": true
     },
     {
       "id": "202",
@@ -1528,15 +1528,15 @@
       "code": "DCEPD/SPH/202/2026",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
-      "listed": false
+      "listed": true
     },
     {
       "id": "203",
       "course": "SPORTS CARDIOLOGY",
-      "code": "",
+      "code": "DCEPD/SCM/203/2026",
       "school": "School of Clinical Medicine",
       "department": "Internal Medicine",
-      "listed": false
+      "listed": true
     },
     {
       "id": "204",

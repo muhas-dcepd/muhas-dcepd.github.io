@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "source": "Project 75 API",
-  "source_at": "2026-10-01T19:17:39+00:00",
-  "api_refreshed_at": "2026-10-01T19:17:39+00:00",
-  "count": 77,
+  "source_at": "2026-10-01T22:05:19+00:00",
+  "api_refreshed_at": "2026-10-01T22:05:19+00:00",
+  "count": 81,
   "courses": [
     {
       "id": "163",
@@ -208,6 +208,19 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
+      "id": "201",
+      "title": "BIOMEDICAL AND PHARMACEUTICAL SCIENCES BRIDGING COURSE FOR PHARMACY GRADUATES",
+      "source_title": "BIOMEDICAL AND PHARMACEUTICAL SCIENCES BRIDGING COURSE FOR PHARMACY GRADUATES",
+      "code": "DCEPD/SOP/201/2026",
+      "school": "School of Pharmacy",
+      "department": "Clinical Pharmacy and Pharmacology",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
       "id": "143",
       "title": "CHEMICAL HAZARDS IN THE WORK ENVIRONMENT",
       "source_title": "CHEMICAL HAZARDS IN THE WORK ENVIRONMENT",
@@ -369,6 +382,19 @@
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
       "fee_tzs": "400040",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "199",
+      "title": "EXERCISE PRESCRIPTION FOR FITNESS AND HEALTH PROFESSIONALS",
+      "source_title": "EXERCISE PRESCRIPTION FOR FITNESS AND HEALTH PROFESSIONALS",
+      "code": "DCEPD/SBM/199/2026",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "fee_tzs": "",
       "cpd_points": "",
       "category": "Other courses",
       "tags": [],
@@ -806,6 +832,19 @@
       "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
     },
     {
+      "id": "202",
+      "title": "MANUSCRIPT BOOTCAMP",
+      "source_title": "MANUSCRIPT BOOTCAMP",
+      "code": "DCEPD/SPH/202/2026",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Development Studies",
+      "fee_tzs": "",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
       "id": "173",
       "title": "MASTERING INVENTORY CONTROL AND LOGISTICS FOR HEALTH COMMODITIES",
       "source_title": "MASTERING INVENTORY CONTROL AND LOGISTICS FOR HEALTH COMMODITIES",
@@ -1041,6 +1080,19 @@
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
       "fee_tzs": "400030",
+      "cpd_points": "",
+      "category": "Other courses",
+      "tags": [],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+    },
+    {
+      "id": "203",
+      "title": "SPORTS CARDIOLOGY",
+      "source_title": "SPORTS CARDIOLOGY",
+      "code": "DCEPD/SCM/203/2026",
+      "school": "School of Clinical Medicine",
+      "department": "Internal Medicine",
+      "fee_tzs": "",
       "cpd_points": "",
       "category": "Other courses",
       "tags": [],
