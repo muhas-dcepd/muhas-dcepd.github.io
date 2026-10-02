@@ -224,6 +224,9 @@ def mark_generated(rid):
 
 def main():
     records = export_records()
+    for r in records:
+        if str(r.get("record_id", "")).strip() in TEST_ONLY:
+            print("test_record=" + json.dumps(r, sort_keys=True))
     todo = [r for r in records if eligible(r)]
     print(f"eligible={len(todo)}")
     if not todo:
