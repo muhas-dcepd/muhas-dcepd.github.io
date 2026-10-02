@@ -12,7 +12,7 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
-REDCAP_URL = os.getenv("REDCAP_API_URL", "https://utafiti.muhas.ac.tz/redcap_v16.0.40/api/")
+REDCAP_URL = os.getenv("REDCAP_API_URL", "https://utafiti.muhas.ac.tz/api/")
 TOKEN = os.environ["REDCAP_PROJECT79_TOKEN"]
 TZ = ZoneInfo("Africa/Dar_es_Salaam")
 TEST_ONLY = {x.strip() for x in os.getenv("DCEPD_CERT_TEST_ONLY", "").split(",") if x.strip()}
