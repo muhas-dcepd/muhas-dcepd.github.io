@@ -58,6 +58,26 @@ def export_records():
 def is_yes(v):
     return str(v).strip() == "1"
 
+def normalize_person_name(value):
+    """Normalize display casing without changing the REDCap source value."""
+    raw = " ".join(str(value or "").split())
+    if not raw:
+        return raw
+    def cap_piece(piece):
+        if not piece:
+            return piece
+        return piece[0].upper() + piece[1:].lower()
+    words = []
+    for word in raw.split(" "):
+        if "-" in word:
+            word = "-".join(cap_piece(p) for p in word.split("-"))
+        elif "'" in word:
+            word = "'".join(cap_piece(p) for p in word.split("'"))
+        else:
+            word = cap_piece(word)
+        words.append(word)
+    return " ".join(words)
+
 def eligible(rec):
     rid = str(rec.get("record_id", "")).strip()
     if TEST_ONLY and rid not in TEST_ONLY:
@@ -150,7 +170,7 @@ def make_pdf(rec):
 
     c.setFillColor(colors.HexColor("#A31515"))
     c.setFont("Times-Bold", 25)
-    c.drawCentredString(W/2, H-194, str(rec.get("full_name", "")).strip())
+    c.drawCentredString(W/2, H-194, normalize_person_name(rec.get("full_name", "")))
 
     c.setFillColor(colors.black)
     c.setFont("Times-Roman", 13)
