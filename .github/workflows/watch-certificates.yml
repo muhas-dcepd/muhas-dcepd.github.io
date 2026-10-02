@@ -1,0 +1,71 @@
+name: Watch Project 79 certificate requests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/watch-certificates.yml'
+      - 'scripts/process_certificate_requests.py'
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dcepd-certificate-listener
+  cancel-in-progress: false
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install certificate listener dependencies
+        run: python -m pip install --disable-pip-version-check requests reportlab pillow
+
+      - name: Check for eligible Project 79 certificate requests
+        id: peek
+        env:
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          TZ: Africa/Dar_es_Salaam
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$(python scripts/process_certificate_requests.py peek)"
+          echo "$output"
+          while IFS= read -r line; do
+            if [[ "$line" == *=* ]]; then
+              echo "$line" >> "$GITHUB_OUTPUT"
+            fi
+          done <<< "$output"
+
+      - name: Generate requested certificates and upload back to REDCap
+        if: steps.peek.outputs.has_request == 'true'
+        env:
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          DCEPD_DIRECTOR_NAME: Prof. Raphael Z. Sangeda
+          DCEPD_DIRECTOR_TITLE: Director, DCEPD - MUHAS
+          CERT_PROCESS_LIMIT: '10'
+          TZ: Africa/Dar_es_Salaam
+        run: python scripts/process_certificate_requests.py process
+
+      - name: Upload private workflow audit copy
+        if: steps.peek.outputs.has_request == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dcepd-certificates-${{ github.run_id }}
+          path: .certificate-runtime/out
+          if-no-files-found: warn
+          retention-days: 30
