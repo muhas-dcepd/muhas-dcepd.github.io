@@ -120,7 +120,7 @@ def make_pdf(rec):
     c.setFont("Helvetica", 11)
     c.drawCentredString(W/2, H-70, "Dar es Salaam, Tanzania")
 
-    q = requests.get(GOVT_COMMONS_API, params={
+    q = requests.get(GOVT_COMMONS_API, headers={"User-Agent":"MUHAS-DCEPD-Certificate-System/1.0 (institutional automation)"}, params={
         "action": "query",
         "titles": "File:Coat of arms of Tanzania.svg",
         "prop": "imageinfo",
@@ -132,9 +132,9 @@ def make_pdf(rec):
     pages = q.json().get("query", {}).get("pages", {})
     page = next(iter(pages.values()))
     gov_url = page["imageinfo"][0].get("thumburl") or page["imageinfo"][0]["url"]
-    gov_resp = requests.get(gov_url, timeout=30)
+    gov_resp = requests.get(gov_url, headers={"User-Agent":"MUHAS-DCEPD-Certificate-System/1.0 (institutional automation)"}, timeout=30)
     gov_resp.raise_for_status()
-    muh_resp = requests.get(MUHAS_LOGO_URL, timeout=30)
+    muh_resp = requests.get(MUHAS_LOGO_URL, headers={"User-Agent":"MUHAS-DCEPD-Certificate-System/1.0"}, timeout=30)
     muh_resp.raise_for_status()
     gov = ImageReader(io.BytesIO(gov_resp.content))
     muh = ImageReader(io.BytesIO(muh_resp.content))
@@ -224,9 +224,6 @@ def mark_generated(rid):
 
 def main():
     records = export_records()
-    for r in records:
-        if str(r.get("record_id", "")).strip() in TEST_ONLY:
-            print("test_record=" + json.dumps(r, sort_keys=True))
     todo = [r for r in records if eligible(r)]
     print(f"eligible={len(todo)}")
     if not todo:
