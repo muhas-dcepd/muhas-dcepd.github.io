@@ -1,0 +1,35 @@
+name: Watch Project 79 certificate requests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/watch-project79-certificates.yml'
+      - 'scripts/process_project79_certificates.py'
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dcepd-project79-certificate-listener
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install certificate dependencies
+        run: python -m pip install --disable-pip-version-check requests reportlab
+      - name: Process pending Project 79 certificate requests
+        env:
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          DCEPD_CERT_TEST_ONLY: '998910,998923,998938'
+          TZ: Africa/Dar_es_Salaam
+        run: python scripts/process_project79_certificates.py
