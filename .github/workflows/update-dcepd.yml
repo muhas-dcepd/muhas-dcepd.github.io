@@ -3,6 +3,8 @@ name: Refresh and deploy MUHAS DCEPD
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'automation/applicant-pack-state.json'
   workflow_dispatch:
     inputs:
       refresh_api:
