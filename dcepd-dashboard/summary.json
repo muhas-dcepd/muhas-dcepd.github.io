@@ -2,7 +2,7 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-04T07:27:06+00:00",
+    "source_at": "2026-10-04T08:20:22+00:00",
     "as_of": "2026-10-04",
     "registered_courses": 195,
     "listed_courses": 81,
@@ -484,7 +484,7 @@
     },
     {
       "id": "60",
-      "course": "Pharmacokinetics short course",
+      "course": "APPLIED CLINICAL PHARMACOKINETICS AND PRECISION DOSING IN HEALTHCARE",
       "code": "DCEPD/SOP/060/2021",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
@@ -3744,7 +3744,7 @@
     },
     {
       "course_id": "60",
-      "course": "Pharmacokinetics short course",
+      "course": "APPLIED CLINICAL PHARMACOKINETICS AND PRECISION DOSING IN HEALTHCARE",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
       "year": "2022",
