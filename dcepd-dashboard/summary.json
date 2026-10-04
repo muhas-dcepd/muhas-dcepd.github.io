@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-02T09:33:46+00:00",
-    "as_of": "2026-10-02",
+    "source_at": "2026-10-04T05:27:58+00:00",
+    "as_of": "2026-10-04",
     "registered_courses": 195,
     "listed_courses": 81,
-    "application_records": 977,
+    "application_records": 982,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -4695,6 +4695,20 @@
       "unknown": 0
     },
     {
+      "course_id": "105",
+      "course": "Traditional Medicine Developmen Training Level II",
+      "school": "Institute of Traditional Medicine",
+      "department": "ITM",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 45,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "106",
       "course": "Essential of Project Management",
       "school": "School of Medicine",
@@ -5087,6 +5101,34 @@
       "unknown": 0
     },
     {
+      "course_id": "154",
+      "course": "BASIC NUTRITION FOR KIDNEY DISEASES",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 10,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "154",
+      "course": "BASIC NUTRITION FOR KIDNEY DISEASES",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 9,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "161",
       "course": "Production of Personal Care and Household Products",
       "school": "School of Pharmacy",
@@ -5097,6 +5139,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 27,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "173",
+      "course": "MASTERING INVENTORY CONTROL AND LOGISTICS FOR HEALTH COMMODITIES",
+      "school": "School of Pharmacy",
+      "department": "Pharmaceutics and Pharmacy Practice",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 31,
       "reported": 1,
       "unknown": 0
     },
@@ -5125,6 +5181,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 17,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "202",
+      "course": "MANUSCRIPT BOOTCAMP",
+      "school": "Directorate of Research, Publications and Innovation",
+      "department": "Development Studies",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 44,
       "reported": 1,
       "unknown": 0
     }
@@ -5182,14 +5252,14 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 35,
+      "applications": 40,
       "withheld": false
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 455
+      "applications": 459
     },
     {
       "location": "Dodoma",
@@ -5237,7 +5307,7 @@
     },
     {
       "location": "Ruvuma",
-      "applications": 19
+      "applications": 20
     },
     {
       "location": "Mtwara",
