@@ -434,7 +434,13 @@ def main() -> int:
                 })
             continue
 
-        if bootstrap:
+        course_state = state["courses"].setdefault(
+            course_id,
+            {"sent_record_ids": [], "last_sent_at": "", "bootstrap_done": False},
+        )
+        course_bootstrap = not bool(course_state.get("bootstrap_done"))
+
+        if course_bootstrap:
             scope_apps = all_apps
             scope_label = "Initial Applicant Pack"
         else:
@@ -448,12 +454,11 @@ def main() -> int:
         if not scope_apps:
             continue
 
-        course_state = state["courses"].setdefault(course_id, {"sent_record_ids": [], "last_sent_at": ""})
         sent_ids = set(str(x) for x in course_state.get("sent_record_ids", []))
         scope_ids = [str(r.get("record_id", "")).strip() for r in scope_apps if str(r.get("record_id", "")).strip()]
         new_ids = [rid for rid in scope_ids if rid not in sent_ids]
 
-        if bootstrap:
+        if course_bootstrap:
             should_send = bool(new_ids)
         else:
             should_send = len(new_ids) >= 5 or (is_friday and 1 <= len(new_ids) <= 4)
@@ -475,21 +480,25 @@ def main() -> int:
         course_state["sent_record_ids"] = sorted(set(sent_ids).union(scope_ids))
         course_state["last_sent_at"] = datetime.now(TZ).isoformat(timespec="seconds")
         course_state["last_scope"] = scope_label
+        if course_bootstrap:
+            all_ids = {
+                str(r.get("record_id", "")).strip()
+                for r in all_apps
+                if str(r.get("record_id", "")).strip()
+            }
+            course_state["bootstrap_done"] = all_ids.issubset(
+                set(course_state["sent_record_ids"])
+            )
         sent_count += 1
         print(f"SENT course={course_id} applicants={len(scope_apps)} new={len(new_ids)} to={email}")
 
     qc_csv = write_qc(qc)
 
     if not args.dry_run:
-        if bootstrap and not qc:
-            fully_covered = True
-            for course_id, rows in apps_by_course.items():
-                if course_id not in courses:
-                    fully_covered = False
-                    break
-                sent_ids = set(str(x) for x in state["courses"].get(course_id, {}).get("sent_record_ids", []))
-                row_ids = {str(r.get("record_id", "")).strip() for r in rows if str(r.get("record_id", "")).strip()}
-                if not row_ids.issubset(sent_ids):
+        if bootstrap:
+            fully_covered = not qc
+            for course_id in apps_by_course:
+                if not bool(state["courses"].get(course_id, {}).get("bootstrap_done")):
                     fully_covered = False
                     break
             state["bootstrap_complete"] = fully_covered
