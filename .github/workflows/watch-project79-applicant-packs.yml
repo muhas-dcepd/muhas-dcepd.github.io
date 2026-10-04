@@ -1,6 +1,12 @@
 name: Send Project 79 Course Director Applicant Packs
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/watch-project79-applicant-packs.yml'
+      - 'scripts/process_project79_applicant_packs.py'
+      - 'automation/applicant-pack-state.json'
   schedule:
     - cron: '15 2 * * *'
   workflow_dispatch:
@@ -50,7 +56,9 @@ jobs:
         run: |
           set -euo pipefail
           args=()
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            args+=(--dry-run)
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
             args+=(--dry-run)
           fi
           python scripts/process_project79_applicant_packs.py "${args[@]}"
