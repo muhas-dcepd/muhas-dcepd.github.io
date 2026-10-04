@@ -493,6 +493,15 @@ def main() -> int:
         print(f"SENT course={course_id} applicants={len(scope_apps)} new={len(new_ids)} to={email}")
 
     qc_csv = write_qc(qc)
+    for item in qc:
+        print(
+            "QC "
+            f"course={item.get('course_record_id','')} "
+            f"code={item.get('course_code','')} "
+            f"director={item.get('course_director_name','')} "
+            f"email={item.get('contact_email','')} "
+            f"issue={item.get('issue','')}"
+        )
 
     if not args.dry_run:
         if bootstrap:
