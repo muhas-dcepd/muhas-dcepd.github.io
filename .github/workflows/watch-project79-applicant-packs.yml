@@ -25,6 +25,7 @@ concurrency:
 
 jobs:
   applicant-packs:
+    # Email secrets are checked before any live send.
     runs-on: ubuntu-latest
 
     steps:
