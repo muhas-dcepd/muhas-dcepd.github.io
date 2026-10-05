@@ -764,6 +764,16 @@
         "prehospital transfer"
       ]
     },
+    "138": {
+      "source_title": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "display_title": "Applications of Artificial Intelligence in Healthcare",
+      "category": "Digital Health, Data Science & Informatics",
+      "tags": [
+        "AI",
+        "artificial intelligence",
+        "digital health"
+      ]
+    },
     "141": {
       "source_title": "INTERMEDIATE PARAMEDICS",
       "display_title": "Intermediate paramedics",
@@ -791,6 +801,27 @@
         "manufacturing",
         "personal care",
         "household products"
+      ]
+    },
+    "163": {
+      "source_title": "ADVANCED HEALTH DATA ANALYTICS",
+      "display_title": "Advanced Health Data Analytics",
+      "category": "Digital Health, Data Science & Informatics",
+      "tags": [
+        "health data analytics",
+        "data analysis",
+        "digital health",
+        "advanced"
+      ]
+    },
+    "164": {
+      "source_title": "INTRODUCTION TO HEALTH DATA ANALYTICS",
+      "display_title": "Introduction to Health Data Analytics",
+      "category": "Digital Health, Data Science & Informatics",
+      "tags": [
+        "health data analytics",
+        "data analysis",
+        "digital health"
       ]
     },
     "180": {
