@@ -100,13 +100,13 @@ derive_project75 <- function(raw, cfg, reference_date) {
 
       expected_accreditation_date_first = dplyr::case_when(
         !is.na(accreditation_date_first_d) ~ fmt_date(accreditation_date_first_d),
-        !is.na(approval_date_d) & !is.na(accreditation_date_d) ~ fmt_date(accreditation_date_d),
+        !is.na(accreditation_date_d) ~ fmt_date(accreditation_date_d),
         TRUE ~ ""
       ),
 
       expected_course_code = dplyr::case_when(
         !is.na(current_course_code) ~ current_course_code,
-        !is.na(approval_date_d) &
+        !is.na(accreditation_date_d) &
           expected_accreditation_date_first != "" &
           !is.na(course_school_code_v) &
           !is.na(safe_integer(record_id)) ~ paste0(
@@ -127,7 +127,7 @@ derive_project75 <- function(raw, cfg, reference_date) {
         !is.na(review_sent_date_d) & reviewer_assigned,
 
       formal_accreditation_evidence =
-        !is.na(approval_date_d) & !is.na(accreditation_date_d),
+        !is.na(accreditation_date_d),
 
       legacy_accreditation_evidence =
         expected_course_code != "" &
