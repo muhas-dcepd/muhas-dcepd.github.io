@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-05T07:42:31+00:00",
+    "source_at": "2026-10-05T16:54:06+00:00",
     "as_of": "2026-10-05",
     "registered_courses": 195,
     "listed_courses": 81,
-    "application_records": 986,
+    "application_records": 991,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -1031,7 +1031,7 @@
       "course": "Advanced Research Data Analysis",
       "code": "",
       "school": "Directorate of Library Services",
-      "department": "Unknown",
+      "department": "DLS",
       "listed": false
     },
     {
@@ -5252,7 +5252,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 44,
+      "applications": 49,
       "withheld": false
     }
   ],
@@ -5326,6 +5326,10 @@
       "applications": 15
     },
     {
+      "location": "Geita",
+      "applications": 14
+    },
+    {
       "location": "Unknown",
       "applications": 14
     },
@@ -5340,10 +5344,6 @@
     {
       "location": "Kagera",
       "applications": 10
-    },
-    {
-      "location": "Geita",
-      "applications": 9
     },
     {
       "location": "Rukwa",
