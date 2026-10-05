@@ -42,16 +42,25 @@ Current structural baseline (5 October 2026):
 
 A failed full refresh stops downstream publication. The last successful deployment remains live.
 
+Current closeout baseline (6 October 2026):
+
+- Project 75 master courses: **195**;
+- public catalogue: **86 courses** after the verified SCEPD-accreditation code-generation correction;
+- suspect placeholder fees cleared: **142/142 verified blank** in the approved TZS 380,000–450,000 cleanup set;
+- catalogue Subject filtering supports primary and secondary subject discovery while `public_catalogue` remains the sole publication-visibility flag.
+
 ### Accreditation Publication Control
 
-Workflow: `.github/workflows/watch-accreditation.yml`
+Workflow: `.github/workflows/watch-accreditation.yml`  
+Nominal schedule: **every 15 minutes**.
 
 APC processes only explicit accreditation-letter requests entered in Project 75. The substantive accreditation event is the SCEPD `accreditation_date`; once recorded, the verified refresh may establish the first accreditation date, generate the immutable course code, update accreditation/lifecycle status and determine catalogue eligibility. `approval_date` and `approval_reference` belong to the later letter/publication-control process and do not gate course-code generation. Historical valid reference numbers are never renumbered merely to remove gaps.
 
 ### Project 79 certificate listener
 
 Workflow: `.github/workflows/watch-certificates.yml`  
-Generator: `scripts/process_certificate_requests.py`
+Generator: `scripts/process_certificate_requests.py`  
+Nominal schedule: **every 15 minutes**.
 
 The listener processes only records that satisfy the approved certificate eligibility checks and have an explicit generation request. Its permitted Project 79 write-back is narrowly limited to certificate generation: upload `certificate_file`, set generated/date fields and clear the generation request after success.
 
@@ -85,6 +94,10 @@ Payment fields remain distinct:
 - `fee_verified`: staff verification/check of fee/payment status.
 
 A GePG control number alone does not confirm payment.
+
+## Closed one-time maintenance
+
+The approved Project 75 suspect-fee cleanup was completed on 6 October 2026. The live audit verified **142 manifest records, 142 eligible, 0 skipped, and 142 blank after write**. The one-time cleanup workflow is retained only as an auditable record of that intervention; it is not part of routine operation and should not be rerun without a new explicit approval and a fresh preflight.
 
 ## Safety rules
 
