@@ -2,6 +2,26 @@
 
 For routine technical operation, use `automation/project75/TECHNICAL_USER_MANUAL.md`. This HANDOFF remains the continuity, locked-rule, historical-baseline and recovery reference.
 
+
+## Relationship to the 2 October 2026 technical handoff
+
+The 2 October 2026 technical handoff remains the historical field-level and workflow-design baseline for this system. Its durable controls have been retained, but several operational details have since changed and the live repository state takes precedence.
+
+Key updates since 2 October:
+
+- accreditation and certificate listeners now run nominally every **15 minutes**, not every five minutes;
+- the certificate workflow is now `.github/workflows/watch-certificates.yml` with `scripts/process_certificate_requests.py`; the older three-record pilot workflow/script is no longer the active implementation;
+- Project 75 now has **80 fields** across four approved instruments;
+- Project 79 now has **73 fields** across two approved instruments;
+- the verified public catalogue baseline is **86 courses** from **195** master courses;
+- Course Director Applicant Packs are now an established read-only workflow;
+- the one-time suspect-fee cleanup is complete with **142/142** target records verified blank;
+- SCEPD `accreditation_date` is explicitly the substantive accreditation event for first-accreditation lineage, immutable code generation, accreditation/lifecycle status and catalogue eligibility;
+- `approval_date` and `approval_reference` remain downstream APC letter/publication-control fields.
+
+Durable rules from the 2 October handoff still apply: metadata API writes remain prohibited; Project 75 writes are verified; Project 79 public/reporting use remains read-only except for the narrowly approved certificate backend write-back; historical identifiers and certificate running serials are preserved; and institutional decisions remain human decisions.
+
+
 ## What the two REDCap projects do
 
 **Project 75** is the authoritative short-course registry. One master record represents a course; deliveries are separate repeating `course_run_log` instances.  
@@ -34,9 +54,56 @@ R derives lifecycle status, dormancy, accreditation validity, curriculum type, c
 - Dormant: last valid run is more than two years before the reference date.
 - Public catalogue = Current/Due soon AND not dormant. Never-run newly accredited courses may be public.
 
+
+## Field-level continuity reference
+
+The earlier handoff documented the field-level model and remains useful during maintenance.
+
+### Project 75 master inputs
+
+Core inputs include course identity, submission/review fields, `accreditation_date`, `accreditation_date_first`, APC approval fields, CPD points, Course Director/contact fields, organisational codes, fee information and reviewer-payment fields.
+
+### Project 75 derived values
+
+The verified refresh maintains, where applicable:
+
+- lifecycle/course status;
+- accreditation status and validity;
+- curriculum type;
+- dormancy;
+- public-catalogue state;
+- accreditation calendar/fiscal fields;
+- Course Run Log summaries;
+- Project 79 applicant counts and their update timestamp.
+
+### Project 79 certification controls
+
+The staff-only `participant_selection_certification` instrument carries selection/batch assignment, attendance verification, certificate approval, running sequence, visible certificate number, template readiness, generation request, generated file/status/date, issue status/date and manual-certificate notes.
+
+Project 79 `record_id` remains the operational Application ID. Certificate running serials are central, non-reusable identifiers and must not be recycled.
+
+
 ## Applicant counts
 
 Project 79 is read-only to the automation. Existing mapped application records are counted. Successful mapping with no applications gives 0. Failed export or unresolved used mapping never becomes a false zero. The timestamp changes only when the stored count changes.
+
+
+## Human judgement boundary
+
+The following remain institutional/staff decisions and must never be inferred by automation:
+
+- course approval/accreditation;
+- reviewer assignment and review conclusions;
+- participant selection;
+- attendance verification;
+- certificate approval;
+- signatory and partner-branding approval;
+- certificate issue;
+- reissue/cancellation decisions;
+- correction of historical exceptions.
+
+Automation may execute an explicit approved transaction; it must not create the underlying decision.
+
 
 ## Routine operation
 
