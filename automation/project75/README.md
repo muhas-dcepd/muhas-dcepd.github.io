@@ -1,13 +1,13 @@
 # DCEPD Project 75 / Project 79 REDCap Sync
 
-**Release:** V2.2.12 — GitHub cron release  
+**Release:** V2.2.13 compatibility patch over checksum-verified V2.2.12 runtime  
 **Timezone:** Africa/Dar_es_Salaam  
 **Primary registry:** REDCap Project 75  
 **Applications:** REDCap Project 79
 
 ## Purpose
 
-This workflow maintains derived **record values** in Project 75 from the authoritative course registry, repeating Course Run Log, and Project 79 applications. It is the same record-only workflow that passed supervised LIVE verification on 26 September 2026.
+This workflow maintains derived **record values** in Project 75 from the authoritative course registry, repeating Course Run Log, and Project 79 applications. The current GitHub workflow reconstructs the verified V2.2.12 base runtime, applies the maintained V2.2.13 patch, and then performs the record-only LIVE refresh.
 
 ## Permanent safety boundary
 
@@ -50,6 +50,16 @@ Required environment variables:
 ## GitHub Actions
 
 The repository workflow runs this sync before the public DCEPD catalogue/dashboard refresh on scheduled/manual API refreshes. GitHub secrets use the same two names above. Runtime outputs are retained as workflow artifacts instead of being committed to the public repository.
+
+## Current closeout baseline — 6 October 2026
+
+- Project 75 structure: **80 fields** across four approved instruments.
+- Project 79 structure: **73 fields** across two approved instruments.
+- Project 75 master courses: **195**.
+- Public catalogue after the verified refresh: **86 courses**.
+- SCEPD `accreditation_date` is the substantive accreditation event for first accreditation, immutable code generation, status and catalogue eligibility.
+- APC `approval_date` and `approval_reference` remain downstream letter/publication-control fields and do not gate code generation.
+- The approved one-time suspect-fee cleanup completed with **142/142** records verified blank.
 
 ## Recovery baseline
 
