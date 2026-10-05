@@ -25,6 +25,65 @@ LABELS = dict(zip(FIELDS, ['Record ID', 'Course name', 'Course code', 'Listed in
     'Course summary', 'Course duration', 'Delivery mode', 'Target audience / eligibility',
     'Key learning outcomes', 'Certificate awarded', 'Next date offered']))
 
+# Subject filtering is intentionally broader than the single editorial primary category.
+# A course may therefore appear under more than one subject when its title/tags/catalogue text
+# contain a strong subject-specific term. This affects discovery only, not accreditation/status.
+SUBJECT_RULES = {
+    'Digital Health, Data Science & Informatics': [
+        'digital health', 'health data', 'data analytics', 'data science', 'informatics',
+        'artificial intelligence', 'machine learning', 'programming', 'r programming',
+        'cybersecurity', 'computer applications', 'computer programming'
+    ],
+    'Research Methods, Evidence & Scientific Writing': [
+        'research method', 'research ethics', 'research integrity', 'scientific writing',
+        'systematic review', 'meta analysis', 'qualitative', 'implementation science',
+        'implementation research', 'grant writing', 'proposal writing', 'good clinical practice',
+        'evidence synthesis', 'academic writing'
+    ],
+    'Pharmacy, Medicines & Supply Chains': [
+        'pharmacy', 'pharmaceutical', 'pharmacokinetic', 'pharmacovigilance', 'medicine safety',
+        'medicines', 'drug development', 'health commodities', 'supply chain',
+        'forecasting', 'inventory control', 'rational use of antimicrobials',
+        'antimicrobial stewardship'
+    ],
+    'Emergency, Critical Care & Patient Safety': [
+        'emergency care', 'critical care', 'resuscitation', 'ambulance', 'paramedic',
+        'anaesthesia', 'anesthesia', 'disaster response', 'prehospital'
+    ],
+    'Clinical Care & Diagnostics': [
+        'clinical care', 'diagnosis', 'diagnostic', 'echocardiography', 'electrocardiography',
+        'ultrasound', 'dialysis', 'palliative care', 'spirometry'
+    ],
+    'Public Health, One Health & Environment': [
+        'public health', 'one health', 'climate and health', 'climate change and health',
+        'surveillance', 'community engagement', 'epidemiology', 'occupational health',
+        'environmental health', 'health system strengthening'
+    ],
+    'Maternal, Newborn & Child Health': [
+        'maternal', 'obstetric', 'newborn', 'neonatal', 'paediatric', 'pediatric', 'child health'
+    ],
+    'Mental Health, Rehabilitation & Wellbeing': [
+        'mental health', 'psychosocial', 'substance use', 'addiction', 'rehabilitation',
+        'wellness', 'weight management'
+    ],
+    'Education, Mentorship & Simulation': [
+        'mentorship', 'mentoring', 'teaching', 'clinical teaching', 'simulation',
+        'supervision', 'competency based education', 'preceptorship'
+    ],
+    'Health Leadership, Management & Financing': [
+        'leadership', 'management', 'financing', 'health economics', 'economic evaluation',
+        'project management', 'entrepreneurship'
+    ],
+    'Traditional Medicine & Natural Products': [
+        'traditional medicine', 'herbal medicine', 'medicinal plants', 'pharmacognosy',
+        'natural products'
+    ],
+    'Laboratory Sciences, Genomics & Biotechnology': [
+        'laboratory', 'genomics', 'omics', 'bioinformatics', 'microscopy', 'cytotechnology',
+        'biosafety', 'gene therapy', 'biotechnology'
+    ],
+}
+
 def display_date_dmy(value):
     value = str(value or '').strip()
     if not value:
@@ -117,6 +176,17 @@ def build(records, source, source_at, taxonomy):
                 api_refreshed_at=source_at if source == 'Project 75 API' else None,
                 count=len(courses), courses=courses)
 
+def subject_categories(c):
+    haystack = normalise(' '.join([
+        c['title'], c['source_title'], c['category'], c['summary'],
+        c['target_audience'], c['learning_outcomes'], *c['tags']
+    ]))
+    subjects = {c['category']}
+    for subject, terms in SUBJECT_RULES.items():
+        if any(normalise(term) in haystack for term in terms):
+            subjects.add(subject)
+    return sorted(subjects)
+
 def render_card(c):
     e = lambda x: html.escape(str(x), quote=True)
     tags = ''.join(f'<span class="tag">{e(t)}</span>' for t in c['tags'])
@@ -131,9 +201,10 @@ def render_card(c):
         ('CPD points', c['cpd_points'] or 'Confirm with DCEPD'),
         ('Certificate', c['certificate_awarded'] or 'Confirm with DCEPD')])
     detail_url = f"courses/{e(c['id'])}.html"
+    subjects = '|'.join(subject_categories(c))
     summary = f'<p class="summary">{e(c["summary"])}</p>' if c['summary'] else ''
     coming = f'<p class="coming-soon"><strong>Coming soon:</strong> {e(c["date_next_offered"])}</p>' if c['date_next_offered'] else ''
-    return f'''<article class="course" id="course-{e(c['id'])}" data-category="{e(c['category'])}" data-school="{e(c['school'])}" data-search="{e(search)}">
+    return f'''<article class="course" id="course-{e(c['id'])}" data-category="{e(c['category'])}" data-subjects="{e(subjects)}" data-school="{e(c['school'])}" data-search="{e(search)}">
     <p class="category">{e(c['category'])}</p><h3><a href="{detail_url}">{e(c['title'])}</a></h3>
     <p class="unit">{e(c['school'] or 'MUHAS')}</p>{coming}{summary}<div class="tags">{tags}</div>
     <details><summary>Course details</summary><dl>{details}</dl><p class="fine">Confirm the current fee, intake dates and CPD recognition before making arrangements.</p></details>
@@ -142,7 +213,7 @@ def render_card(c):
 def save(data):
     out = ROOT / 'dcepd-courses'
     template = (ROOT / 'scripts/dcepd_catalogue_template.html').read_text()
-    categories = sorted({c['category'] for c in data['courses']})
+    categories = sorted(set(SUBJECT_RULES) | {c['category'] for c in data['courses']})
     schools = sorted({c['school'] for c in data['courses'] if c['school']})
     options = lambda values: ''.join(f'<option value="{html.escape(v, quote=True)}">{html.escape(v)}</option>' for v in values)
     replacements = {'CARDS': '\n'.join(render_card(c) for c in data['courses']), 'COUNT': str(data['count']),
