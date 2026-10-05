@@ -45,6 +45,12 @@ class CatalogueTests(unittest.TestCase):
             self.assertEqual(args['filterLogic'], "[public_catalogue] = '7'")
             self.assertNotIn('private_email', str(args))
 
+    def test_secondary_subject_matching(self):
+        row = self.row()
+        row['course_name'] = 'Applications of artificial intelligence in healthcare'
+        course = self.build([row])['courses'][0]
+        self.assertIn('Digital Health, Data Science & Informatics', m.subject_categories(course))
+
     def test_date_display_dmy(self):
         self.assertEqual(m.display_date_dmy('2026-10-30'), '30-10-2026')
         self.assertEqual(m.display_date_dmy('30-10-2026'), '30-10-2026')
