@@ -90,6 +90,83 @@ When appropriate, the verified refresh may use it to:
 
 Course codes are historical identifiers. Reaccreditation does not change the first accreditation date or an existing valid course code.
 
+
+## 5A. Core data model the technical user must recognize
+
+The earlier 2 October handoff remains useful because it documented the field-level operating model. The current system preserves that model, with later automation changes layered on top.
+
+### Project 75 master-course inputs
+
+Important source/identity fields include:
+
+- `record_id`
+- `course_name`
+- `course_code`
+- `date_submitted`
+- `review_sent_date`
+- `curricular_attached`
+- `reviewer_1`, `reviewer_2`
+- `accreditation_date`
+- `accreditation_date_first`
+- `approval_date`
+- `approval_reference`
+- `cpd_points`
+- `course_director_id`
+- `contact_phone`
+- `contact_email`
+- `course_department_code`
+- `course_school_code`
+- `fee_per_person_tsh`
+- reviewer-payment fields where used.
+
+### Project 75 derived fields
+
+The verified refresh maintains, where applicable:
+
+- `dormant_flag`
+- `curriculum_type`
+- `course_status`
+- `accreditation_status`
+- `public_catalogue`
+- accreditation calendar/fiscal fields
+- `interested_applicants`
+- `interested_applicants_updated_at`
+- `times_conducted`
+- `first_date_conducted`
+- `last_date_conducted`
+- `total_participants`
+- `total_income_tsh`.
+
+### Repeating Course Run Log
+
+The repeating `course_run_log` contains delivery-level facts such as:
+
+- run start/end date;
+- participants;
+- run days;
+- run director/unit fields;
+- run income where known;
+- derived calendar year, month, fiscal quarter and fiscal year.
+
+A repeat delivery is **not** a new course master record.
+
+### Project 79 participant/certification fields
+
+The staff-only `participant_selection_certification` instrument contains the controlled participant workflow, including:
+
+- selection and batch fields;
+- attendance verification;
+- certificate approval;
+- certificate running sequence and visible certificate number;
+- template readiness;
+- explicit certificate-generation request;
+- generated certificate status/date/file;
+- certificate-issued status/date;
+- manual-certificate flag and notes.
+
+The REDCap Project 79 `record_id` remains the operational Application ID. Do not create a parallel numbering system.
+
+
 ## 6. Routine GitHub workflows
 
 ### 6.1 Full REDCap refresh and website deployment
@@ -148,6 +225,36 @@ The workflow is read-only against REDCap. It builds/sends Course Director packs 
 Manual workflow dispatch defaults to **dry run = true**. Keep dry run enabled when testing configuration or QC. A live manual send should only be done deliberately after confirming recipients, SMTP configuration and expected pack content.
 
 Returned Excel workbooks are **not auto-imported**. An authorized Coordinator/Admin must save the intended return sheet as **CSV UTF-8 (Comma delimited)** and deliberately import it into Project 79.
+
+
+## 6.5 Human decisions versus automated transactions
+
+The system deliberately separates institutional judgement from transaction execution.
+
+The following remain human decisions:
+
+- course approval and accreditation;
+- reviewer assignment and review conclusions;
+- participant selection;
+- attendance verification;
+- certificate approval;
+- certificate serial allocation policy;
+- signatory approval;
+- partner/sponsor branding approval;
+- certificate issue;
+- reissue/cancellation decisions;
+- correction of historical exceptions.
+
+Automation may execute an already-approved action. It must not infer or manufacture the underlying decision.
+
+### Certificate identity rules
+
+- `certificate_seq` is the central running integer and is never reused.
+- The visible `certificate_serial_no` is the full certificate identifier.
+- Application ID remains separate from the certificate number.
+- A generated PDF is not equivalent to an issued certificate.
+- Reissue/cancellation must be explicit; never silently regenerate over an issued certificate.
+
 
 ## 7. How to run a manual full refresh
 
@@ -299,6 +406,22 @@ Before making a structural change:
 
 Never use the API to write the REDCap data dictionary.
 
+
+## 10A. APC technical rules
+
+APC is a controlled transaction, not a side effect of the daily refresh.
+
+Important principles retained from the earlier technical handoff:
+
+- scheduled refreshes alone must not allocate accreditation references or generate letters;
+- historical valid references are preserved;
+- gaps are not compacted merely to make numbering look continuous;
+- duplicate-reference repair must preserve the canonical valid occurrence and act only on genuine duplicates;
+- a failed APC transaction must remain reviewable rather than being hidden by a second competing reference.
+
+The authoritative accreditation-letter template remains under the repository accreditation assets. When template layout or signatory practice changes, treat that as a controlled document/automation change, not an ad-hoc edit during a live batch.
+
+
 ## 11. Secrets and credentials
 
 Required REDCap secrets:
@@ -377,6 +500,20 @@ If structural loss is suspected:
 
 Metadata API import remains prohibited during recovery.
 
+
+## 15A. Recovery lessons from the September 2026 incident
+
+The prohibition on metadata API writes is not theoretical. The September 2026 recovery demonstrated that metadata/data-dictionary writes on this REDCap installation can cause destructive structural loss.
+
+Therefore:
+
+1. structural restoration comes before record restoration;
+2. do not import record backups into a damaged dictionary;
+3. after restoring structure, verify whether stored record values reappear;
+4. confirm structural guards pass before returning automation to live operation;
+5. preserve emergency recovery packages outside the public repository.
+
+
 ## 16. Routine technical-user checklist
 
 ### Daily / when alerts arrive
@@ -420,7 +557,13 @@ Use the three documents together:
 
 When the system changes, update the document(s) whose operational contract actually changed rather than adding ad-hoc notes elsewhere.
 
-## 18. Closeout status
+## 18. Relationship to the 2 October 2026 documents
+
+The 2 October 2026 user manual and technical handoff are the historical design/operational baseline for this documentation set. Their durable rules on REDCap ownership, human decision-making, certificate identity, APC controls, recovery and public/private separation remain incorporated here. Where they differ from the live repository, the **6 October 2026 repository state governs** — notably current workflow names, current polling schedules, expanded structural baselines, Applicant Packs, the production certificate listener and the completed fee cleanup.
+
+The older end-user manual remains valuable for Directors, Coordinators and Administrators because it explains the day-to-day REDCap workflow without requiring GitHub knowledge. It is conceptually distinct from this technical administrator manual.
+
+## 19. Closeout status
 
 The core system is now in **routine operations / handover phase**.
 
