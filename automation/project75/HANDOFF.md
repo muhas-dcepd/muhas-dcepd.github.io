@@ -62,14 +62,25 @@ Project 79 is read-only to the automation. Existing mapped application records a
 Stop the run; do not manually force later stages. A new run always begins with a fresh export and will propose only what remains incorrect. For structural loss, restore the correct dictionary first and check whether stored data reappear before importing any record backup.
 
 
-## Operational status — 27 September 2026
+## Operational status — 6 October 2026
 
-The automation is now in routine operational monitoring.
+The automation is in routine operational monitoring and the October closeout baseline has been verified.
 
-The first successful GitHub-hosted LIVE proof was workflow run #21 (26 September 2026, 06:44 EAT):
+Current structural/operational baseline:
 
-- P75 structure: 48 fields
-- P79 structure: 53 fields
+- Project 75: **80 fields** across `course_registry`, repeating `course_run_log`, repeating `accreditation_publication_control`, and `public_catalogue_details`;
+- Project 79: **73 fields** across `short_course_application` and staff-only `participant_selection_certification`;
+- Project 75 master courses: **195**;
+- public catalogue after the 6 October verified refresh: **86 courses**;
+- `public_catalogue` remains the sole public-visibility switch;
+- SCEPD `accreditation_date` is the substantive accreditation event and can generate the immutable course code; `approval_date` / `approval_reference` remain downstream APC letter-control fields;
+- accreditation and certificate listeners run nominally every **15 minutes**;
+- the approved one-time suspect-fee cleanup completed successfully with **142/142** records verified blank.
+
+Historical reference point: the first successful GitHub-hosted LIVE proof was workflow run #21 (26 September 2026, 06:44 EAT):
+
+- P75 structure: 48 fields at that historical baseline
+- P79 structure: 53 fields at that historical baseline
 - master changes: 0
 - run-log changes: 0
 - P75 manual metadata actions: 0
@@ -93,14 +104,15 @@ Cron: `37 1 * * *` = 04:37 EAT daily.
 On scheduled or manual API-refresh runs the workflow:
 
 1. sets up R and required system/R dependencies;
-2. reconstructs and checksum-verifies the V2.2.12 runtime;
-3. runs the LIVE Project 75/79 refresh with GitHub secrets;
-4. uploads the full sync audit artifact;
-5. refreshes the public catalogue and dashboard;
-6. builds a management reporting packet;
-7. uploads that packet as a separate artifact;
-8. regenerates SEO/sitemap files;
-9. deploys GitHub Pages.
+2. reconstructs and checksum-verifies the V2.2.12 base runtime;
+3. applies the maintained V2.2.13 compatibility patch;
+4. runs the LIVE Project 75/79 refresh with GitHub secrets;
+5. uploads the full sync audit artifact;
+6. refreshes the public catalogue and dashboard;
+7. builds a management reporting packet;
+8. uploads that packet as a separate artifact;
+9. regenerates SEO/sitemap files;
+10. deploys GitHub Pages.
 
 Ordinary pushes to `main` do not run the REDCap R sync.
 
