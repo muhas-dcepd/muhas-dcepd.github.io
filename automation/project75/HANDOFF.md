@@ -1,5 +1,7 @@
 # DCEPD REDCap Continuity / Handoff
 
+For routine technical operation, use `automation/project75/TECHNICAL_USER_MANUAL.md`. This HANDOFF remains the continuity, locked-rule, historical-baseline and recovery reference.
+
 ## What the two REDCap projects do
 
 **Project 75** is the authoritative short-course registry. One master record represents a course; deliveries are separate repeating `course_run_log` instances.  
