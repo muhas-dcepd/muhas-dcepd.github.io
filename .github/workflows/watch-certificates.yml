@@ -7,7 +7,7 @@ on:
       - '.github/workflows/watch-certificates.yml'
       - 'scripts/process_certificate_requests.py'
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 permissions:
