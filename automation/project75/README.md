@@ -19,8 +19,8 @@ Project 75 record imports are sent in small verified batches to stay below the M
 
 The workflow maintains, where applicable:
 
-- first-ever accreditation date establishment for future formally approved courses;
-- immutable course-code generation when approval/accreditation gates are satisfied;
+- first-ever accreditation date establishment once SCEPD accreditation is recorded;
+- immutable course-code generation from the SCEPD accreditation event when the organisational code is valid;
 - lifecycle `course_status`;
 - rolling two-year dormancy;
 - three-year accreditation validity and `curriculum_type`;
