@@ -9,7 +9,8 @@ function filterCourses() {
   const terms = normalise(query.value).split(/\s+/).filter(Boolean);
   let count = 0;
   for (const card of cards) {
-    const match = (!category.value || card.dataset.category === category.value) &&
+    const subjects = (card.dataset.subjects || card.dataset.category || '').split('|');
+    const match = (!category.value || subjects.includes(category.value)) &&
       (!school.value || card.dataset.school === school.value) &&
       terms.every(term => term.length <= 2 ? card.dataset.search.split(' ').includes(term) : card.dataset.search.includes(term));
     card.hidden = !match;
