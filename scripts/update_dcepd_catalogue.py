@@ -17,9 +17,24 @@ ROOT = Path(__file__).resolve().parents[1]
 APPLY_URL = 'https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W'
 API_URL = 'https://utafiti.muhas.ac.tz/api/'
 FIELDS = ['record_id', 'course_name', 'course_code', 'public_catalogue',
-          'course_department_code', 'course_school_code', 'fee_per_person_tsh', 'cpd_points']
+          'course_department_code', 'course_school_code', 'fee_per_person_tsh', 'cpd_points',
+          'course_summary', 'course_duration', 'delivery_mode', 'target_audience',
+          'learning_outcomes', 'certificate_awarded', 'date_next_offered']
 LABELS = dict(zip(FIELDS, ['Record ID', 'Course name', 'Course code', 'Listed in public catalogue?',
-    'Department', 'School / institute / directorate', 'Fee per person (TZS)', 'CPD points']))
+    'Department', 'School / institute / directorate', 'Fee per person (TZS)', 'CPD points',
+    'Course summary', 'Course duration', 'Delivery mode', 'Target audience / eligibility',
+    'Key learning outcomes', 'Certificate awarded', 'Next date offered']))
+
+def display_date_dmy(value):
+    value = str(value or '').strip()
+    if not value:
+        return ''
+    for fmt in ('%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y'):
+        try:
+            return datetime.strptime(value, fmt).strftime('%d-%m-%Y')
+        except ValueError:
+            pass
+    return value
 
 def normalise(text):
     return ' '.join(re.sub(r'[^a-z0-9]+', ' ', unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode().lower()).split())
@@ -91,7 +106,12 @@ def build(records, source, source_at, taxonomy):
         courses.append(dict(id=rid, title=classification.get('display_title', title), source_title=title,
             code=row['course_code'].strip(), school=row['course_school_code'].strip(),
             department=row['course_department_code'].strip(), fee_tzs=row['fee_per_person_tsh'].strip(),
-            cpd_points=row['cpd_points'].strip(), category=category, tags=sorted(tags), apply_url=APPLY_URL))
+            cpd_points=row['cpd_points'].strip(), summary=row['course_summary'].strip(),
+            duration=row['course_duration'].strip(), delivery_mode=row['delivery_mode'].strip(),
+            target_audience=row['target_audience'].strip(), learning_outcomes=row['learning_outcomes'].strip(),
+            certificate_awarded=row['certificate_awarded'].strip(),
+            date_next_offered=display_date_dmy(row['date_next_offered']),
+            category=category, tags=sorted(tags), apply_url=APPLY_URL))
     courses.sort(key=lambda c: normalise(c['title']))
     return dict(schema_version=1, source=source, source_at=source_at,
                 api_refreshed_at=source_at if source == 'Project 75 API' else None,
@@ -100,17 +120,23 @@ def build(records, source, source_at, taxonomy):
 def render_card(c):
     e = lambda x: html.escape(str(x), quote=True)
     tags = ''.join(f'<span class="tag">{e(t)}</span>' for t in c['tags'])
-    search = normalise(' '.join([c['title'], c['source_title'], c['code'], c['school'], c['department'], c['category'], *c['tags']]))
+    search = normalise(' '.join([c['title'], c['source_title'], c['code'], c['school'], c['department'], c['category'], c['summary'], c['target_audience'], c['learning_outcomes'], *c['tags']]))
     details = ''.join(f'<div><dt>{label}</dt><dd>{e(value)}</dd></div>' for label, value in [
         ('Course code', c['code'] or 'Not yet recorded'), ('Organising unit', c['department'] or 'Not recorded'),
         ('School / institute / directorate', c['school'] or 'Not recorded'),
+        ('Duration', c['duration'] or 'Confirm with DCEPD'),
+        ('Delivery mode', c['delivery_mode'] or 'Confirm with DCEPD'),
+        ('Next offered', c['date_next_offered'] or 'To be announced'),
         ('Recorded fee (TZS)', c['fee_tzs'] or 'Confirm with DCEPD'),
-        ('CPD points', c['cpd_points'] or 'Confirm with DCEPD')])
+        ('CPD points', c['cpd_points'] or 'Confirm with DCEPD'),
+        ('Certificate', c['certificate_awarded'] or 'Confirm with DCEPD')])
     detail_url = f"courses/{e(c['id'])}.html"
+    summary = f'<p class="summary">{e(c["summary"])}</p>' if c['summary'] else ''
+    coming = f'<p class="coming-soon"><strong>Coming soon:</strong> {e(c["date_next_offered"])}</p>' if c['date_next_offered'] else ''
     return f'''<article class="course" id="course-{e(c['id'])}" data-category="{e(c['category'])}" data-school="{e(c['school'])}" data-search="{e(search)}">
     <p class="category">{e(c['category'])}</p><h3><a href="{detail_url}">{e(c['title'])}</a></h3>
-    <p class="unit">{e(c['school'] or 'MUHAS')}</p><div class="tags">{tags}</div>
-    <details><summary>Course details</summary><dl>{details}</dl><p class="fine">Confirm the current fee, intake dates, delivery mode and CPD recognition before making arrangements.</p></details>
+    <p class="unit">{e(c['school'] or 'MUHAS')}</p>{coming}{summary}<div class="tags">{tags}</div>
+    <details><summary>Course details</summary><dl>{details}</dl><p class="fine">Confirm the current fee, intake dates and CPD recognition before making arrangements.</p></details>
     <div class="card-actions"><a class="apply" href="{APPLY_URL}" aria-label="Apply: {e(c['title'])}">Apply <span aria-hidden="true">↗</span></a><span>Select this course in the form</span></div></article>'''
 
 def save(data):
