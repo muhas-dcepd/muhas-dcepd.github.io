@@ -1,38 +1,61 @@
 # DCEPD course catalogue
 
-Only Project 75 master records whose `public_catalogue` label is Yes are included.
-No dormancy, accreditation, date or application-system rule is applied here.
-Initial public outputs were built from the supplied 19 September 2026 labelled export.
-The source date remains visible until a successful API refresh replaces it.
+The public catalogue is a downstream read-only view of Project 75.
 
-## Activate API refresh
+Only Project 75 master records whose `public_catalogue` label is Yes are included. The catalogue generator does not independently decide accreditation, dormancy or publication eligibility; those are derived upstream in Project 75. `public_catalogue` remains the sole visibility control.
 
-In repository Settings > Secrets and variables > Actions, add
-`REDCAP_PROJECT75_TOKEN` with the Project 75 API token. Prefer an export-only
-token/account with access to metadata and the course registry. Never paste it
-into source code, an issue, a workflow file or a chat message.
+## Current baseline — 6 October 2026
 
-Run **Update DCEPD course catalogue**, keeping `refresh_api` checked.
-To deploy the existing supplied snapshot before adding the token, uncheck it.
-The scheduled refresh runs daily at 04:37 East Africa Time. Failure preserves
-the existing public page and its last successful source timestamp.
+- Public catalogue: **86 courses**.
+- Project 75 master-course registry: **195 courses**.
+- A recorded SCEPD `accreditation_date` is the substantive accreditation event. The verified Project 75 refresh may then establish first accreditation, generate the immutable course code, update lifecycle/accreditation status and determine catalogue eligibility.
+- APC `approval_date` and `approval_reference` belong to the later accreditation-letter/publication-control process and do not gate course-code generation.
+- Never-run newly accredited courses may still be public when otherwise eligible.
+- Dormant courses remain hidden according to the upstream Project 75 dormancy rule.
 
-The exporter verifies the stored Yes code against metadata, requests only
-eight course fields and publishes an explicit public schema. It never queries
-Project 79, writes to REDCap, exports contacts or publishes raw registry files.
+## Published fields and search
 
-`scripts/dcepd_taxonomy.json` contains proposed title-based categories and tags
-keyed by registry ID and bound to the original title. Changed or new titles
-fall back to Other courses until classified, while remaining listed. Original
-titles and historical codes remain intact. Minor display spelling corrections
-are editorial only. No eligibility, accreditation or intake claims are inferred.
+The catalogue publishes an explicit public schema only. It includes course identity and public-facing fields such as title, code, organisational unit, fee where known, CPD where verified, summary, duration, delivery mode, target audience, learning outcomes, certificate information and next-offered date.
 
-Every Apply button opens the official general application survey. Applicants
-must select their course there. Preselection awaits the separate mapping work.
+Private contacts, applicant identities, payment information and management-only fields are never published.
 
-The deployment restores Observatory downloads from its latest published release,
-verifies available checksums and database integrity, and regenerates its display
-from the archived works without changing retrieval timestamps. It shares the
-Observatory workflow concurrency group to avoid simultaneous site deployments.
+Search supports:
+- free-text matching across public course content;
+- primary subject categories; and
+- secondary subject discovery derived from strong public-course keywords.
 
-Run tests: `python -m unittest discover -s tests -p 'test_dcepd_catalogue.py'`.
+Secondary-subject matching affects discovery only. It does not change `public_catalogue` eligibility.
+
+## Application gateway
+
+Every Apply button opens the official Project 79 general application survey. Applicants select the intended course there. Project 79 applicant data remain private; only approved aggregate counts/geography appear on the public dashboard.
+
+## Refresh and failure behaviour
+
+The scheduled full refresh runs at **04:37 EAT daily**. A manual full refresh can also be run from `.github/workflows/update-dcepd.yml` with API refresh enabled.
+
+The workflow:
+1. refreshes and verifies Project 75/79-derived state;
+2. rebuilds this catalogue and the aggregate dashboard;
+3. validates public-site tests and search metadata; and
+4. deploys GitHub Pages.
+
+If a full refresh fails, publication stops and the last verified deployed site remains live.
+
+## Taxonomy
+
+`scripts/dcepd_taxonomy.json` contains curated title-bound primary categories/tags. The generator also applies secondary subject matching for discovery. Original course names and historical codes remain intact except for deliberate display/editorial normalization.
+
+## Safety
+
+- The catalogue is read-only toward REDCap.
+- It never writes Project 75 or Project 79.
+- It never publishes raw registry exports or applicant-level information.
+- Missing source values remain missing; they are not invented.
+- `date_next_offered` is informational only and never overrides `public_catalogue`.
+
+Run tests with:
+
+```bash
+python -m unittest discover -s tests -p 'test_dcepd*.py'
+```
