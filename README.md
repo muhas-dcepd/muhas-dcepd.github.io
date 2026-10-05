@@ -8,6 +8,16 @@ This repository is the automation and public-publishing layer for the MUHAS Dire
 - `/dcepd-dashboard/`: aggregate Project 75 course/run metrics and Project 79 application summaries.
 - Historical workbook: dated snapshot under `dcepd-courses/downloads/`.
 
+## Documentation
+
+Use these documents together:
+
+- **This `README.md`** — system overview, boundaries, workflows, safety rules and the current closeout baseline.
+- **`automation/project75/TECHNICAL_USER_MANUAL.md`** — step-by-step operating manual for the technical administrator, including manual refresh, workflow triage, structural changes, secrets, recovery and routine checks.
+- **`automation/project75/HANDOFF.md`** — institutional continuity, locked rules, historical baselines, recovery references and transfer-of-custodianship context.
+
+For day-to-day technical operation, start with the **Technical User Manual**. For architectural or recovery decisions, also consult the **HANDOFF**.
+
 ## System boundaries
 
 **Project 75** is the authoritative short-course registry. It holds course identity, review/accreditation fields, Course Director contacts, vote code, course runs, public-catalogue state and Accreditation Publication Control (APC).
@@ -128,6 +138,8 @@ For a failed workflow:
 2. check whether the failure is technical or a REDCap/QC management exception;
 3. do not modify REDCap structure as a workaround;
 4. preserve the last verified state and rerun only after the cause is understood.
+
+For step-by-step technical procedures, use `automation/project75/TECHNICAL_USER_MANUAL.md`.
 
 ## Development
 
