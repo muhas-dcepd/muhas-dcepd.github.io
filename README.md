@@ -33,9 +33,10 @@ The scheduled/manual full refresh:
 5. rebuilds the public catalogue/dashboard and management outputs; and
 6. deploys GitHub Pages.
 
-Current structural baseline (4 October 2026):
+Current structural baseline (5 October 2026):
 
-- Project 75: **73 metadata fields**;
+- Project 75: **80 metadata fields**;
+- Project 75 forms: `course_registry`, repeating `course_run_log`, repeating `accreditation_publication_control`, and `public_catalogue_details`;
 - Project 79: **73 metadata fields**;
 - Project 79 forms: `short_course_application` and staff-only `participant_selection_certification`.
 
@@ -45,7 +46,7 @@ A failed full refresh stops downstream publication. The last successful deployme
 
 Workflow: `.github/workflows/watch-accreditation.yml`
 
-APC processes only explicit accreditation-letter requests entered in Project 75. Accreditation decisions, approval dates and approval references remain human-controlled. Historical valid reference numbers are never renumbered merely to remove gaps.
+APC processes only explicit accreditation-letter requests entered in Project 75. The substantive accreditation event is the SCEPD `accreditation_date`; once recorded, the verified refresh may establish the first accreditation date, generate the immutable course code, update accreditation/lifecycle status and determine catalogue eligibility. `approval_date` and `approval_reference` belong to the later letter/publication-control process and do not gate course-code generation. Historical valid reference numbers are never renumbered merely to remove gaps.
 
 ### Project 79 certificate listener
 
