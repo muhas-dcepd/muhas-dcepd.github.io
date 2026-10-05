@@ -10,7 +10,7 @@ on:
       - 'scripts/mark_accreditation_failure.py'
       - 'automation/project75-v2.2.13-patch/**'
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       resume_instance:
