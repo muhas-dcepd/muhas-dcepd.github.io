@@ -45,11 +45,16 @@ class CatalogueTests(unittest.TestCase):
             self.assertEqual(args['filterLogic'], "[public_catalogue] = '7'")
             self.assertNotIn('private_email', str(args))
 
+    def test_date_display_dmy(self):
+        self.assertEqual(m.display_date_dmy('2026-10-30'), '30-10-2026')
+        self.assertEqual(m.display_date_dmy('30-10-2026'), '30-10-2026')
+        self.assertEqual(m.display_date_dmy(''), '')
+
     def test_published_schema(self):
         data = json.loads((ROOT/'dcepd-courses/catalogue.json').read_text())
         self.assertEqual(data['count'], len(data['courses']))
         self.assertEqual(len({c['id'] for c in data['courses']}), data['count'])
-        allowed = {'id','title','source_title','code','school','department','fee_tzs','cpd_points','category','tags','apply_url'}
+        allowed = {'id','title','source_title','code','school','department','fee_tzs','cpd_points','summary','duration','delivery_mode','target_audience','learning_outcomes','certificate_awarded','date_next_offered','category','tags','apply_url'}
         for course in data['courses']:
             self.assertEqual(set(course), allowed)
             self.assertEqual(course['apply_url'], m.APPLY_URL)
