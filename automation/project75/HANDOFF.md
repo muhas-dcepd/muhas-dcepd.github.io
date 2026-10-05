@@ -10,11 +10,11 @@ The 2 October 2026 technical handoff remains the historical field-level and work
 Key updates since 2 October:
 
 - accreditation and certificate listeners now run nominally every **15 minutes**, not every five minutes;
-- the certificate workflow is now `.github/workflows/watch-certificates.yml` with `scripts/process_certificate_requests.py`; the older three-record pilot workflow/script is no longer the active implementation;
+- the certificate workflow is now `.github/workflows/watch-certificates.yml` with `scripts/process_certificate_requests.py`; the older three-record pilot workflow/script is no longer active, but the current backend is still deliberately limited to template `MUHAS_STD_01` and the configured run `DCEPD-SOP-173-2026_ARUSHA_20260928`, so it must not yet be described as a general all-course engine;
 - Project 75 now has **80 fields** across four approved instruments;
 - Project 79 now has **73 fields** across two approved instruments;
 - the verified public catalogue baseline is **86 courses** from **195** master courses;
-- Course Director Applicant Packs are now an established read-only workflow;
+- Course Director Applicant Packs are implemented as a read-only workflow with safe dry-run fallback; however, the repository delivery state still shows `bootstrap_complete=false`, so a completed live bootstrap/send is not yet evidenced;
 - the one-time suspect-fee cleanup is complete with **142/142** target records verified blank;
 - SCEPD `accreditation_date` is explicitly the substantive accreditation event for first-accreditation lineage, immutable code generation, accreditation/lifecycle status and catalogue eligibility;
 - `approval_date` and `approval_reference` remain downstream APC letter/publication-control fields.
@@ -85,7 +85,7 @@ Project 79 `record_id` remains the operational Application ID. Certificate runni
 
 ## Applicant counts
 
-Project 79 is read-only to the automation. Existing mapped application records are counted. Successful mapping with no applications gives 0. Failed export or unresolved used mapping never becomes a false zero. The timestamp changes only when the stored count changes.
+Project 79 is read-only to the **main Project 75 sync and public/reporting integrations**. Existing mapped application records are counted; successful mapping with no applications gives 0, while failed export or unresolved used mapping never becomes a false zero. `interested_applicants_updated_at` changes only when the stored count changes. The only current automated Project 79 write exception is the narrowly approved certificate backend: upload `certificate_file`, set generated/date fields and clear the generation request after success.
 
 
 ## Human judgement boundary
@@ -141,6 +141,7 @@ Current structural/operational baseline:
 - Project 79: **73 fields** across `short_course_application` and staff-only `participant_selection_certification`;
 - Project 75 master courses: **195**;
 - public catalogue after the 6 October verified refresh: **86 courses**;
+- aggregate public dashboard snapshot checked during pipeline review: **993 Project 79 application records**;
 - `public_catalogue` remains the sole public-visibility switch;
 - SCEPD `accreditation_date` is the substantive accreditation event and can generate the immutable course code; `approval_date` / `approval_reference` remain downstream APC letter-control fields;
 - accreditation and certificate listeners run nominally every **15 minutes**;
@@ -164,43 +165,80 @@ Historical reference point: the first successful GitHub-hosted LIVE proof was wo
 
 The warning baseline is mainly programme-management work rather than a technical failure: 97 courses were overdue for reaccreditation, one was due soon, and a small number of chronology/reviewer/accreditation-history items remained for review.
 
+### Current controlled-automation maturity
+
+- **APC:** active explicit-request transaction engine; verified refresh/letter package path exists.
+- **Certificates:** active listener but still a controlled single-run configuration, not a general all-course service.
+- **Applicant Packs:** workflow logic is implemented and now fails safe to dry-run when SMTP settings are incomplete. The checked state file remains `bootstrap_complete=false`; therefore do not claim that routine live emailing is already established.
+- **Management packet:** generated as an artifact on full refresh; automatic weekly email distribution is not present in the current repository.
+
+
 ## GitHub schedule and server-side sequence
 
-The workflow is `.github/workflows/update-dcepd.yml`.
+The main workflow is `.github/workflows/update-dcepd.yml`.
 
-Cron: `37 1 * * *` = 04:37 EAT daily.
+Daily cron: `37 1 * * *` = **04:37 EAT**.
 
-On scheduled or manual API-refresh runs the workflow:
+The trigger matters:
 
-1. sets up R and required system/R dependencies;
-2. reconstructs and checksum-verifies the V2.2.12 base runtime;
-3. applies the maintained V2.2.13 compatibility patch;
-4. runs the LIVE Project 75/79 refresh with GitHub secrets;
-5. uploads the full sync audit artifact;
-6. refreshes the public catalogue and dashboard;
-7. builds a management reporting packet;
-8. uploads that packet as a separate artifact;
-9. regenerates SEO/sitemap files;
+### Scheduled run or manual dispatch with `refresh_api=true`
+
+This is the **full verified REDCap refresh**. It:
+
+1. sets up R and required dependencies;
+2. reconstructs and checksum-verifies the V2.2.12 runtime;
+3. applies the V2.2.13 compatibility patch;
+4. runs the live verified Project 75/79 refresh;
+5. uploads `project75-sync-<run_id>`;
+6. rebuilds the catalogue and aggregate dashboard directly from the APIs;
+7. builds/uploads `dcepd-management-<run_id>`;
+8. runs tests and SEO/sitemap generation;
+9. commits approved generated public outputs when changed; and
 10. deploys GitHub Pages.
 
-Ordinary pushes to `main` do not run the REDCap R sync.
+### Push to `main`
 
-Required GitHub secrets:
+A normal push **does not run the R Project 75 sync**. It still:
+
+- sets up Python;
+- rebuilds the public catalogue/dashboard directly from the Project 75/79 APIs;
+- runs public-site tests and SEO generation;
+- commits generated public outputs if they changed; and
+- deploys Pages.
+
+This explains the automated “Refresh public DCEPD catalogue and activity dashboard” commits that can follow documentation/code commits.
+
+### Manual dispatch with `refresh_api=false`
+
+This skips both the R sync and the API catalogue/dashboard refresh and uses the current generated files for test/stage/deploy.
+
+### Listener workflows
+
+- Accreditation: `.github/workflows/watch-accreditation.yml` — every **15 minutes**; only heavy processing when a pending APC request exists.
+- Certificates: `.github/workflows/watch-certificates.yml` — every **15 minutes**; explicit certificate requests only; current backend remains single-run configured.
+- Applicant Packs: `.github/workflows/watch-project79-applicant-packs.yml` — **05:15 EAT daily**; read-only against REDCap; mail configuration is checked before live send and missing SMTP settings force safe dry-run.
+- One-time fee cleanup: retained for audit/controlled maintenance only; not part of routine operation.
+
+Recent checkout evidence on 6 October 2026 showed successful push-based public refresh/deploy runs after the documentation changes. The current generated public snapshot contains **195** registered courses, **86** listed courses and **993** Project 79 application records.
+
+Required GitHub secrets for the core refresh:
 
 - `REDCAP_PROJECT75_TOKEN`
 - `REDCAP_PROJECT79_TOKEN`
 
-Never put tokens in source, logs, documentation or public files.
+Email-enabled APC/Applicant-Pack functions additionally require the configured DCEPD email/SMTP secrets.
+
+Never put tokens/passwords in source, logs, documentation or public files.
 
 ## Management reporting
 
-DCEPD management should not need GitHub access.
+DCEPD management should not need GitHub access for ordinary REDCap work.
 
 The read-only reporting script is:
 
 `scripts/build_dcepd_management_packet.py`
 
-After a successful scheduled/manual refresh it creates:
+After a successful **scheduled/manual full API refresh** it creates:
 
 - `management_summary.json`
 - `management_summary.md`
@@ -213,20 +251,7 @@ These are uploaded as:
 
 with 90-day artifact retention.
 
-Routine management recipients are:
-
-- Prof. Raphael Sangeda — `sangeda@gmail.com`
-- Dr. Emmy Metta — `emetta2000@gmail.com`
-- Dr. David Myemba — `dmyemba09@gmail.com`
-- Erick Billy — `billyrique@gmail.com`
-
-Agreed distribution:
-
-- Prof. Sangeda, Dr. Emmy Metta and Dr. David Myemba as primary recipients;
-- Erick Billy copied for administrative follow-up;
-- technical GitHub/R/REDCap failures go to Prof. Sangeda only unless operational escalation is needed.
-
-A weekly management report is scheduled for Friday at 08:00 EAT. The report contains a management summary, action list and overdue-reaccreditation list.
+**Current pipeline reality:** there is no dedicated weekly management-email workflow in the repository. The earlier Friday 08:00 EAT recipient/distribution arrangement should therefore be treated as a historical/proposed operating plan, not as currently verified automation. If automatic management email distribution is required later, add it as a separate reviewed workflow and document its recipients, failure handling and audit trail.
 
 ## Files to inspect after a run
 
