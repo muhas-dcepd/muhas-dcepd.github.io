@@ -32,9 +32,9 @@ DCEPD_CONFIG <- list(
   record_import_batch_size = 20L,
   verify_each_record_batch = TRUE,
 
-  expected_project75_field_count = 73L,
+  expected_project75_field_count = 80L,
   expected_project79_field_count = 73L,
-  expected_project75_forms = c("course_registry", "course_run_log", "accreditation_publication_control"),
+  expected_project75_forms = c("course_registry", "course_run_log", "accreditation_publication_control", "public_catalogue_details"),
   expected_project79_forms = c("short_course_application", "participant_selection_certification"),
 
   output_dir = "output",
