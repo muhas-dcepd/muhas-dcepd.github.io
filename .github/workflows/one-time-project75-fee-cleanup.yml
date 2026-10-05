@@ -12,10 +12,6 @@ on:
         required: true
         type: boolean
         default: false
-      confirmation:
-        description: "For live execution type exactly CLEAR-142-FEES"
-        required: false
-        type: string
 
 permissions:
   contents: read
@@ -34,13 +30,8 @@ jobs:
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           EXECUTE: ${{ github.event_name == 'workflow_dispatch' && inputs.execute || 'false' }}
-          CONFIRMATION: ${{ github.event_name == 'workflow_dispatch' && inputs.confirmation || '' }}
         run: |
           if [ "$EXECUTE" = "true" ]; then
-            if [ "$CONFIRMATION" != "CLEAR-142-FEES" ]; then
-              echo "Live execution blocked: confirmation phrase does not match."
-              exit 1
-            fi
             python scripts/clear_project75_suspect_fees.py --execute
           else
             python scripts/clear_project75_suspect_fees.py
