@@ -71,7 +71,9 @@ As of 6 October 2026:
   - `short_course_application`
   - staff-only `participant_selection_certification`
 - Project 75 master courses: **195**;
-- public catalogue: **86 courses**.
+- public catalogue: **86 courses**;
+- aggregate dashboard Project 79 applications at the checked snapshot: **993**;
+- generated public snapshot source timestamp checked during pipeline review: **2026-10-05 22:52:42 UTC** (01:52:42 EAT on 6 October).
 
 A structural-guard failure means the live REDCap configuration no longer matches the approved automation baseline. **Do not work around the guard.** Review the REDCap structure first.
 
@@ -169,63 +171,145 @@ The REDCap Project 79 `record_id` remains the operational Application ID. Do not
 
 ## 6. Routine GitHub workflows
 
+The current repository has five GitHub Actions workflows. The technical user should distinguish the **full verified REDCap refresh** from the lighter **push/publication path**.
+
 ### 6.1 Full REDCap refresh and website deployment
 
 Workflow: `.github/workflows/update-dcepd.yml`
 
-Schedule: **04:37 EAT daily** (`37 1 * * *` UTC).
+Triggers:
 
-The scheduled full refresh:
+- daily schedule: **04:37 EAT** (`37 1 * * *` UTC);
+- manual dispatch with `refresh_api=true`;
+- pushes to `main`.
 
-1. validates/reconstructs the verified Project 75 runtime;
+Only the daily schedule and manual dispatch with `refresh_api=true` run the R Project 75/79 verified sync. That full path:
+
+1. reconstructs the checksum-verified V2.2.12 Project 75 runtime;
 2. applies the maintained V2.2.13 compatibility patch;
-3. exports and validates Projects 75 and 79;
-4. calculates proposed derived Project 75 state;
-5. blocks live writes when QC errors are present;
-6. imports approved Project 75 record changes in verified batches;
-7. verifies final Project 75 state;
-8. builds the public catalogue and dashboard;
-9. builds the management reporting packet;
-10. runs public-site tests and SEO generation;
-11. commits generated public outputs when changed; and
-12. deploys GitHub Pages.
+3. runs the live Project 75/79 refresh with structural guards;
+4. blocks live Project 75 writes on QC errors;
+5. writes only approved Project 75 derived record values in verified batches;
+6. uploads the `project75-sync-<run_id>` audit artifact;
+7. rebuilds the public catalogue and aggregate dashboard directly from the APIs;
+8. builds and uploads the management packet;
+9. runs the public-site test suite and SEO/sitemap generation;
+10. commits generated public outputs if changed; and
+11. deploys GitHub Pages.
 
-If the full refresh fails, downstream publication stops. The last successful deployment remains live.
+A push to `main` follows a different path: it **does not run the R sync** and does not build the Project 75 technical/management artifacts. It does, however, fetch the Project 75/79 APIs for the public catalogue/dashboard, run tests/SEO and deploy Pages. Documentation commits can therefore trigger a public refresh commit if generated files change.
+
+Manual dispatch with `refresh_api=false` skips both the R sync and the API catalogue/dashboard refresh; it uses the current generated files for the test/stage/deploy path.
+
+If the full verified API refresh fails, downstream full publication stops. Do not bypass the failed stage.
 
 ### 6.2 Accreditation Publication Control listener
 
-Workflow: `.github/workflows/watch-accreditation.yml`
-
+Workflow: `.github/workflows/watch-accreditation.yml`  
+Primary scripts: `process_accreditation_batch.py`, `repair_accreditation_references.py`, `mark_accreditation_failure.py`  
 Schedule: **every 15 minutes**.
 
-The listener processes only explicit pending APC requests in Project 75. It runs the normal verified Project 75 refresh before claiming a request, prepares the accreditation package, refreshes the catalogue/dashboard after successful processing and records workflow artifacts.
+The listener first performs a lightweight peek. Heavy R/APC processing runs only when a pending request exists.
 
-A failed APC request should be corrected before retrying. The manual workflow input `resume_instance` exists for an explicit controlled retry of one failed APC repeat instance.
+For a valid request the workflow:
+
+1. runs a normal verified Project 75 refresh;
+2. checks/repairs genuine duplicate approval references;
+3. claims the requested APC instance;
+4. writes the controlled approval reference/date transaction;
+5. runs verified Project 75 refresh again;
+6. finalizes accreditation DOCX letters and the register/ZIP package;
+7. uploads APC and technical audit artifacts;
+8. refreshes public outputs and management packet; and
+9. deploys the refreshed public site.
+
+The manual `resume_instance` input is for a deliberate retry of one known failed APC repeat instance, not for bypassing APC state.
 
 ### 6.3 Project 79 certificate listener
 
-Workflow: `.github/workflows/watch-certificates.yml`
-
+Workflow: `.github/workflows/watch-certificates.yml`  
+Generator: `scripts/process_certificate_requests.py`  
 Schedule: **every 15 minutes**.
 
-It checks explicit certificate-generation requests, applies eligibility rules and processes a limited number per run. The permitted write-back is restricted to certificate generation fields/file handling.
+Eligibility currently requires:
 
-**Generated does not mean issued.** Issuance remains a staff decision/action.
+- explicit `certificate_generation_requested=1`;
+- not already generated;
+- selected for batch;
+- participant role;
+- attendance verified;
+- certificate approved;
+- running certificate sequence present;
+- full visible certificate number present;
+- template ready;
+- template code `MUHAS_STD_01`.
+
+The current backend is still **run-configured and limited**, not a general all-course certificate engine. At this checkout it supports the configured batch:
+
+`DCEPD-SOP-173-2026_ARUSHA_20260928`
+
+The workflow processes at most **10** eligible records per cycle. Unsupported batches are skipped.
+
+The renderer obtains course title and Course Director from Project 75 and writes back only the approved certificate-generation fields/file to Project 79. It fetches the Government and MUHAS logo assets at render time, so external logo availability is a current technical dependency.
+
+After a successful PDF upload the backend:
+
+- sets `certificate_generated=1`;
+- writes `certificate_generated_date`; and
+- resets `certificate_generation_requested=0`.
+
+It does **not** mark the certificate issued. Reissue/cancellation remains manual until a formal controlled pathway is implemented.
 
 ### 6.4 Course Director Applicant Packs
 
-Workflow: `.github/workflows/watch-project79-applicant-packs.yml`
-
+Workflow: `.github/workflows/watch-project79-applicant-packs.yml`  
+Generator: `scripts/process_project79_applicant_packs.py`  
 Schedule: **05:15 EAT daily** (`15 2 * * *` UTC).
 
-The workflow is read-only against REDCap. It builds/sends Course Director packs and maintains delivery state in:
+This workflow is read-only against REDCap. It produces three sheets per course:
 
-`automation/applicant-pack-state.json`
+- `All Applicants`
+- `Selection Return`
+- `Cert-Graduands Return`
 
-Manual workflow dispatch defaults to **dry run = true**. Keep dry run enabled when testing configuration or QC. A live manual send should only be done deliberately after confirming recipients, SMTP configuration and expected pack content.
+Returned sheets are deliberately imported by an authorized Coordinator/Admin after saving the intended sheet as **CSV UTF-8 (Comma delimited)**.
 
-Returned Excel workbooks are **not auto-imported**. An authorized Coordinator/Admin must save the intended return sheet as **CSV UTF-8 (Comma delimited)** and deliberately import it into Project 79.
+Current send logic:
 
+1. bootstrap the historic applications for each course once;
+2. after bootstrap, send when 5 or more new current-FY applications exist;
+3. on Friday, catch up when 1–4 new current-FY applications exist.
+
+Recipient/contact QC uses Project 75 Course Director/contact metadata. Delivery state is stored in `automation/applicant-pack-state.json`.
+
+The workflow now validates mail configuration before any live send. If SMTP/email secrets are incomplete, it forces safe dry-run mode and does not advance state.
+
+**Current checkout status:** `bootstrap_complete=false` and no course state is persisted. A 5 October scheduled run failed because SMTP settings were incomplete. The workflow was subsequently patched to fall back safely to dry-run; later push-triggered checks succeeded. Treat Applicant Packs as implemented but **not yet live-bootstrap-proven** until a scheduled/live run successfully sends and persists state.
+
+### 6.5 One-time Project 75 suspect-fee cleanup
+
+Workflow: `.github/workflows/one-time-project75-fee-cleanup.yml`
+
+The workflow remains in the repository only as an auditable maintenance mechanism. Manual dispatch defaults to `execute=false`; execution requires explicit `execute=true`.
+
+The approved October intervention is complete: **142/142** targeted suspect fee values were verified blank. Do not reuse the retained workflow for a new cleanup without a new manifest, new preflight and explicit approval.
+
+### 6.6 Management reporting
+
+The full scheduled/manual API refresh runs `scripts/build_dcepd_management_packet.py` and uploads:
+
+`dcepd-management-<github_run_id>`
+
+for 90 days.
+
+The packet contains:
+
+- `management_summary.json`
+- `management_summary.md`
+- `action_list.csv`
+- `overdue_reaccreditation.csv`
+
+The current repository does **not** contain a separate weekly email/distribution workflow for this management packet. If management email distribution is required, implement and verify it as a distinct controlled workflow rather than assuming the historical Friday plan is active.
 
 ## 6.5 Human decisions versus automated transactions
 
@@ -559,7 +643,7 @@ When the system changes, update the document(s) whose operational contract actua
 
 ## 18. Relationship to the 2 October 2026 documents
 
-The 2 October 2026 user manual and technical handoff are the historical design/operational baseline for this documentation set. Their durable rules on REDCap ownership, human decision-making, certificate identity, APC controls, recovery and public/private separation remain incorporated here. Where they differ from the live repository, the **6 October 2026 repository state governs** — notably current workflow names, current polling schedules, expanded structural baselines, Applicant Packs, the production certificate listener and the completed fee cleanup.
+The 2 October 2026 user manual and technical handoff are the historical design/operational baseline for this documentation set. Their durable rules on REDCap ownership, human decision-making, certificate identity, APC controls, recovery and public/private separation remain incorporated here. Where they differ from the live repository, the **6 October 2026 repository state governs** — notably current workflow names, 15-minute listeners, expanded structural baselines, Applicant Packs, the current single-run certificate listener and the completed fee cleanup.
 
 The older end-user manual remains valuable for Directors, Coordinators and Administrators because it explains the day-to-day REDCap workflow without requiring GitHub knowledge. It is conceptually distinct from this technical administrator manual.
 
