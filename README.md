@@ -28,43 +28,42 @@ The public website is read-only. Applicant identities, contact fields, payment d
 
 ## GitHub Actions
 
-### Daily refresh and deployment
+### Pipeline checkout — 6 October 2026
 
-Workflow: `.github/workflows/update-dcepd.yml`
+The live repository currently contains five workflows:
 
-Nominal schedule: **04:37 EAT daily** (`01:37 UTC`). GitHub scheduler timing is approximate.
+| Workflow | Trigger / schedule | Operational role |
+|---|---|---|
+| `.github/workflows/update-dcepd.yml` | push to `main`; manual dispatch; daily at **04:37 EAT** | verified Project 75/79 refresh when API refresh is enabled; public catalogue/dashboard build; management artifact; tests/SEO; GitHub Pages deployment |
+| `.github/workflows/watch-accreditation.yml` | push to its maintained files; manual dispatch; **every 15 minutes** | explicit Project 75 APC accreditation-letter/reference transactions |
+| `.github/workflows/watch-certificates.yml` | push to its maintained files; manual dispatch; **every 15 minutes** | explicit Project 79 certificate-generation requests |
+| `.github/workflows/watch-project79-applicant-packs.yml` | push to its maintained files; manual dispatch; daily at **05:15 EAT** | read-only Course Director Applicant Packs; live email only when SMTP configuration is complete |
+| `.github/workflows/one-time-project75-fee-cleanup.yml` | manual / workflow-file push only | retained audit/maintenance workflow; **not routine operation** |
 
-The scheduled/manual full refresh:
+The full verified REDCap sync runs only on the daily schedule or on manual dispatch with `refresh_api=true`. It reconstructs the checksum-verified V2.2.12 runtime, applies the V2.2.13 compatibility patch, runs the live Project 75/79 verification pipeline, uploads the technical audit, rebuilds the public outputs, builds the management packet and deploys Pages.
 
-1. exports Project 75 and Project 79;
-2. checks the expected REDCap structure before any write;
-3. updates only approved derived Project 75 record fields;
-4. verifies writes;
-5. rebuilds the public catalogue/dashboard and management outputs; and
-6. deploys GitHub Pages.
+A normal push to `main` **does not run the R Project 75 sync**, but it does rebuild the public catalogue/dashboard directly from the Project 75/79 APIs, run public-site tests/SEO and deploy Pages. This is why documentation/code commits may be followed by an automated “Refresh public DCEPD catalogue and activity dashboard” commit when generated public files change.
 
-Current structural baseline (5 October 2026):
+A manual dispatch with `refresh_api=false` is effectively a publish/test path using the existing generated data; it does not perform the live REDCap refresh.
 
-- Project 75: **80 metadata fields**;
-- Project 75 forms: `course_registry`, repeating `course_run_log`, repeating `accreditation_publication_control`, and `public_catalogue_details`;
-- Project 79: **73 metadata fields**;
-- Project 79 forms: `short_course_application` and staff-only `participant_selection_certification`.
+Current generated public snapshot checked on 6 October 2026:
 
-A failed full refresh stops downstream publication. The last successful deployment remains live.
+- Project 75 registered master courses: **195**;
+- public catalogue courses: **86**;
+- Project 79 application records represented in the aggregate dashboard: **993**;
+- current generated source timestamp: **2026-10-05 22:52:42 UTC** (01:52:42 EAT on 6 October).
 
-Current closeout baseline (6 October 2026):
-
-- Project 75 master courses: **195**;
-- public catalogue: **86 courses** after the verified SCEPD-accreditation code-generation correction;
-- suspect placeholder fees cleared: **142/142 verified blank** in the approved TZS 380,000–450,000 cleanup set;
-- catalogue Subject filtering supports primary and secondary subject discovery while `public_catalogue` remains the sole publication-visibility flag.
+A failed full API refresh stops the downstream full publication path. The last successful deployment remains live.
 
 ### Accreditation Publication Control
 
 Workflow: `.github/workflows/watch-accreditation.yml`  
+Generator: `scripts/process_accreditation_batch.py`  
 Nominal schedule: **every 15 minutes**.
 
-APC processes only explicit accreditation-letter requests entered in Project 75. The substantive accreditation event is the SCEPD `accreditation_date`; once recorded, the verified refresh may establish the first accreditation date, generate the immutable course code, update accreditation/lifecycle status and determine catalogue eligibility. `approval_date` and `approval_reference` belong to the later letter/publication-control process and do not gate course-code generation. Historical valid reference numbers are never renumbered merely to remove gaps.
+APC processes only explicit accreditation-letter requests entered in Project 75. The listener first peeks for a pending request; the heavier R/APC steps run only when a request exists.
+
+The substantive accreditation event is the SCEPD `accreditation_date`. Once recorded, the verified refresh may establish the first accreditation date, generate the immutable course code, update accreditation/lifecycle status and determine catalogue eligibility. `approval_date` and `approval_reference` belong to the later APC letter/publication-control transaction and do not gate course-code generation. Historical valid references are preserved; gaps are not compacted merely to make numbering continuous.
 
 ### Project 79 certificate listener
 
@@ -72,28 +71,30 @@ Workflow: `.github/workflows/watch-certificates.yml`
 Generator: `scripts/process_certificate_requests.py`  
 Nominal schedule: **every 15 minutes**.
 
-The listener processes only records that satisfy the approved certificate eligibility checks and have an explicit generation request. Its permitted Project 79 write-back is narrowly limited to certificate generation: upload `certificate_file`, set generated/date fields and clear the generation request after success.
+The listener requires an explicit generation request plus approved participant/attendance/certificate fields. Its permitted Project 79 write-back is narrowly limited to uploading `certificate_file`, setting generated/date fields and clearing the generation request after success.
 
-Generated does not mean issued. Certificate issue remains a staff action.
+**Current scope remains controlled, not a general all-course certificate engine.** The script presently supports template `MUHAS_STD_01` and the configured run `DCEPD-SOP-173-2026_ARUSHA_20260928`. Requests from unsupported batches are skipped. The workflow limits one processing cycle to at most 10 eligible records.
 
-The older duplicate Project 79 certificate pilot workflow/script was removed on 4 October 2026.
+Generated does not mean issued. Certificate issue remains a staff action. The current renderer also depends on approved logo assets fetched at runtime; this dependency should be considered when productionising additional runs.
 
 ### Course Director Applicant Packs
 
 Workflow: `.github/workflows/watch-project79-applicant-packs.yml`  
-Generator: `scripts/process_project79_applicant_packs.py`
+Generator: `scripts/process_project79_applicant_packs.py`  
+Nominal schedule: **05:15 EAT daily**, after the daily refresh.
 
-Nominal schedule: **05:15 EAT**, after the daily refresh.
+The workflow is read-only against REDCap. It creates `All Applicants`, `Selection Return` and `Cert-Graduands Return` workbooks by course and uses the verified Project 75 Course Director/contact details for recipient QC.
 
-The workflow is read-only against REDCap. It:
+Delivery rules in the current script are:
 
-- loops only courses with Project 79 applications;
-- uses the verified Project 75 Course Director email as the primary recipient;
-- applies Course Director/contact QC before sending;
-- creates `All Applicants`, `Selection Return` and `Cert-Graduands Return` worksheets;
-- sends the first historic applicant pack per course, then full current-fiscal-year context;
-- sends after 5 new applications, with a Friday catch-up for 1-4 new applications;
-- stores per-course delivery state in `automation/applicant-pack-state.json`.
+- bootstrap historic applications once per course;
+- thereafter send when at least 5 current-fiscal-year applications are new;
+- on Friday, catch up when 1–4 current-fiscal-year applications are new;
+- keep delivery state in `automation/applicant-pack-state.json`.
+
+The workflow now checks SMTP/email secrets first. If email configuration is incomplete it falls back to **safe dry-run mode**, builds QC/output where possible and does not advance delivery state.
+
+At this pipeline checkout, `automation/applicant-pack-state.json` still has `bootstrap_complete: false` and no course delivery state. Therefore the workflow is implemented, but a completed live bootstrap/send is **not yet evidenced by the repository state**. A scheduled run on 5 October failed because SMTP settings were incomplete; the workflow was subsequently hardened to dry-run safely when mail settings are absent.
 
 Returned workbooks are not auto-imported. A Coordinator/Admin saves the intended return sheet as **CSV UTF-8 (Comma delimited)** and imports it deliberately into Project 79.
 
@@ -104,6 +105,19 @@ Payment fields remain distinct:
 - `fee_verified`: staff verification/check of fee/payment status.
 
 A GePG control number alone does not confirm payment.
+
+### Management reporting
+
+`scripts/build_dcepd_management_packet.py` runs after successful scheduled/manual full API refreshes and creates:
+
+- `management_summary.json`
+- `management_summary.md`
+- `action_list.csv`
+- `overdue_reaccreditation.csv`
+
+These are uploaded as `dcepd-management-<github_run_id>` with 90-day retention.
+
+There is **no separate weekly management-email workflow in the current repository**. Any earlier Friday-email distribution plan should be treated as a proposed/historical arrangement unless a dedicated workflow is added and verified.
 
 ## Closed one-time maintenance
 
