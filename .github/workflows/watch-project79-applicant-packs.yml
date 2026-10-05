@@ -39,6 +39,40 @@ jobs:
       - name: Install applicant-pack dependencies
         run: python -m pip install --disable-pip-version-check requests openpyxl
 
+      - name: Check Applicant Pack email configuration
+        id: mail
+        env:
+          DCEPD_EMAIL_1: ${{ secrets.DCEPD_EMAIL_1 }}
+          DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
+          DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
+          DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
+          DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
+          DCEPD_SMTP_PORT: ${{ secrets.DCEPD_SMTP_PORT }}
+          DCEPD_SMTP_USERNAME: ${{ secrets.DCEPD_SMTP_USERNAME }}
+          DCEPD_SMTP_PASSWORD: ${{ secrets.DCEPD_SMTP_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=0
+          for key in DCEPD_EMAIL_1 DCEPD_EMAIL_2 DCEPD_EMAIL_3 DCEPD_EMAIL_4 DCEPD_SMTP_HOST DCEPD_SMTP_USERNAME DCEPD_SMTP_PASSWORD; do
+            if [[ -z "${!key:-}" ]]; then
+              missing=1
+            fi
+          done
+          if [[ "$missing" == "0" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "Applicant Pack email configuration is available."
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Applicant Pack email configuration"
+              echo ""
+              echo "Email delivery is not configured in this repository. The workflow will run in safe dry-run mode, build the packs/QC artifact, and will not advance delivery state."
+              echo ""
+              echo "Required repository secrets: DCEPD_EMAIL_1..4, DCEPD_SMTP_HOST, DCEPD_SMTP_USERNAME, DCEPD_SMTP_PASSWORD (and DCEPD_SMTP_PORT if non-default)."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Build and send Course Director Applicant Packs
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
@@ -60,6 +94,8 @@ jobs:
             args+=(--dry-run)
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
             args+=(--dry-run)
+          elif [[ "${{ steps.mail.outputs.ready }}" != "true" ]]; then
+            args+=(--dry-run)
           fi
           python scripts/process_project79_applicant_packs.py "${args[@]}"
 
@@ -73,7 +109,7 @@ jobs:
           retention-days: 90
 
       - name: Save successful Applicant Pack state
-        if: success() && (github.event_name == 'schedule' || inputs.dry_run == false)
+        if: success() && steps.mail.outputs.ready == 'true' && (github.event_name == 'schedule' || inputs.dry_run == false)
         shell: bash
         run: |
           set -euo pipefail
