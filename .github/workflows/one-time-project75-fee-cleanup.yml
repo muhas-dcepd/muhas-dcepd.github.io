@@ -1,6 +1,10 @@
 name: One-time Project 75 suspect fee cleanup
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-time-project75-fee-cleanup.yml'
   workflow_dispatch:
     inputs:
       execute:
@@ -29,8 +33,8 @@ jobs:
       - name: Preflight or execute approved fee cleanup
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
-          EXECUTE: ${{ inputs.execute }}
-          CONFIRMATION: ${{ inputs.confirmation }}
+          EXECUTE: ${{ github.event_name == 'workflow_dispatch' && inputs.execute || 'false' }}
+          CONFIRMATION: ${{ github.event_name == 'workflow_dispatch' && inputs.confirmation || '' }}
         run: |
           if [ "$EXECUTE" = "true" ]; then
             if [ "$CONFIRMATION" != "CLEAR-142-FEES" ]; then
