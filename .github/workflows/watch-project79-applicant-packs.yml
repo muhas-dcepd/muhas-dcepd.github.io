@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/watch-project79-applicant-packs.yml'
       - 'scripts/process_project79_applicant_packs.py'
+      - 'automation/project79-course-crosswalk.csv'
       - 'automation/applicant-pack-state.json'
   schedule:
     - cron: '15 2 * * *'
