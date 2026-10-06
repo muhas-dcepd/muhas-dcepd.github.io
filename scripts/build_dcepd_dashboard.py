@@ -56,6 +56,25 @@ def number(s):
         return int(n) if n>=0 and n.is_integer() else None
     except ValueError:return None
 
+def resolve_course_code(selection,codes):
+    """Resolve a labelled Project 79 course choice to the Project 75 course code.
+
+    Project 79 choice IDs are independent identifiers. The labelled choice starts
+    with the authoritative Project 75 course code; never join on the choice ID.
+    """
+    selection=(selection or '').strip()
+    if not selection:return ''
+    direct=selection.split('|',1)[0].strip()
+    if direct in codes:return direct
+    hits=[
+        code for code in codes
+        if selection==code
+        or selection.startswith(code+' ')
+        or selection.startswith(code+'—')
+        or selection.startswith(code+' -')
+    ]
+    return hits[0] if len(hits)==1 else ''
+
 def build(r75,r79,stamp,source,asof):
     courses={}; codes=collections.defaultdict(list); qc=collections.Counter()
     for r in r75:
@@ -97,8 +116,9 @@ def build(r75,r79,stamp,source,asof):
         if not rid or rid in seen:raise ValueError('Missing or duplicate application record ID.')
         seen.add(rid)
         selection=r['applied_course_id'].strip()
-        # Resolve the code in the labelled lookup. Never equate Project 79 choice IDs with registry IDs.
-        code=selection.split('|',1)[0].strip()
+        # Resolve the course code from the labelled Project 79 choice.
+        # Never equate Project 79 choice IDs with Project 75 record IDs.
+        code=resolve_course_code(selection,codes)
         matches=codes.get(code,[])
         c=matches[0] if len(matches)==1 else None
         if not c:
