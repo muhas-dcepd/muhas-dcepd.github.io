@@ -28,6 +28,10 @@ class Reporting(unittest.TestCase):
   p,m=make([master()],[app(1),app(2,'1')]);self.assertEqual(m['quality']['unmatched_applications'],1);self.assertEqual(m['applications'][0]['course_id'],'1');self.assertIsNone(p['applications'][0]['applications'])
  def test_join_accepts_redcap_label_with_dash(self):
   p,m=make([master()],[app(1,'A/2026 — Course A')]);self.assertEqual(m['quality']['unmatched_applications'],0);self.assertEqual(m['applications'][0]['course_id'],'1')
+ def test_live_crosswalk_overrides_choice_identity(self):
+  b=master();b.update(record_id='2',course_name='Course B',course_code='B/2026')
+  p,m=build([master(),b],[app(1,'Choice B')],'2026-09-19T00:00:00+00:00','Test',date(2026,9,19),{'Choice B':'199'},{'199':'2'})
+  self.assertEqual(m['quality']['unmatched_applications'],0);self.assertEqual(m['applications'][0]['course_id'],'2')
  def test_small_cells_and_identifiers_absent(self):
   a=[app(i) for i in range(5)];a[0]['email']='private@example.test';p,m=make([master()],a)
   self.assertEqual(p['applications'][0]['applications'],5);self.assertNotIn('private@example.test',str(p));self.assertNotIn('record_id',str(p))
