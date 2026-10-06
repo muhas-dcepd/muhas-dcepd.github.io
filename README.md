@@ -50,8 +50,8 @@ Current generated public snapshot checked on 6 October 2026:
 
 - Project 75 registered master courses: **195**;
 - public catalogue courses: **86**;
-- Project 79 application records represented in the aggregate dashboard: **993**;
-- current generated source timestamp: **2026-10-05 22:52:42 UTC** (01:52:42 EAT on 6 October).
+- Project 79 application records in the latest full-refresh snapshot: **994**;
+- latest verified full-refresh source timestamp checked during this health review: **2026-10-06 08:07:01 UTC** (11:07:01 EAT).
 
 A failed full API refresh stops the downstream full publication path. The last successful deployment remains live.
 
@@ -92,9 +92,19 @@ Delivery rules in the current script are:
 - on Friday, catch up when 1–4 current-fiscal-year applications are new;
 - keep delivery state in `automation/applicant-pack-state.json`.
 
-The workflow now checks SMTP/email secrets first. If email configuration is incomplete it falls back to **safe dry-run mode**, builds QC/output where possible and does not advance delivery state.
+The workflow checks SMTP/email secrets first. If email configuration is incomplete it falls back to **safe dry-run mode**, builds QC/output where possible and does not advance delivery state.
 
-At this pipeline checkout, `automation/applicant-pack-state.json` still has `bootstrap_complete: false` and no course delivery state. Therefore the workflow is implemented, but a completed live bootstrap/send is **not yet evidenced by the repository state**. A scheduled run on 5 October failed because SMTP settings were incomplete; the workflow was subsequently hardened to dry-run safely when mail settings are absent.
+The first live bootstrap completed on **6 October 2026**, with **73 Applicant Packs** sent and delivery state persisted. During the subsequent health review, a mapping defect was identified: Project 79 choice IDs had been treated as if they were Project 75 record IDs. That assumption is now prohibited.
+
+The current mapping contract is:
+
+- `automation/project79-course-crosswalk.csv` is the repository copy of the verified Project 79 → Project 75 course crosswalk;
+- Applicant Packs resolve every `applied_course_id` through that crosswalk before choosing the Project 75 Course Director;
+- the public dashboard uses the same verified crosswalk;
+- the full scheduled/manual API refresh promotes the latest verified crosswalk from the Project 75 runtime archive back into the repository;
+- a Project 79 choice missing from the verified crosswalk fails closed/QC rather than being guessed from a numeric ID.
+
+Delivery state in `automation/applicant-pack-state.json` remains keyed by the **Project 79 choice ID**, so prior send history is preserved even when the corresponding Project 75 record ID is different.
 
 Returned workbooks are not auto-imported. A Coordinator/Admin saves the intended return sheet as **CSV UTF-8 (Comma delimited)** and imports it deliberately into Project 79.
 
@@ -132,6 +142,7 @@ The approved Project 75 suspect-fee cleanup was completed on 6 October 2026. The
 - Preserve historical course codes, accreditation references, Application IDs and certificate serials.
 - Public catalogue/dashboard code remains read-only toward Project 79.
 - Applicant-level packs are private and must only go to the verified Course Director and authorized DCEPD recipients.
+- Never assume a Project 79 dropdown choice ID equals a Project 75 record ID; all downstream joins must use the verified Project 79 → Project 75 crosswalk.
 
 ## Required secrets
 
