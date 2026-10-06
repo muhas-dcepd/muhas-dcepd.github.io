@@ -2,11 +2,11 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-06T08:07:01+00:00",
+    "source_at": "2026-10-06T17:47:33+00:00",
     "as_of": "2026-10-06",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 994,
+    "application_records": 998,
     "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
   },
   "courses": [
@@ -5252,14 +5252,14 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 52,
+      "applications": 56,
       "withheld": false
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 464
+      "applications": 466
     },
     {
       "location": "Dodoma",
@@ -5286,15 +5286,15 @@
       "applications": 25
     },
     {
+      "location": "Kilimanjaro",
+      "applications": 24
+    },
+    {
       "location": "Mwanza",
       "applications": 23
     },
     {
       "location": "Tanga",
-      "applications": 23
-    },
-    {
-      "location": "Kilimanjaro",
       "applications": 23
     },
     {
@@ -5326,11 +5326,11 @@
       "applications": 15
     },
     {
-      "location": "Geita",
-      "applications": 14
+      "location": "Unknown",
+      "applications": 15
     },
     {
-      "location": "Unknown",
+      "location": "Geita",
       "applications": 14
     },
     {
