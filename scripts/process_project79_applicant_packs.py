@@ -39,6 +39,7 @@ P79_TOKEN = os.environ["REDCAP_PROJECT79_TOKEN"]
 TZ = ZoneInfo("Africa/Dar_es_Salaam")
 
 STATE_PATH = Path(os.getenv("DCEPD_APPLICANT_PACK_STATE", "automation/applicant-pack-state.json"))
+CROSSWALK_PATH = Path(os.getenv("DCEPD_PROJECT79_CROSSWALK", "automation/project79-course-crosswalk.csv"))
 OUT_DIR = Path(os.getenv("DCEPD_APPLICANT_PACK_OUT", ".applicant-pack-output"))
 
 P75_FIELDS = [
@@ -112,36 +113,22 @@ def master_rows(rows: list[dict]) -> list[dict]:
     return [r for r in rows if not str(r.get("redcap_repeat_instrument", "")).strip()]
 
 
-def resolve_course_by_choice_label(
-    choice_value: str,
-    choice_labels: dict[str, str],
-    courses_by_code: dict[str, list[dict]],
-) -> tuple[dict | None, str]:
-    """Resolve a Project 79 choice to one Project 75 course by the code in its label.
-
-    Project 79 choice IDs are independent identifiers and must never be assumed
-    to equal Project 75 record IDs.
-    """
-    label = str(choice_labels.get(choice_value, "") or "").strip()
-    if not label:
-        return None, "Project 79 applied_course_id choice is missing from metadata."
-
-    matches: list[dict] = []
-    for code, courses in courses_by_code.items():
-        if (
-            label == code
-            or label.startswith(code + " ")
-            or label.startswith(code + "—")
-            or label.startswith(code + " -")
-        ):
-            matches.extend(courses)
-
-    if len(matches) == 1:
-        return matches[0], ""
-    if not matches:
-        return None, f"Project 79 choice label does not resolve to a Project 75 course code: {label}"
-    return None, f"Project 79 choice label resolves ambiguously to multiple Project 75 courses: {label}"
-
+def load_course_crosswalk() -> dict[str, str]:
+    if not CROSSWALK_PATH.exists():
+        raise RuntimeError(f"Verified Project 79 course crosswalk missing: {CROSSWALK_PATH}")
+    with CROSSWALK_PATH.open(encoding="utf-8-sig", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    required = {"p79_choice_value", "p75_record_id"}
+    if not rows or not required.issubset(rows[0]):
+        raise RuntimeError("Verified Project 79 course crosswalk has an invalid schema.")
+    out: dict[str, str] = {}
+    for row in rows:
+        choice = str(row.get("p79_choice_value", "")).strip()
+        record_id = str(row.get("p75_record_id", "")).strip()
+        if not choice or not record_id or choice in out:
+            raise RuntimeError("Verified Project 79 course crosswalk contains a missing or duplicate mapping.")
+        out[choice] = record_id
+    return out
 
 def parse_iso_date(value: str) -> date | None:
     value = str(value or "").strip()
@@ -394,14 +381,12 @@ def main() -> int:
     is_friday = today.weekday() == 4
 
     p75_metadata = export_metadata(P75_TOKEN)
-    p79_metadata = export_metadata(P79_TOKEN)
     p75_rows = master_rows(export_records(P75_TOKEN, P75_FIELDS))
     p79_rows = master_rows(export_records(P79_TOKEN, P79_FIELDS))
     director_labels = choice_map(p75_metadata, "course_director_id")
-    course_choice_labels = choice_map(p79_metadata, "applied_course_id")
+    course_crosswalk = load_course_crosswalk()
 
     courses: dict[str, dict] = {}
-    courses_by_code: dict[str, list[dict]] = defaultdict(list)
     email_directors: dict[str, set[str]] = defaultdict(set)
     for r in p75_rows:
         rid = str(r.get("record_id", "")).strip()
@@ -412,9 +397,6 @@ def main() -> int:
         course = dict(r)
         course["course_director_name"] = label
         courses[rid] = course
-        course_code = str(r.get("course_code", "")).strip()
-        if course_code:
-            courses_by_code[course_code].append(course)
         email = str(r.get("contact_email", "")).strip().lower()
         if email and code:
             email_directors[email].add(code)
@@ -433,18 +415,21 @@ def main() -> int:
 
     for choice_id in sorted(apps_by_course, key=lambda x: int(x) if x.isdigit() else x):
         all_apps = sorted(apps_by_course[choice_id], key=lambda r: (str(r.get("application_date", "")), str(r.get("record_id", ""))))
-        course, mapping_issue = resolve_course_by_choice_label(
-            choice_id, course_choice_labels, courses_by_code
-        )
+        course_id = str(course_crosswalk.get(choice_id, "")).strip()
+        course = courses.get(course_id)
         if not course:
+            issue = (
+                "Project 79 applied_course_id is not present in the verified crosswalk."
+                if not course_id
+                else f"Verified crosswalk points to missing Project 75 record {course_id}."
+            )
             qc.append({
                 "project79_choice_id": choice_id,
-                "course_record_id": "", "course_code": "", "course_name": "",
+                "course_record_id": course_id, "course_code": "", "course_name": "",
                 "course_director_id": "", "course_director_name": "", "contact_email": "",
-                "issue": mapping_issue,
+                "issue": issue,
             })
             continue
-        course_id = str(course.get("record_id", "")).strip()
 
         director_code = str(course.get("course_director_id", "")).strip()
         director_name = str(course.get("course_director_name", "")).strip()
