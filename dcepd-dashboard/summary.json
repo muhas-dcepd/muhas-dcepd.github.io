@@ -2,7 +2,7 @@
   "metadata": {
     "schema_version": 1,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-06T17:51:28+00:00",
+    "source_at": "2026-10-06T17:52:22+00:00",
     "as_of": "2026-10-06",
     "registered_courses": 195,
     "listed_courses": 86,
@@ -5230,7 +5230,7 @@
       "year": "2026",
       "fy": "2025/26",
       "quarter": "Q4",
-      "applications": 233,
+      "applications": 5,
       "withheld": false
     },
     {
@@ -5355,6 +5355,17 @@
       "withheld": false
     },
     {
+      "course_id": "138",
+      "course": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "applications": null,
+      "withheld": true
+    },
+    {
       "course_id": "91",
       "course": "MUHAS- Pharmacces Research Symposium",
       "school": "School of Nursing",
@@ -5421,6 +5432,17 @@
       "withheld": true
     },
     {
+      "course_id": "152",
+      "course": "IPC AND HOSPITAL CLEANLINESS",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "applications": null,
+      "withheld": true
+    },
+    {
       "course_id": "11",
       "course": "Proposal writing for post graduates shudents",
       "school": "Directorate of Library Services",
@@ -5441,6 +5463,17 @@
       "quarter": "Q4",
       "applications": null,
       "withheld": true
+    },
+    {
+      "course_id": "135",
+      "course": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "school": "School of Biomedical Sciences",
+      "department": "Radiology and Imaging",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "applications": 223,
+      "withheld": false
     },
     {
       "course_id": "167",
@@ -5465,10 +5498,10 @@
       "withheld": true
     },
     {
-      "course_id": "unmatched",
-      "course": "Unmatched / unselected course",
-      "school": "Unknown",
-      "department": "Unknown",
+      "course_id": "135",
+      "course": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "school": "School of Biomedical Sciences",
+      "department": "Radiology and Imaging",
       "year": "2026",
       "fy": "2025/26",
       "quarter": "Q3",
@@ -5524,6 +5557,17 @@
       "course": "FINANCING AND FINANCIAL MANAGEMENT IN HEALTH SUPPLY CHAIN",
       "school": "School of Pharmacy",
       "department": "Pharmaceutics and Pharmacy Practice",
+      "year": "2026",
+      "fy": "2025/26",
+      "quarter": "Q4",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "128",
+      "course": "Advanced Research Data Analysis",
+      "school": "Directorate of Library Services",
+      "department": "DLS",
       "year": "2026",
       "fy": "2025/26",
       "quarter": "Q4",
@@ -5703,7 +5747,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
-      "applications": 16,
+      "applications": 7,
       "withheld": false
     },
     {
@@ -5797,6 +5841,17 @@
     {
       "course_id": "145",
       "course": "MONITORING AND EVALUATION OF HEALTH INTERVENTIONS",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Development Studies",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "196",
+      "course": "Basic Research Methods For Primary Health Care",
       "school": "School of Public Health and Social Sciences",
       "department": "Development Studies",
       "year": "2026",
@@ -5905,6 +5960,28 @@
       "withheld": false
     },
     {
+      "course_id": "135",
+      "course": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "school": "School of Biomedical Sciences",
+      "department": "Radiology and Imaging",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "197",
+      "course": "Neonatology course for doctors",
+      "school": "School of Clinical Medicine",
+      "department": "Pediatric and Child Health",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
       "course_id": "201",
       "course": "BIOMEDICAL AND PHARMACEUTICAL SCIENCES BRIDGING COURSE FOR PHARMACY GRADUATES",
       "school": "School of Pharmacy",
@@ -6004,6 +6081,17 @@
       "withheld": true
     },
     {
+      "course_id": "153",
+      "course": "BASIC FIRST AID AND EMERGENCY RESPONSE FOR NON-HEALTH CARE PROFESSIONALS",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
       "course_id": "52",
       "course": "Advanced Emergence and Critical Care",
       "school": "School of Medicine",
@@ -6037,6 +6125,17 @@
       "withheld": true
     },
     {
+      "course_id": "151",
+      "course": "BASIC EMERGENCY OBSTETRIC AND NEWBORN CARE",
+      "school": "School of Nursing",
+      "department": "Clinical Nursing",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
       "course_id": "unmatched",
       "course": "Unmatched / unselected course",
       "school": "Unknown",
@@ -6063,6 +6162,17 @@
       "course": "CLIMATE CHANGE AND HEALTH",
       "school": "School of Public Health and Social Sciences",
       "department": "Environmental and Occupational Health",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "138",
+      "course": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q1",
@@ -6147,14 +6257,14 @@
       "withheld": true
     },
     {
-      "course_id": "unmatched",
-      "course": "Unmatched / unselected course",
-      "school": "Unknown",
-      "department": "Unknown",
+      "course_id": "138",
+      "course": "APPLICATIONS OF ARTIFICIAL INTELLIGENCE IN HEALTHCARE",
+      "school": "School of Biomedical Sciences",
+      "department": "Physiology",
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 8,
+      "applications": 6,
       "withheld": false
     },
     {
@@ -6173,6 +6283,17 @@
       "course": "HIV drug resistance testing",
       "school": "School of Medicine",
       "department": "Microbiology and Immunology",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "135",
+      "course": "OBSTETRIC POINT OF CARE ULTRASOUND (O-POCUS)",
+      "school": "School of Biomedical Sciences",
+      "department": "Radiology and Imaging",
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
@@ -6228,6 +6349,17 @@
       "course": "INTERMEDIATE LEVEL ECHOCARDIOGRAPHY",
       "school": "School of Clinical Medicine",
       "department": "Internal Medicine",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "applications": null,
+      "withheld": true
+    },
+    {
+      "course_id": "unmatched",
+      "course": "Unmatched / unselected course",
+      "school": "Unknown",
+      "department": "Unknown",
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
