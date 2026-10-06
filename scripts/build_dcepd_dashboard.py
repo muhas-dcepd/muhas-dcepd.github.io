@@ -7,6 +7,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 API = 'https://utafiti.muhas.ac.tz/api/'
+CROSSWALK_PATH = ROOT/'automation/project79-course-crosswalk.csv'
 F75 = ['record_id','course_name','course_code','course_department_code','course_school_code','public_catalogue','run_start_date','run_end_date','run_participants','run_department_code','run_school_code']
 F79 = ['record_id','applied_course_id','application_date','residence_region','country_of_residence']
 L75 = ['Record ID','Course name','Course code','Department','School / institute / directorate','Listed in public catalogue?','Run start date','Run end date','Number of participants','Run department','Run School code']
@@ -22,14 +23,42 @@ def request(token, content, params=None):
         raise ValueError('REDCap did not return a record list.')
     return data
 
-def fetch(project, fields):
+def fetch(project, fields, with_metadata=False):
     token=os.environ.get(f'REDCAP_PROJECT{project}_TOKEN','').strip()
     if not token: raise ValueError(f'Missing REDCAP_PROJECT{project}_TOKEN secret.')
-    md={m['field_name']:m for m in request(token,'metadata')}
+    md_list=request(token,'metadata')
+    md={m['field_name']:m for m in md_list}
     if not set(fields)<=md.keys():raise ValueError(f'Project {project} schema changed; required reporting fields missing.')
     params=dict(action='export',type='flat',rawOrLabel='label',rawOrLabelHeaders='raw',exportSurveyFields='false',exportDataAccessGroups='false')
     params.update({f'fields[{i}]':f for i,f in enumerate(fields)})
-    return request(token,'record',params)
+    records=request(token,'record',params)
+    return (records,md) if with_metadata else records
+
+def choice_label_to_value(md,field_name):
+    item=md.get(field_name,{})
+    raw=item.get('select_choices_or_calculations','') or ''
+    out={}
+    for part in raw.split('|'):
+        if ',' not in part:continue
+        value,label=part.split(',',1)
+        value=value.strip();label=label.strip()
+        if value and label:
+            if label in out: raise ValueError(f'Duplicate Project 79 choice label for {field_name}.')
+            out[label]=value
+    return out
+
+def load_crosswalk(path=CROSSWALK_PATH):
+    if not path.exists():raise ValueError(f'Verified Project 79 course crosswalk missing: {path}')
+    with path.open(encoding='utf-8-sig',newline='') as f:
+        rows=list(csv.DictReader(f))
+    if not rows or not {'p79_choice_value','p75_record_id'}<=set(rows[0]):
+        raise ValueError('Verified Project 79 course crosswalk has an invalid schema.')
+    out={}
+    for row in rows:
+        choice=(row.get('p79_choice_value') or '').strip();rid=(row.get('p75_record_id') or '').strip()
+        if not choice or not rid or choice in out:raise ValueError('Verified Project 79 course crosswalk contains a missing or duplicate mapping.')
+        out[choice]=rid
+    return out
 
 def seed(path, fields, labels):
     with path.open(encoding='utf-8-sig',newline='') as f:
@@ -75,7 +104,7 @@ def resolve_course_code(selection,codes):
     ]
     return hits[0] if len(hits)==1 else ''
 
-def build(r75,r79,stamp,source,asof):
+def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
     courses={}; codes=collections.defaultdict(list); qc=collections.Counter()
     for r in r75:
         if r.get('redcap_repeat_instrument'):continue
@@ -116,11 +145,16 @@ def build(r75,r79,stamp,source,asof):
         if not rid or rid in seen:raise ValueError('Missing or duplicate application record ID.')
         seen.add(rid)
         selection=r['applied_course_id'].strip()
-        # Resolve the course code from the labelled Project 79 choice.
-        # Never equate Project 79 choice IDs with Project 75 record IDs.
-        code=resolve_course_code(selection,codes)
-        matches=codes.get(code,[])
-        c=matches[0] if len(matches)==1 else None
+        # Live API reporting resolves through the same verified Project 79 -> Project 75
+        # crosswalk as the core sync. Seed/tests may fall back to labelled course-code matching.
+        if choice_by_label is not None and crosswalk is not None:
+            choice=choice_by_label.get(selection,'')
+            mapped_id=crosswalk.get(choice,'')
+            c=courses.get(mapped_id)
+        else:
+            code=resolve_course_code(selection,codes)
+            matches=codes.get(code,[])
+            c=matches[0] if len(matches)==1 else None
         if not c:
             unmatched+=1;unmatched_labels[selection or 'No course selected']+=1
         d=parsedate(r['application_date'])
@@ -167,8 +201,16 @@ def main():
     if args.seed75:
         if not args.source_at:p.error('Seed snapshots require --source-at.')
         r75=seed(args.seed75,F75,L75);r79=seed(args.seed79,F79,L79);source='Supplied Project 75 and Project 79 snapshots'
-    else:r75=fetch(75,F75);r79=fetch(79,F79);source='Project 75 and Project 79 APIs'
-    public,management=build(r75,r79,stamp,source,datetime.fromisoformat(stamp).date())
+    else:
+        r75=fetch(75,F75)
+        r79,md79=fetch(79,F79,with_metadata=True)
+        choice_by_label=choice_label_to_value(md79,'applied_course_id')
+        crosswalk=load_crosswalk()
+        source='Project 75 and Project 79 APIs'
+    if args.seed75:
+        public,management=build(r75,r79,stamp,source,datetime.fromisoformat(stamp).date())
+    else:
+        public,management=build(r75,r79,stamp,source,datetime.fromisoformat(stamp).date(),choice_by_label,crosswalk)
     out=ROOT/'dcepd-dashboard';out.mkdir(exist_ok=True)
     # All validation precedes writing; workflow publishes only after successful completion.
     (out/'summary.json').write_text(json.dumps(public,ensure_ascii=False,indent=2)+'\n')
