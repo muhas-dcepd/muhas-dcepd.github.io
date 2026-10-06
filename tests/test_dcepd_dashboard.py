@@ -26,6 +26,8 @@ class Reporting(unittest.TestCase):
   with self.assertRaises(ValueError):make([master(),run(1),run(1)])
  def test_join_uses_course_code_not_choice_id(self):
   p,m=make([master()],[app(1),app(2,'1')]);self.assertEqual(m['quality']['unmatched_applications'],1);self.assertEqual(m['applications'][0]['course_id'],'1');self.assertIsNone(p['applications'][0]['applications'])
+ def test_join_accepts_redcap_label_with_dash(self):
+  p,m=make([master()],[app(1,'A/2026 — Course A')]);self.assertEqual(m['quality']['unmatched_applications'],0);self.assertEqual(m['applications'][0]['course_id'],'1')
  def test_small_cells_and_identifiers_absent(self):
   a=[app(i) for i in range(5)];a[0]['email']='private@example.test';p,m=make([master()],a)
   self.assertEqual(p['applications'][0]['applications'],5);self.assertNotIn('private@example.test',str(p));self.assertNotIn('record_id',str(p))
