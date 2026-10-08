@@ -41,7 +41,7 @@ class CatalogueTests(unittest.TestCase):
             field_type='radio', select_choices_or_calculations='7, Yes | 8, No')
         with patch.dict('os.environ', {'REDCAP_PROJECT75_TOKEN': 'test-only'}), patch.object(m, 'api_export', side_effect=[metadata, [], []]) as api:
             self.assertEqual(m.fetch_records(), [])
-            args = api.call_args.args[2]
+            args = api.call_args_list[1].args[2]
             self.assertEqual(args['filterLogic'], "[public_catalogue] = '7'")
             self.assertNotIn('private_email', str(args))
 
