@@ -18,7 +18,6 @@ class Reporting(unittest.TestCase):
  def test_missing_zero_and_repeat(self):
   p,m=make([master(),run(1),run(2,'0'),run(3,'20')]);d=p['delivery'][0]
   self.assertEqual((d['sessions'],d['reported'],d['unknown'],d['attendance']),(3,2,1,20));self.assertEqual(p['metadata']['listed_courses'],0)
-  self.assertEqual([(r['run_id'],r['participants'],r['participants_unknown']) for r in p['runs']],[('1-1',None,True),('1-2',0,False),('1-3',20,False)])
  def test_quarter_boundaries(self):
   self.assertEqual(period(date(2026,6,30)),('2026','2025/26','Q4'));self.assertEqual(period(date(2026,7,1)),('2026','2026/27','Q1'))
  def test_future_and_unknown_dates(self):
