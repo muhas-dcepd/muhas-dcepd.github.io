@@ -39,7 +39,7 @@ class CatalogueTests(unittest.TestCase):
         metadata = [{'field_name': name, 'field_type': 'text'} for name in m.FIELDS]
         next(x for x in metadata if x['field_name'] == 'public_catalogue').update(
             field_type='radio', select_choices_or_calculations='7, Yes | 8, No')
-        with patch.dict('os.environ', {'REDCAP_PROJECT75_TOKEN': 'test-only'}), patch.object(m, 'api_export', side_effect=[metadata, []]) as api:
+        with patch.dict('os.environ', {'REDCAP_PROJECT75_TOKEN': 'test-only'}), patch.object(m, 'api_export', side_effect=[metadata, [], []]) as api:
             self.assertEqual(m.fetch_records(), [])
             args = api.call_args.args[2]
             self.assertEqual(args['filterLogic'], "[public_catalogue] = '7'")
