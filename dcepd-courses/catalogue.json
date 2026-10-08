@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-08T15:03:55+00:00",
-  "api_refreshed_at": "2026-10-08T15:03:55+00:00",
+  "source_at": "2026-10-08T15:28:02+00:00",
+  "api_refreshed_at": "2026-10-08T15:28:02+00:00",
   "count": 86,
   "courses": [
     {
@@ -20,7 +20,7 @@
       "target_audience": "The course is intended for biomedical engineers, biomedical engineering technicians, clinical engineers, medical equipment maintenance personnel, rehabilitation engineers, prosthetists and orthotists, healthcare professionals, university lecturers, researchers, innovators, makers, and students in engineering or health sciences. Professionals working in hospitals, research institutions, universities, innovation hubs, non-governmental organizations, and manufacturing industries with an interest in healthcare innovation are also encouraged to apply. Applicants should possess at least a Diploma or Bachelor's degree (or equivalent qualification) in Biomedical Engineering, Engineering, Health Sciences, or a related discipline.",
       "learning_outcomes": ". Upon successful completion of this course, participants will be able to: Explain the principles, applications, and benefits of 3D printing in healthcare. Design three-dimensional models for healthcare applications using Computer-Aided Design (CAD) software. Select appropriate printing materials and technologies for different medical applications. Set up, operate, calibrate, and perform routine maintenance of low-cost 3D printers. Apply iterative design and prototyping techniques to develop functional healthcare products. Design and manufacture replacement parts for biomedical equipment, clinical training simulators, and assistive devices using 3D printing. Evaluate the quality, functionality, and suitability of 3D-printed products for healthcare applications. Apply 3D printing technologies to address real-world healthcare challenges while supporting equipment maintenance, reducing downtime, and promoting sustainable local innovation.",
       "certificate_awarded": "Participants will be awarded a certificate upon successful completion of the course and achievement of a minimum score of 70% in the combined written and practical assessments",
-      "date_next_offered": "",
+      "date_next_offered": "23-11-2026",
       "category": "Other courses",
       "tags": [],
       "open_runs": [],
