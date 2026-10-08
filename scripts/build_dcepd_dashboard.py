@@ -29,7 +29,8 @@ def fetch(project, fields, with_metadata=False):
     if not token: raise ValueError(f'Missing REDCAP_PROJECT{project}_TOKEN secret.')
     md_list=request(token,'metadata')
     md={m['field_name']:m for m in md_list}
-    if not set(fields)<=md.keys():raise ValueError(f'Project {project} schema changed; required reporting fields missing.')
+    metadata_fields={f for f in fields if not f.endswith('_complete')}
+    if not metadata_fields<=md.keys():raise ValueError(f'Project {project} schema changed; required reporting fields missing.')
     params=dict(action='export',type='flat',rawOrLabel='label',rawOrLabelHeaders='raw',exportSurveyFields='false',exportDataAccessGroups='false')
     params.update({f'fields[{i}]':f for i,f in enumerate(fields)})
     records=request(token,'record',params)
