@@ -8,22 +8,28 @@ import os
 import re
 import sys
 import unicodedata
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode
 
 ROOT = Path(__file__).resolve().parents[1]
+CROSSWALK_PATH = ROOT / 'automation/project79-course-crosswalk.csv'
 APPLY_URL = 'https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W'
 API_URL = 'https://utafiti.muhas.ac.tz/api/'
 FIELDS = ['record_id', 'course_name', 'course_code', 'public_catalogue',
           'course_department_code', 'course_school_code', 'fee_per_person_tsh', 'cpd_points',
           'course_summary', 'course_duration', 'delivery_mode', 'target_audience',
-          'learning_outcomes', 'certificate_awarded', 'date_next_offered']
+          'learning_outcomes', 'certificate_awarded', 'date_next_offered',
+          'course_requires_cv', 'course_requires_certificate',
+          'run_start_date', 'run_end_date', 'run_application_open_date',
+          'run_application_close_date', 'run_status']
 LABELS = dict(zip(FIELDS, ['Record ID', 'Course name', 'Course code', 'Listed in public catalogue?',
     'Department', 'School / institute / directorate', 'Fee per person (TZS)', 'CPD points',
     'Course summary', 'Course duration', 'Delivery mode', 'Target audience / eligibility',
-    'Key learning outcomes', 'Certificate awarded', 'Next date offered']))
+    'Key learning outcomes', 'Certificate awarded', 'Next date offered',
+    'Require applicants to upload a CV?', 'Require applicants to upload an academic / professional certificate?',
+    'Run start date', 'Run end date', 'Application opening date', 'Application closing date', 'Run status']))
 
 # Subject filtering is intentionally broader than the single editorial primary category.
 # A course may therefore appear under more than one subject when its title/tags/catalogue text
@@ -130,13 +136,82 @@ def fetch_records():
     if not re.fullmatch(r'[A-Za-z0-9_]+', yes_code):
         raise ValueError('Unexpected catalogue choice code.')
     params = dict(action='export', type='flat', rawOrLabel='label', rawOrLabelHeaders='raw',
-                  exportSurveyFields='false', exportDataAccessGroups='false',
-                  filterLogic=f"[public_catalogue] = '{yes_code}'")
+                  exportSurveyFields='false', exportDataAccessGroups='false')
     params.update({f'fields[{i}]': f for i, f in enumerate(FIELDS)})
     records = api_export(token, 'record', params)
     return records
 
-def build(records, source, source_at, taxonomy):
+
+def parse_date(value):
+    value = str(value or '').strip()
+    if not value:
+        return None
+    for fmt in ('%Y-%m-%d', '%d-%m-%Y', '%d/%m/%Y', '%m/%d/%Y'):
+        try:
+            return datetime.strptime(value, fmt).date()
+        except ValueError:
+            pass
+    return None
+
+def load_choice_by_course(path=CROSSWALK_PATH):
+    """Return unambiguous Project 75 record -> Project 79 choice mappings."""
+    if not path.exists():
+        return {}
+    with path.open(encoding='utf-8-sig', newline='') as f:
+        rows = list(csv.DictReader(f))
+    if not rows or not {'p79_choice_value', 'p75_record_id'} <= set(rows[0]):
+        raise ValueError('Verified Project 79 course crosswalk has an invalid schema.')
+    grouped = {}
+    for row in rows:
+        choice = str(row.get('p79_choice_value', '')).strip()
+        rid = str(row.get('p75_record_id', '')).strip()
+        if not choice or not rid:
+            raise ValueError('Verified Project 79 course crosswalk contains a missing mapping.')
+        grouped.setdefault(rid, []).append(choice)
+    return {rid: choices[0] for rid, choices in grouped.items() if len(set(choices)) == 1}
+
+def yes_flag(value):
+    return '1' if str(value or '').strip().lower() in {'1', 'yes', 'true'} else '0'
+
+def run_is_open(run, as_of):
+    start = parse_date(run.get('run_start_date', ''))
+    opened = parse_date(run.get('run_application_open_date', ''))
+    closes = parse_date(run.get('run_application_close_date', ''))
+    status = str(run.get('run_status', '')).strip().lower()
+    return (
+        status in {'1', 'open for applications'}
+        and start is not None and start >= as_of
+        and (opened is None or opened <= as_of)
+        and (closes is None or closes >= as_of)
+    )
+
+def build_apply_url(choice, run_id, requires_cv, requires_certificate):
+    params = urlencode({
+        'applied_course_id': choice,
+        'applied_run_id': run_id,
+        'course_requires_cv': requires_cv,
+        'course_requires_certificate': requires_certificate,
+    })
+    return APPLY_URL + '&' + params
+
+def build(records, source, source_at, taxonomy, choice_by_course=None, as_of=None):
+    choice_by_course = choice_by_course or {}
+    if as_of is None:
+        as_of = parse_date(str(source_at)[:10]) or datetime.now(timezone.utc).date()
+
+    runs_by_course = {}
+    for row in records:
+        instrument = str(row.get('redcap_repeat_instrument', '')).strip()
+        if instrument not in {'course_run_log', 'Course Run Log'}:
+            continue
+        rid = str(row.get('record_id', '')).strip()
+        instance = str(row.get('redcap_repeat_instance', '')).strip()
+        if not rid or not instance:
+            continue
+        run = dict(row)
+        run['run_batch_id'] = f"{rid}-{instance}"
+        runs_by_course.setdefault(rid, []).append(run)
+
     courses, seen = [], set()
     for row in records:
         if row.get('redcap_repeat_instrument', '').strip():
@@ -153,7 +228,6 @@ def build(records, source, source_at, taxonomy):
         if not title:
             raise ValueError('A listed course has no title; correct the source record.')
         classification = taxonomy['courses'].get(rid, {})
-        # Overrides are bound to their source title so edits cannot retain stale categories.
         if classification.get('source_title') != title:
             classification = {}
         category = classification.get('category', 'Other courses')
@@ -162,6 +236,29 @@ def build(records, source, source_at, taxonomy):
         for rule in taxonomy['keyword_rules']:
             if re.search(rule['pattern'], norm_title):
                 tags.update(rule['tags'])
+
+        future_runs = []
+        open_runs = []
+        choice = str(choice_by_course.get(rid, '')).strip()
+        requires_cv = yes_flag(row.get('course_requires_cv', ''))
+        requires_certificate = yes_flag(row.get('course_requires_certificate', ''))
+        for run in runs_by_course.get(rid, []):
+            start = parse_date(run.get('run_start_date', ''))
+            status = str(run.get('run_status', '')).strip().lower()
+            if start is not None and start >= as_of and status not in {'4', '5', 'cancelled', 'postponed'}:
+                future_runs.append((start, run))
+            if choice and run_is_open(run, as_of):
+                open_runs.append(dict(
+                    run_id=run['run_batch_id'],
+                    start=display_date_dmy(run.get('run_start_date', '')),
+                    end=display_date_dmy(run.get('run_end_date', '')),
+                    application_close=display_date_dmy(run.get('run_application_close_date', '')),
+                    apply_url=build_apply_url(choice, run['run_batch_id'], requires_cv, requires_certificate),
+                ))
+        future_runs.sort(key=lambda x: x[0])
+        open_runs.sort(key=lambda x: parse_date(x['start']) or date.max)
+        next_date = display_date_dmy(future_runs[0][1].get('run_start_date', '')) if future_runs else ''
+
         courses.append(dict(id=rid, title=classification.get('display_title', title), source_title=title,
             code=row['course_code'].strip(), school=row['course_school_code'].strip(),
             department=row['course_department_code'].strip(), fee_tzs=row['fee_per_person_tsh'].strip(),
@@ -169,10 +266,11 @@ def build(records, source, source_at, taxonomy):
             duration=row['course_duration'].strip(), delivery_mode=row['delivery_mode'].strip(),
             target_audience=row['target_audience'].strip(), learning_outcomes=row['learning_outcomes'].strip(),
             certificate_awarded=row['certificate_awarded'].strip(),
-            date_next_offered=display_date_dmy(row['date_next_offered']),
-            category=category, tags=sorted(tags), apply_url=APPLY_URL))
+            date_next_offered=next_date,
+            category=category, tags=sorted(tags), open_runs=open_runs,
+            apply_url=open_runs[0]['apply_url'] if len(open_runs) == 1 else ''))
     courses.sort(key=lambda c: normalise(c['title']))
-    return dict(schema_version=1, source=source, source_at=source_at,
+    return dict(schema_version=2, source=source, source_at=source_at,
                 api_refreshed_at=source_at if source == 'Project 75 API' else None,
                 count=len(courses), courses=courses)
 
@@ -204,11 +302,19 @@ def render_card(c):
     subjects = '|'.join(subject_categories(c))
     summary = f'<p class="summary">{e(c["summary"])}</p>' if c['summary'] else ''
     coming = f'<p class="coming-soon"><strong>Coming soon:</strong> {e(c["date_next_offered"])}</p>' if c['date_next_offered'] else ''
+    if c['open_runs']:
+        buttons = []
+        for run in c['open_runs']:
+            label = f"Apply · {run['start']}" if len(c['open_runs']) > 1 else "Apply now"
+            buttons.append(f'<a class="apply" href="{e(run["apply_url"])}" aria-label="Apply: {e(c["title"])} · {e(run["start"])}">{e(label)} <span aria-hidden="true">↗</span></a>')
+        actions = '<div class="card-actions">' + ''.join(buttons) + '<span>Open intake</span></div>'
+    else:
+        actions = '<div class="card-actions"><span class="apply" aria-disabled="true">Apply not open</span><span>Applications open after a future run is scheduled and opened in DCEPD.</span></div>'
     return f'''<article class="course" id="course-{e(c['id'])}" data-category="{e(c['category'])}" data-subjects="{e(subjects)}" data-school="{e(c['school'])}" data-search="{e(search)}">
     <p class="category">{e(c['category'])}</p><h3><a href="{detail_url}">{e(c['title'])}</a></h3>
     <p class="unit">{e(c['school'] or 'MUHAS')}</p>{coming}{summary}<div class="tags">{tags}</div>
     <details><summary>Course details</summary><dl>{details}</dl><p class="fine">Confirm the current fee, intake dates and CPD recognition before making arrangements.</p></details>
-    <div class="card-actions"><a class="apply" href="{APPLY_URL}" aria-label="Apply: {e(c['title'])}">Apply <span aria-hidden="true">↗</span></a><span>Select this course in the form</span></div></article>'''
+    {actions}</article>'''
 
 def save(data):
     out = ROOT / 'dcepd-courses'
@@ -239,13 +345,13 @@ def main():
         if not args.source_at:
             parser.error('--source-at is required with --seed-csv')
         with args.seed_csv.open(encoding='utf-8-sig', newline='') as f:
-            records = [{**{k: r[v] for k, v in LABELS.items()}, 'redcap_repeat_instrument': r['Repeat Instrument']} for r in csv.DictReader(f)]
+            records = [{**{k: r.get(v, '') for k, v in LABELS.items()}, 'redcap_repeat_instrument': r.get('Repeat Instrument', ''), 'redcap_repeat_instance': r.get('Repeat Instance', '')} for r in csv.DictReader(f)]
         source, stamp = 'Supplied Project 75 export', args.source_at
     else:
         records = fetch_records()
         source, stamp = 'Project 75 API', datetime.now(timezone.utc).isoformat(timespec='seconds')
     taxonomy = json.loads((ROOT/'scripts/dcepd_taxonomy.json').read_text())
-    data = build(records, source, stamp, taxonomy)
+    data = build(records, source, stamp, taxonomy, choice_by_course=load_choice_by_course())
     save(data)
     from build_site_seo import optimise_site
     optimise_site()

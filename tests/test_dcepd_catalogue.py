@@ -33,7 +33,7 @@ class CatalogueTests(unittest.TestCase):
         card = m.render_card(self.build([self.row()])['courses'][0])
         self.assertIn('&lt;course&gt;', card)
         self.assertNotIn('<course>', card)
-        self.assertIn(m.APPLY_URL, card)
+        self.assertIn('Apply not open', card)
 
     def test_metadata_verifies_yes_code(self):
         metadata = [{'field_name': name, 'field_type': 'text'} for name in m.FIELDS]
@@ -56,13 +56,39 @@ class CatalogueTests(unittest.TestCase):
         self.assertEqual(m.display_date_dmy('30-10-2026'), '30-10-2026')
         self.assertEqual(m.display_date_dmy(''), '')
 
+    def test_open_run_builds_prefilled_application_link(self):
+        master = self.row()
+        master.update(course_requires_cv='Yes', course_requires_certificate='No')
+        run = self.row('1', 'Yes', 'course_run_log')
+        run.update(redcap_repeat_instance='2', run_start_date='20-10-2026',
+                   run_application_open_date='2026-10-01', run_application_close_date='2026-10-19',
+                   run_status='Open for applications')
+        data = m.build([master, run], 'test', '2026-10-08', {'courses': {}, 'keyword_rules': []},
+                       choice_by_course={'1':'77'})
+        course = data['courses'][0]
+        self.assertEqual(course['date_next_offered'], '20-10-2026')
+        self.assertEqual(course['open_runs'][0]['run_id'], '1-2')
+        self.assertIn('applied_course_id=77', course['open_runs'][0]['apply_url'])
+        self.assertIn('applied_run_id=1-2', course['open_runs'][0]['apply_url'])
+        self.assertIn('course_requires_cv=1', course['open_runs'][0]['apply_url'])
+
+    def test_future_run_not_open_has_no_apply_link(self):
+        master = self.row()
+        run = self.row('1', 'Yes', 'course_run_log')
+        run.update(redcap_repeat_instance='1', run_start_date='20-10-2026', run_status='Draft')
+        course = m.build([master, run], 'test', '2026-10-08', {'courses': {}, 'keyword_rules': []},
+                         choice_by_course={'1':'77'})['courses'][0]
+        self.assertEqual(course['date_next_offered'], '20-10-2026')
+        self.assertEqual(course['open_runs'], [])
+        self.assertEqual(course['apply_url'], '')
+
     def test_published_schema(self):
         data = json.loads((ROOT/'dcepd-courses/catalogue.json').read_text())
         self.assertEqual(data['count'], len(data['courses']))
         self.assertEqual(len({c['id'] for c in data['courses']}), data['count'])
-        allowed = {'id','title','source_title','code','school','department','fee_tzs','cpd_points','summary','duration','delivery_mode','target_audience','learning_outcomes','certificate_awarded','date_next_offered','category','tags','apply_url'}
+        allowed = {'id','title','source_title','code','school','department','fee_tzs','cpd_points','summary','duration','delivery_mode','target_audience','learning_outcomes','certificate_awarded','date_next_offered','category','tags','open_runs','apply_url'}
         for course in data['courses']:
             self.assertEqual(set(course), allowed)
-            self.assertEqual(course['apply_url'], m.APPLY_URL)
+            self.assertTrue(course['apply_url'] == '' or course['apply_url'].startswith(m.APPLY_URL))
 
 if __name__ == '__main__': unittest.main()

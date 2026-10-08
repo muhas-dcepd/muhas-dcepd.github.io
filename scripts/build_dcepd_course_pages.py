@@ -68,11 +68,15 @@ def render(course):
     schema = {k: v for k, v in schema.items() if v not in (None, "", [])}
 
     tag_html = "".join(f"<span class='tag'>{e(t)}</span>" for t in tags)
-    apply_html = (
-        f"<a class='apply' href='{e(apply_url)}'>Apply through the official DCEPD form ↗</a>"
-        if apply_url else
-        "<p>Application link is not currently recorded.</p>"
-    )
+    open_runs = course.get("open_runs", [])
+    if open_runs:
+        links = []
+        for run in open_runs:
+            label = f"Apply for run starting {run.get('start','')}" if len(open_runs) > 1 else "Apply through the official DCEPD form"
+            links.append(f"<a class='apply' href='{e(run.get('apply_url'))}'>{e(label)} ↗</a>")
+        apply_html = "".join(links)
+    else:
+        apply_html = "<p><strong>Applications are not currently open.</strong> A future delivery run must be scheduled and opened by DCEPD before applications can be submitted.</p>"
 
     return f"""<!doctype html>
 <html lang="en"><head>

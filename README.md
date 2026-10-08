@@ -18,6 +18,19 @@ Use these documents together:
 
 For day-to-day technical operation, start with the **Technical User Manual**. For architectural or recovery decisions, also consult the **HANDOFF**.
 
+## Design Lock V1 — run-based public applications
+
+From 8 October 2026, the public application architecture is run-aware:
+
+- Project 75 remains the permanent course master; its `record_id` is never reused.
+- Each delivery is identified by `record_id-redcap_repeat_instance` (for example `203-1`).
+- The Course Run Log is the delivery almanac. A catalogue Apply button is generated only when a future run is explicitly **Open for applications** and its application window is active.
+- The catalogue deep-link supplies the verified Project 79 course choice, `applied_run_id`, and course-level CV/certificate requirement flags. Project 79 choice values are never assumed to equal Project 75 record IDs.
+- Courses without an open run remain visible but show that applications are not open.
+- The general Project 79 survey URL remains a gateway: without run context it shows the catalogue-entry notice and links visitors back to the catalogue.
+- `date_next_offered` displayed publicly is derived from the earliest eligible future run start date rather than treated as a manually curated catalogue date.
+- Project 79 course choices remain a reviewed metadata control: new approvals and renamed course labels are QC items, not silent metadata writes.
+
 ## System boundaries
 
 **Project 75** is the authoritative short-course registry. It holds course identity, review/accreditation fields, Course Director contacts, vote code, course runs, public-catalogue state and Accreditation Publication Control (APC).
