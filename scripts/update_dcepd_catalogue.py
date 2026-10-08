@@ -227,8 +227,8 @@ def build(records, source, source_at, taxonomy, choice_by_course=None, as_of=Non
             continue
         if row.get('public_catalogue', '').strip().lower() != 'yes':
             continue
-        if not set(FIELDS).issubset(row):
-            raise ValueError('Incomplete catalogue record schema.')
+        if not set(MASTER_FIELDS).issubset(row):
+            raise ValueError('Incomplete catalogue master record schema.')
         rid = row['record_id'].strip()
         if not rid or rid in seen:
             raise ValueError('Missing or duplicate master-course ID.')
