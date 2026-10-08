@@ -2,7 +2,7 @@
 
 **System:** MUHAS DCEPD Short-Course Registry, Applications, Catalogue and Automation  
 **Repository:** `muhas-dcepd/muhas-dcepd.github.io`  
-**Operational baseline:** 6 October 2026  
+**Operational baseline:** 8 October 2026  
 **Audience:** DCEPD technical administrator / system custodian
 
 ## 1. Purpose
@@ -58,24 +58,32 @@ The technical user must preserve the following rules.
 
 ## 4. Current verified structural baseline
 
-As of 6 October 2026:
+As of 8 October 2026, the approved operational structure is the live Project 75/79 structure used by the green run-aware catalogue/dashboard build. Historical static field counts in earlier notes must not be used as the change-control authority because both projects evolved during Design Lock closure.
 
-- Project 75: **80 fields**;
-- Project 75 instruments:
-  - `course_registry`
-  - repeating `course_run_log`
-  - repeating `accreditation_publication_control`
-  - `public_catalogue_details`
-- Project 79: **73 fields**;
-- Project 79 instruments:
-  - `short_course_application`
-  - staff-only `participant_selection_certification`
+Project 75 retains:
+- `course_registry`;
+- repeating `course_run_log`;
+- repeating `accreditation_publication_control`;
+- `public_catalogue_details`.
+
+Project 79 retains:
+- `short_course_application`;
+- staff-only `participant_selection_certification`;
+- run-aware application context including `applied_run_id` and the course-level document requirement flags;
+- the generic-entry catalogue notice and required `catalogue_entry_guard` Stop Action.
+
+Verified operational snapshot:
 - Project 75 master courses: **195**;
 - public catalogue: **86 courses**;
-- aggregate dashboard Project 79 applications at the checked snapshot: **993**;
-- generated public snapshot source timestamp checked during pipeline review: **2026-10-05 22:52:42 UTC** (01:52:42 EAT on 6 October).
+- Course Run Log instances read: **320**;
+- Project 79: **993 valid operational applications from 1,012 attempt records**;
+- public catalogue source timestamp: **2026-10-08 15:03:55 UTC**.
 
-A structural-guard failure means the live REDCap configuration no longer matches the approved automation baseline. **Do not work around the guard.** Review the REDCap structure first.
+The generic Project 79 survey route must remain fail-closed. Without run context, it must direct the user back to the catalogue and must not present a generic entry as a successfully received course application. The survey completion message is deliberately neutral; the application-received email remains the transactional confirmation for a valid submission.
+
+During legacy run cleanup, `run_participants` may be temporarily editable so known historical participant counts can be entered. Unknown values remain blank, never forced to zero. When the legacy cleanup is closed, restore the approved read-only/derived control so future participant totals come from verified attendance.
+
+A structural-guard failure means the live REDCap configuration no longer matches the approved automation contract. **Do not work around the guard.** Review the REDCap structure and the documented contract first.
 
 ## 5. Important accreditation rules
 
@@ -284,7 +292,7 @@ Recipient/contact QC uses Project 75 Course Director/contact metadata. Delivery 
 
 The workflow now validates mail configuration before any live send. If SMTP/email secrets are incomplete, it forces safe dry-run mode and does not advance state.
 
-**Current checkout status:** `bootstrap_complete=false` and no course state is persisted. A 5 October scheduled run failed because SMTP settings were incomplete. The workflow was subsequently patched to fall back safely to dry-run; later push-triggered checks succeeded. Treat Applicant Packs as implemented but **not yet live-bootstrap-proven** until a scheduled/live run successfully sends and persists state.
+**Current checkout status:** the first live bootstrap completed on 6 October 2026 with **73 Applicant Packs** sent and delivery state persisted. A subsequent mapping defect showed why Project 79 choice IDs must never be treated as Project 75 record IDs. The verified crosswalk is now mandatory for recipient/course resolution, and unresolved mappings fail closed/QC.
 
 ### 6.5 One-time Project 75 suspect-fee cleanup
 
@@ -649,14 +657,15 @@ The older end-user manual remains valuable for Directors, Coordinators and Admin
 
 ## 19. Closeout status
 
-The core system is now in **routine operations / handover phase**.
+The core system is now in **routine operations / handover phase** under the 8 October 2026 Design Lock V1 closeout.
 
-Future work should be classified as one of:
+The run-aware catalogue/dashboard pipeline has passed a successful push-based build and deployment. Courses remain visible when closed; application buttons are run-specific and appear only for eligible open runs. Project 79 generic entry fails closed through the catalogue notice plus required Stop Action guard.
 
-- routine data administration;
-- operational incident/fix;
-- approved structural change;
-- approved feature enhancement; or
-- recovery exercise.
+Remaining work is operational rather than architectural:
+- review Project 79 course-choice QC items and make approved manual metadata changes where required;
+- continue ordinary course/run administration;
+- finish legacy run participant backfill, then restore the approved read-only/derived participant control;
+- maintain certificate expansion as a separately approved enhancement rather than assuming the current controlled listener is universal;
+- preserve recovery material and structural-change discipline.
 
-Do not treat ordinary maintenance as a reason to redesign the core Project 75/79 architecture.
+Future work should be classified as routine data administration, operational incident/fix, approved structural change, approved feature enhancement, or recovery exercise. Do not reopen the core Project 75/79 architecture for ordinary maintenance.

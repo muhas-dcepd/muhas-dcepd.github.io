@@ -11,10 +11,10 @@ Key updates since 2 October:
 
 - accreditation and certificate listeners now run nominally every **15 minutes**, not every five minutes;
 - the certificate workflow is now `.github/workflows/watch-certificates.yml` with `scripts/process_certificate_requests.py`; the older three-record pilot workflow/script is no longer active, but the current backend is still deliberately limited to template `MUHAS_STD_01` and the configured run `DCEPD-SOP-173-2026_ARUSHA_20260928`, so it must not yet be described as a general all-course engine;
-- Project 75 now has **80 fields** across four approved instruments;
-- Project 79 now has **73 fields** across two approved instruments;
+- Project 75 retains the approved four-instrument architecture; the live approved dictionary is the structural authority rather than the older static field-count note;
+- Project 79 retains the application plus staff-only certification architecture and now includes the run-aware application context and generic-entry guard introduced at Design Lock closeout;
 - the verified public catalogue baseline is **86 courses** from **195** master courses;
-- Course Director Applicant Packs are implemented as a read-only workflow with safe dry-run fallback; however, the repository delivery state still shows `bootstrap_complete=false`, so a completed live bootstrap/send is not yet evidenced;
+- Course Director Applicant Packs are implemented as a read-only workflow with safe dry-run fallback; the first live bootstrap completed on 6 October 2026 with **73 packs sent**, after which the Project 79→Project 75 crosswalk rule was tightened to prevent numeric-ID misrouting;
 - the one-time suspect-fee cleanup is complete with **142/142** target records verified blank;
 - SCEPD `accreditation_date` is explicitly the substantive accreditation event for first-accreditation lineage, immutable code generation, accreditation/lifecycle status and catalogue eligibility;
 - `approval_date` and `approval_reference` remain downstream APC letter/publication-control fields.
@@ -131,21 +131,25 @@ Automation may execute an explicit approved transaction; it must not create the 
 Stop the run; do not manually force later stages. A new run always begins with a fresh export and will propose only what remains incorrect. For structural loss, restore the correct dictionary first and check whether stored data reappear before importing any record backup.
 
 
-## Operational status — 6 October 2026
+## Operational status — 8 October 2026
 
 The automation is in routine operational monitoring and the October closeout baseline has been verified.
 
 Current structural/operational baseline:
 
-- Project 75: **80 fields** across `course_registry`, repeating `course_run_log`, repeating `accreditation_publication_control`, and `public_catalogue_details`;
-- Project 79: **73 fields** across `short_course_application` and staff-only `participant_selection_certification`;
+- Project 75 remains the authoritative course registry with repeating Course Run Log and APC controls;
+- Project 79 remains the application/participant workflow with run-aware application context and staff-only certification controls;
 - Project 75 master courses: **195**;
-- public catalogue after the 6 October verified refresh: **86 courses**;
-- aggregate public dashboard snapshot checked during pipeline review: **993 Project 79 application records**;
+- public catalogue: **86 courses**;
+- dashboard refresh read **320 Course Run Log instances**;
+- Project 79: **993 valid operational applications from 1,012 attempt records** at the 8 October closeout refresh;
 - `public_catalogue` remains the sole public-visibility switch;
-- SCEPD `accreditation_date` is the substantive accreditation event and can generate the immutable course code; `approval_date` / `approval_reference` remain downstream APC letter-control fields;
+- catalogue application availability is run-specific: listing a course does not open applications;
+- generic Project 79 entry fails closed through the catalogue notice and required `catalogue_entry_guard` Stop Action; the completion text is neutral;
+- SCEPD `accreditation_date` remains the substantive accreditation event and can generate the immutable course code; `approval_date` / `approval_reference` remain downstream APC letter-control fields;
 - accreditation and certificate listeners run nominally every **15 minutes**;
-- the approved one-time suspect-fee cleanup completed successfully with **142/142** records verified blank.
+- the approved one-time suspect-fee cleanup completed successfully with **142/142** records verified blank;
+- `run_participants` is temporarily editable only while legacy run counts are being completed; blank remains unknown, and the read-only/derived control is to be restored after legacy cleanup.
 
 Historical reference point: the first successful GitHub-hosted LIVE proof was workflow run #21 (26 September 2026, 06:44 EAT):
 
@@ -169,7 +173,7 @@ The warning baseline is mainly programme-management work rather than a technical
 
 - **APC:** active explicit-request transaction engine; verified refresh/letter package path exists.
 - **Certificates:** active listener but still a controlled single-run configuration, not a general all-course service.
-- **Applicant Packs:** workflow logic is implemented and now fails safe to dry-run when SMTP settings are incomplete. The checked state file remains `bootstrap_complete=false`; therefore do not claim that routine live emailing is already established.
+- **Applicant Packs:** the first live bootstrap completed with **73 packs sent**. The workflow now uses the verified Project 79→Project 75 crosswalk and must fail closed/QC on unresolved mappings. Daily-on-change/run-aware operation remains the governing rule.
 - **Management packet:** generated as an artifact on full refresh; automatic weekly email distribution is not present in the current repository.
 
 
@@ -281,3 +285,19 @@ Keep the emergency recovery packages outside the public repository:
 A clean pre-GitHub local verified baseline exists at `archive/verified/20260926_000640`. The first successful GitHub-hosted verified archive is `archive/verified/20260926_064450`.
 
 If structural loss is suspected, stop automation, restore the correct dictionary first, verify that stored record data reappear, and only then consider any record restore. Metadata API import remains prohibited.
+
+
+## Design Lock V1 closeout — 8 October 2026
+
+The core redesign is closed. The public catalogue and dashboard build successfully under the run-aware architecture.
+
+At closeout:
+- a listed course does not imply an open application;
+- Apply links are tied to an eligible future Course Run Log instance and carry the verified Project 79 choice plus `applied_run_id`;
+- the generic survey route is a gateway only and fails closed;
+- the application completion message is neutral, while valid transactional confirmation is handled separately;
+- Project 79 course-choice changes remain manual metadata administration supported by QC, never silent API metadata writes;
+- CAPTCHA remains a server/administrator follow-up because it is not exposed in the current project settings;
+- legacy participant counts may be completed manually in `run_participants` only during the temporary cleanup window, after which read-only/derived handling should be restored.
+
+The remaining 29 Project 79 course-choice QC items from the closeout run are operational metadata review items, not a reason to reopen the system architecture.

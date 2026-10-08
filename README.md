@@ -18,6 +18,22 @@ Use these documents together:
 
 For day-to-day technical operation, start with the **Technical User Manual**. For architectural or recovery decisions, also consult the **HANDOFF**.
 
+## Closeout baseline — 8 October 2026
+
+The Design Lock V1 implementation is closed for routine operation.
+
+- The latest push-based refresh/deploy completed successfully on 8 October 2026.
+- Project 75 contains **195** master courses; the public catalogue contains **86** listed courses.
+- The refreshed dashboard read **320** Course Run Log instances and **993 valid operational applications from 1,012 Project 79 attempt records**.
+- The catalogue is run-aware. A course can be listed without being open for application; an **Apply** button appears only when an eligible future run is explicitly open and within its application window. At closeout, no course is assumed open merely because it is listed.
+- Project 79 generic entry fails closed: the catalogue-entry notice is shown when run context is absent, the required `catalogue_entry_guard` has no default and uses a Stop Action, and the survey completion text is neutral rather than falsely confirming an application.
+- Valid catalogue deep links provide the Project 79 course choice, `applied_run_id`, and the course-level CV/certificate requirement flags.
+- CAPTCHA is not exposed in the current MUHAS REDCap project settings and is therefore an administrator/server-level follow-up rather than a Design Lock dependency.
+- Project 79 course-choice QC remains a manual metadata review control. The closeout run reported **29 QC items**; these are administration items to review, not silent metadata writes.
+- `run_participants` is temporarily editable while legacy Course Run Log entries are completed. Blank means unknown. Restore the read-only/derived control after legacy run cleanup is closed.
+
+This closeout does not freeze ordinary data administration. New runs, applications, reaccreditations and corrections continue under the locked rules below.
+
 ## Design Lock V1 — run-based public applications
 
 From 8 October 2026, the public application architecture is run-aware:
@@ -59,12 +75,13 @@ A normal push to `main` **does not run the R Project 75 sync**, but it does rebu
 
 A manual dispatch with `refresh_api=false` is effectively a publish/test path using the existing generated data; it does not perform the live REDCap refresh.
 
-Current generated public snapshot checked on 6 October 2026:
+Current generated public snapshot checked on 8 October 2026:
 
 - Project 75 registered master courses: **195**;
 - public catalogue courses: **86**;
-- Project 79 application records in the latest full-refresh snapshot: **994**;
-- latest verified full-refresh source timestamp checked during this health review: **2026-10-06 08:07:01 UTC** (11:07:01 EAT).
+- Course Run Log instances read by the dashboard: **320**;
+- Project 79: **993 valid operational applications from 1,012 attempt records**;
+- catalogue source timestamp: **2026-10-08 15:03:55 UTC**.
 
 A failed full API refresh stops the downstream full publication path. The last successful deployment remains live.
 
