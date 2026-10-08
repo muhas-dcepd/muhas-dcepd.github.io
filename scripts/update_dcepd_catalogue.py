@@ -17,13 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 CROSSWALK_PATH = ROOT / 'automation/project79-course-crosswalk.csv'
 APPLY_URL = 'https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W'
 API_URL = 'https://utafiti.muhas.ac.tz/api/'
-FIELDS = ['record_id', 'course_name', 'course_code', 'public_catalogue',
+MASTER_FIELDS = ['record_id', 'course_name', 'course_code', 'public_catalogue',
           'course_department_code', 'course_school_code', 'fee_per_person_tsh', 'cpd_points',
           'course_summary', 'course_duration', 'delivery_mode', 'target_audience',
           'learning_outcomes', 'certificate_awarded', 'date_next_offered',
-          'course_requires_cv', 'course_requires_certificate',
-          'run_start_date', 'run_end_date', 'run_application_open_date',
-          'run_application_close_date', 'run_status']
+          'course_requires_cv', 'course_requires_certificate']
+RUN_FIELDS = ['record_id', 'run_start_date', 'run_end_date', 'run_application_open_date',
+              'run_application_close_date', 'run_status']
+FIELDS = MASTER_FIELDS + [f for f in RUN_FIELDS if f not in MASTER_FIELDS]
 LABELS = dict(zip(FIELDS, ['Record ID', 'Course name', 'Course code', 'Listed in public catalogue?',
     'Department', 'School / institute / directorate', 'Fee per person (TZS)', 'CPD points',
     'Course summary', 'Course duration', 'Delivery mode', 'Target audience / eligibility',
@@ -135,11 +136,19 @@ def fetch_records():
         yes_code = yes[0]
     if not re.fullmatch(r'[A-Za-z0-9_]+', yes_code):
         raise ValueError('Unexpected catalogue choice code.')
-    params = dict(action='export', type='flat', rawOrLabel='label', rawOrLabelHeaders='raw',
+    # Keep the public master export small and filtered. Fetch the repeating
+    # Course Run Log separately with only run fields, then combine in memory.
+    master_params = dict(action='export', type='flat', rawOrLabel='label', rawOrLabelHeaders='raw',
+                  exportSurveyFields='false', exportDataAccessGroups='false',
+                  filterLogic=f"[public_catalogue] = '{yes_code}'")
+    master_params.update({f'fields[{i}]': f for i, f in enumerate(MASTER_FIELDS)})
+    masters = api_export(token, 'record', master_params)
+
+    run_params = dict(action='export', type='flat', rawOrLabel='label', rawOrLabelHeaders='raw',
                   exportSurveyFields='false', exportDataAccessGroups='false')
-    params.update({f'fields[{i}]': f for i, f in enumerate(FIELDS)})
-    records = api_export(token, 'record', params)
-    return records
+    run_params.update({f'fields[{i}]': f for i, f in enumerate(RUN_FIELDS)})
+    runs = api_export(token, 'record', run_params)
+    return masters + [r for r in runs if str(r.get('redcap_repeat_instrument', '')).strip()]
 
 
 def parse_date(value):
