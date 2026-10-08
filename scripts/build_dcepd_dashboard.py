@@ -115,7 +115,7 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         courses[rid]=c
         if c['code']:codes[c['code']].append(c)
     if not courses:raise ValueError('Empty registry; refusing to replace dashboard.')
-    delivery={}; run_rows=[]; seen=set(); run_to_course={}
+    delivery={}; seen=set(); run_to_course={}
     for r in r75:
         instrument=r.get('redcap_repeat_instrument','')
         if not instrument:continue
@@ -135,13 +135,6 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         state='Future-dated' if d and d>asof else 'Recorded'
         yr,fy,q=period(d)
         school=r['run_school_code'].strip() or c['school'];dep=r['run_department_code'].strip() or c['department']
-        run_rows.append(dict(
-            run_id=f"{c['id']}-{instance}" if instance else '',
-            course_id=c['id'], course=c['course'], school=school, department=dep,
-            start=r['run_start_date'].strip(), end=r['run_end_date'].strip(),
-            year=yr, fy=fy, quarter=q, state=state,
-            participants=n, participants_unknown=n is None
-        ))
         key=(c['id'],school,dep,yr,fy,q,state)
         if key not in delivery:delivery[key]=dict(course_id=c['id'],course=c['course'],school=school,department=dep,year=yr,fy=fy,quarter=q,state=state,sessions=0,attendance=0,reported=0,unknown=0)
         v=delivery[key];v['sessions']+=1
@@ -205,9 +198,9 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         small=sum(n for n in counter.values() if n<5)
         if small:rows.append(dict(location='Other small groups (combined)',applications=small if small>=5 else None))
         return sorted(rows,key=lambda x:-(x['applications'] or 0))
-    metadata=dict(schema_version=2,source=source,source_at=stamp,as_of=asof.isoformat(),registered_courses=len(courses),listed_courses=sum(c['listed'] for c in courses.values()),application_records=valid_application_count,application_attempt_records=len(r79),excluded_application_attempts=qc['excluded_application_attempts'],notes='Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Run participants are the legacy/manual number recorded in Project 75 for each delivery run; they are not inferred from applications, attendance verification or completion. Missing participant counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot.')
-    public=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),runs=run_rows,applications=publicapps,geography=publicgeo(geo),countries=publicgeo(countries))
-    management=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),runs=run_rows,applications=list(apps.values()),geography=[dict(location=k,applications=n) for k,n in geo.most_common()],countries=[dict(location=k,applications=n) for k,n in countries.most_common()],quality=dict(qc),unmatched_course_selections=dict(unmatched_labels))
+    metadata=dict(schema_version=2,source=source,source_at=stamp,as_of=asof.isoformat(),registered_courses=len(courses),listed_courses=sum(c['listed'] for c in courses.values()),application_records=valid_application_count,application_attempt_records=len(r79),excluded_application_attempts=qc['excluded_application_attempts'],notes='Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot.')
+    public=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),applications=publicapps,geography=publicgeo(geo),countries=publicgeo(countries))
+    management=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),applications=list(apps.values()),geography=[dict(location=k,applications=n) for k,n in geo.most_common()],countries=[dict(location=k,applications=n) for k,n in countries.most_common()],quality=dict(qc),unmatched_course_selections=dict(unmatched_labels))
     return public,management
 
 def render(data,management=False):
