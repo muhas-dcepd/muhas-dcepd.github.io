@@ -6,10 +6,10 @@ Read-only against REDCap:
 - Project 79 supplies applicant/selection/certification data.
 - This script never writes to REDCap.
 
-State is kept in automation/applicant-pack-state.json so packs are sent only when:
-1) bootstrap has not yet covered the historic Project 79 applications for that course; or
-2) at least 5 current-FY applications are new since the previous pack; or
-3) on Friday, 1-4 current-FY applications are new since the previous pack.
+State is kept in automation/applicant-pack-state.json. Historic bootstrap state is preserved.
+After bootstrap, a course receives at most one updated pack per daily run whenever at least
+one new valid current-FY application exists. Partial, generic-entry and invalid run records
+are retained in REDCap for audit but excluded from Applicant Packs.
 """
 
 from __future__ import annotations
@@ -37,6 +37,7 @@ REDCAP_URL = os.getenv("REDCAP_API_URL", "https://utafiti.muhas.ac.tz/api/")
 P75_TOKEN = os.environ["REDCAP_PROJECT75_TOKEN"]
 P79_TOKEN = os.environ["REDCAP_PROJECT79_TOKEN"]
 TZ = ZoneInfo("Africa/Dar_es_Salaam")
+DESIGN_LOCK_CUTOVER = date(2026, 10, 8)
 
 STATE_PATH = Path(os.getenv("DCEPD_APPLICANT_PACK_STATE", "automation/applicant-pack-state.json"))
 CROSSWALK_PATH = Path(os.getenv("DCEPD_PROJECT79_CROSSWALK", "automation/project79-course-crosswalk.csv"))
@@ -44,10 +45,10 @@ OUT_DIR = Path(os.getenv("DCEPD_APPLICANT_PACK_OUT", ".applicant-pack-output"))
 
 P75_FIELDS = [
     "record_id", "course_code", "course_name", "course_director_id",
-    "contact_email", "contact_phone", "vote_code",
+    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status",
 ]
 P79_FIELDS = [
-    "record_id", "applied_course_id", "application_date", "full_name", "email",
+    "record_id", "applied_course_id", "applied_run_id", "application_date", "short_course_application_complete", "full_name", "email",
     "phone_number", "institution_name", "job_title", "payment_reference",
     "fee_verified", "selected_for_batch", "selected_batch_id", "batch_role",
     "selection_date", "selection_by", "attendance_verified",
@@ -195,7 +196,7 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
     ws_all.title = "All Applicants"
 
     all_headers = [
-        "record_id", "application_date", "full_name", "email", "phone_number",
+        "record_id", "applied_run_id", "application_date", "full_name", "email", "phone_number",
         "institution_name", "job_title", "payment_reference", "fee_verified",
         "selected_for_batch", "selected_batch_id",
     ]
@@ -203,6 +204,7 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
     for r in applicants:
         ws_all.append([
             r.get("record_id", ""),
+            r.get("applied_run_id", ""),
             r.get("application_date", ""),
             r.get("full_name", ""),
             r.get("email", ""),
@@ -212,11 +214,11 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
             r.get("payment_reference", ""),
             as_yes_no(r.get("fee_verified", "")),
             as_yes_no(r.get("selected_for_batch", "")),
-            r.get("selected_batch_id", ""),
+            r.get("selected_batch_id", "") or r.get("applied_run_id", ""),
         ])
     ws_all.freeze_panes = "A2"
     ws_all.auto_filter.ref = ws_all.dimensions
-    set_widths(ws_all, {"A": 14, "B": 15, "C": 28, "D": 28, "E": 18, "F": 28, "G": 24, "H": 24, "I": 15, "J": 20, "K": 28})
+    set_widths(ws_all, {"A": 14, "B": 16, "C": 15, "D": 28, "E": 28, "F": 18, "G": 28, "H": 24, "I": 24, "J": 15, "K": 20, "L": 28})
 
     ws_sel = wb.create_sheet("Selection Return")
     sel_headers = [
@@ -371,6 +373,15 @@ def write_qc(rows: list[dict]) -> bytes:
     return data
 
 
+def write_invalid_application_qc(rows: list[dict]) -> None:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    fields = ["record_id", "applied_course_id", "applied_run_id", "application_date", "issue"]
+    with (OUT_DIR / "invalid_application_qc.csv").open("w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true", help="Build packs/QC but do not send email or update state.")
@@ -381,10 +392,20 @@ def main() -> int:
     is_friday = today.weekday() == 4
 
     p75_metadata = export_metadata(P75_TOKEN)
-    p75_rows = master_rows(export_records(P75_TOKEN, P75_FIELDS))
+    p75_all_rows = export_records(P75_TOKEN, P75_FIELDS)
+    p75_rows = master_rows(p75_all_rows)
     p79_rows = master_rows(export_records(P79_TOKEN, P79_FIELDS))
     director_labels = choice_map(p75_metadata, "course_director_id")
     course_crosswalk = load_course_crosswalk()
+
+    run_to_course: dict[str, str] = {}
+    for r in p75_all_rows:
+        if str(r.get("redcap_repeat_instrument", "")).strip() not in {"course_run_log", "Course Run Log"}:
+            continue
+        rid = str(r.get("record_id", "")).strip()
+        instance = str(r.get("redcap_repeat_instance", "")).strip()
+        if rid and instance:
+            run_to_course[f"{rid}-{instance}"] = rid
 
     courses: dict[str, dict] = {}
     email_directors: dict[str, set[str]] = defaultdict(set)
@@ -402,10 +423,34 @@ def main() -> int:
             email_directors[email].add(code)
 
     apps_by_course: dict[str, list[dict]] = defaultdict(list)
+    invalid_apps: list[dict] = []
     for r in p79_rows:
-        course_id = str(r.get("applied_course_id", "")).strip()
-        if course_id:
-            apps_by_course[course_id].append(r)
+        choice_id = str(r.get("applied_course_id", "")).strip()
+        if not choice_id:
+            continue
+        app_date = parse_iso_date(r.get("application_date", ""))
+        mapped_course = str(course_crosswalk.get(choice_id, "")).strip()
+        legacy = bool(app_date and app_date < DESIGN_LOCK_CUTOVER)
+        completion = str(r.get("short_course_application_complete", "")).strip().lower()
+        complete = completion in {"2", "complete"}
+        run_id = str(r.get("applied_run_id", "")).strip()
+        run_valid = bool(mapped_course and run_id and run_to_course.get(run_id) == mapped_course)
+        if not legacy and not (mapped_course and complete and run_valid):
+            issue = (
+                "Course choice is not in the verified crosswalk." if not mapped_course else
+                "Survey is not complete." if not complete else
+                "Run ID is missing, invalid, or belongs to another course."
+            )
+            invalid_apps.append({
+                "record_id": str(r.get("record_id", "")).strip(),
+                "applied_course_id": choice_id,
+                "applied_run_id": run_id,
+                "application_date": str(r.get("application_date", "")).strip(),
+                "issue": issue,
+            })
+            continue
+        apps_by_course[choice_id].append(r)
+    write_invalid_application_qc(invalid_apps)
 
     state = load_state()
     bootstrap = not bool(state.get("bootstrap_complete"))
@@ -487,10 +532,7 @@ def main() -> int:
         scope_ids = [str(r.get("record_id", "")).strip() for r in scope_apps if str(r.get("record_id", "")).strip()]
         new_ids = [rid for rid in scope_ids if rid not in sent_ids]
 
-        if course_bootstrap:
-            should_send = bool(new_ids)
-        else:
-            should_send = len(new_ids) >= 5 or (is_friday and 1 <= len(new_ids) <= 4)
+        should_send = bool(new_ids)
 
         if not should_send:
             continue
@@ -554,6 +596,7 @@ def main() -> int:
         "eligible_packs": eligible_count,
         "sent_packs": sent_count,
         "qc_issues": len(qc),
+        "invalid_application_attempts": len(invalid_apps),
         "state_path": str(STATE_PATH),
     }))
     return 0

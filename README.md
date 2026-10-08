@@ -98,11 +98,12 @@ Nominal schedule: **05:15 EAT daily**, after the daily refresh.
 
 The workflow is read-only against REDCap. It creates `All Applicants`, `Selection Return` and `Cert-Graduands Return` workbooks by course and uses the verified Project 75 Course Director/contact details for recipient QC.
 
-Delivery rules in the current script are:
+Delivery rules are now:
 
-- bootstrap historic applications once per course;
-- thereafter send when at least 5 current-fiscal-year applications are new;
-- on Friday, catch up when 1–4 current-fiscal-year applications are new;
+- preserve the completed historical bootstrap state;
+- from the Design Lock cutover, exclude partial/generic/invalid run attempts from operational packs;
+- during current operation, send at most one updated pack per daily workflow run whenever at least one new valid current-fiscal-year application exists;
+- include `applied_run_id` in the workbook and prefill the Selection Return batch ID from that run where no staff batch override already exists;
 - keep delivery state in `automation/applicant-pack-state.json`.
 
 The workflow checks SMTP/email secrets first. If email configuration is incomplete it falls back to **safe dry-run mode**, builds QC/output where possible and does not advance delivery state.
@@ -120,6 +121,10 @@ The current mapping contract is:
 Delivery state in `automation/applicant-pack-state.json` remains keyed by the **Project 79 choice ID**, so prior send history is preserved even when the corresponding Project 75 record ID is different.
 
 Returned workbooks are not auto-imported. A Coordinator/Admin saves the intended return sheet as **CSV UTF-8 (Comma delimited)** and imports it deliberately into Project 79.
+
+A Project 79 record is an application attempt. For records dated **8 October 2026 onward**, dashboard and Applicant Pack processing treat it as an operational application only when the survey is complete and `applied_run_id` resolves to a real Course Run Log instance of the mapped Project 75 course. Earlier application history is preserved under the legacy course-level rule.
+
+Project 79 course-choice metadata is also reviewed by `scripts/build_project79_course_choice_qc.py`. Its artifact reports `ADD_CHOICE`, `UPDATE_LABEL`, unmapped choices and crosswalk exceptions; it never writes REDCap metadata.
 
 Payment fields remain distinct:
 

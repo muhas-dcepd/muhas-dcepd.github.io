@@ -8,10 +8,11 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 API = 'https://utafiti.muhas.ac.tz/api/'
 CROSSWALK_PATH = ROOT/'automation/project79-course-crosswalk.csv'
+DESIGN_LOCK_CUTOVER = date(2026,10,8)
 F75 = ['record_id','course_name','course_code','course_department_code','course_school_code','public_catalogue','run_start_date','run_end_date','run_participants','run_department_code','run_school_code']
-F79 = ['record_id','applied_course_id','application_date','residence_region','country_of_residence']
+F79 = ['record_id','applied_course_id','applied_run_id','application_date','residence_region','country_of_residence','short_course_application_complete']
 L75 = ['Record ID','Course name','Course code','Department','School / institute / directorate','Listed in public catalogue?','Run start date','Run end date','Number of participants','Run department','Run School code']
-L79 = ['Record ID','Short course applying for','Application date','Region of residence (Tanzania applicants) / Foreigner','Country of residence (if Foreigner selected above)']
+L79 = ['Record ID','Short course applying for','Delivery run ID (provided automatically from the DCEPD course catalogue)','Application date','Region of residence (Tanzania applicants) / Foreigner','Country of residence (if Foreigner selected above)','Short Course Application Complete?']
 
 def request(token, content, params=None):
     body=dict(token=token,content=content,format='json',returnFormat='json',**(params or {}))
@@ -63,8 +64,7 @@ def load_crosswalk(path=CROSSWALK_PATH):
 def seed(path, fields, labels):
     with path.open(encoding='utf-8-sig',newline='') as f:
         reader=csv.DictReader(f)
-        if not set(labels)<=set(reader.fieldnames):raise ValueError('Seed schema mismatch.')
-        return [{**{a:r[b].strip() for a,b in zip(fields,labels)},'redcap_repeat_instrument':r.get('Repeat Instrument',''),'redcap_repeat_instance':r.get('Repeat Instance','')} for r in reader]
+        return [{**{a:(r.get(b,'') or '').strip() for a,b in zip(fields,labels)},'redcap_repeat_instrument':r.get('Repeat Instrument',''),'redcap_repeat_instance':r.get('Repeat Instance','')} for r in reader]
 
 def parsedate(s):
     if not s:return None
@@ -114,15 +114,17 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         courses[rid]=c
         if c['code']:codes[c['code']].append(c)
     if not courses:raise ValueError('Empty registry; refusing to replace dashboard.')
-    delivery={}; seen=set()
+    delivery={}; seen=set(); run_to_course={}
     for r in r75:
         instrument=r.get('redcap_repeat_instrument','')
         if not instrument:continue
         if instrument not in ('course_run_log','Course Run Log'):
             qc['other_repeat_rows']+=1;continue
-        key=(r['record_id'],r.get('redcap_repeat_instance',''))
+        instance=r.get('redcap_repeat_instance','')
+        key=(r['record_id'],instance)
         if key in seen:raise ValueError('Duplicate Run identity.')
         seen.add(key)
+        if instance: run_to_course[f"{r['record_id']}-{instance}"]=r['record_id']
         c=courses.get(r['record_id'])
         if not c:qc['orphan_runs']+=1;continue
         d=parsedate(r['run_start_date']);end=parsedate(r['run_end_date']);n=number(r['run_participants'])
@@ -139,14 +141,13 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         else:v['attendance']+=n;v['reported']+=1
     unmatched_labels=collections.Counter()
     apps={};geo=collections.Counter();countries=collections.Counter();seen=set();unmatched=0
+    valid_application_count=0
     for r in r79:
         if r.get('redcap_repeat_instrument'):raise ValueError('Unexpected repeating Project 79 schema; review counting rules.')
         rid=r['record_id'].strip()
         if not rid or rid in seen:raise ValueError('Missing or duplicate application record ID.')
         seen.add(rid)
         selection=r['applied_course_id'].strip()
-        # Live API reporting resolves through the same verified Project 79 -> Project 75
-        # crosswalk as the core sync. Seed/tests may fall back to labelled course-code matching.
         if choice_by_label is not None and crosswalk is not None:
             choice=choice_by_label.get(selection,'')
             mapped_id=crosswalk.get(choice,'')
@@ -155,11 +156,29 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
             code=resolve_course_code(selection,codes)
             matches=codes.get(code,[])
             c=matches[0] if len(matches)==1 else None
-        if not c:
-            unmatched+=1;unmatched_labels[selection or 'No course selected']+=1
+
         d=parsedate(r['application_date'])
         if not d:qc['applications_without_valid_date']+=1
         if d and d>asof:qc['applications_future_dated']+=1
+
+        # Preserve pre-design-lock application history. From 8 Oct 2026 onward,
+        # only a completed survey tied to a real run of the mapped course is an
+        # operational application; partial/generic/bot attempts remain audit records.
+        legacy = bool(d and d < DESIGN_LOCK_CUTOVER)
+        completion=str(r.get('short_course_application_complete','')).strip().lower()
+        complete=completion in {'2','complete'}
+        run_id=str(r.get('applied_run_id','')).strip()
+        run_valid=bool(c and run_id and run_to_course.get(run_id)==c['id'])
+        if not legacy and not (c and complete and run_valid):
+            qc['excluded_application_attempts']+=1
+            if not c: qc['excluded_unmapped_course_attempts']+=1
+            elif not complete: qc['excluded_incomplete_attempts']+=1
+            elif not run_valid: qc['excluded_invalid_run_attempts']+=1
+            continue
+
+        valid_application_count+=1
+        if not c:
+            unmatched+=1;unmatched_labels[selection or 'No course selected']+=1
         yr,fy,q=period(d)
         key=((c or {}).get('id','unmatched'),yr,fy,q)
         if key not in apps:apps[key]=dict(course_id=key[0],course=(c or {}).get('course','Unmatched / unselected course'),school=(c or {}).get('school','Unknown'),department=(c or {}).get('department','Unknown'),year=yr,fy=fy,quarter=q,applications=0)
@@ -178,7 +197,7 @@ def build(r75,r79,stamp,source,asof,choice_by_label=None,crosswalk=None):
         small=sum(n for n in counter.values() if n<5)
         if small:rows.append(dict(location='Other small groups (combined)',applications=small if small>=5 else None))
         return sorted(rows,key=lambda x:-(x['applications'] or 0))
-    metadata=dict(schema_version=1,source=source,source_at=stamp,as_of=asof.isoformat(),registered_courses=len(courses),listed_courses=sum(c['listed'] for c in courses.values()),application_records=len(r79),notes='Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot.')
+    metadata=dict(schema_version=2,source=source,source_at=stamp,as_of=asof.isoformat(),registered_courses=len(courses),listed_courses=sum(c['listed'] for c in courses.values()),application_records=valid_application_count,application_attempt_records=len(r79),excluded_application_attempts=qc['excluded_application_attempts'],notes='Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot.')
     public=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),applications=publicapps,geography=publicgeo(geo),countries=publicgeo(countries))
     management=dict(metadata=metadata,courses=list(courses.values()),delivery=list(delivery.values()),applications=list(apps.values()),geography=[dict(location=k,applications=n) for k,n in geo.most_common()],countries=[dict(location=k,applications=n) for k,n in countries.most_common()],quality=dict(qc),unmatched_course_selections=dict(unmatched_labels))
     return public,management
@@ -219,7 +238,7 @@ def main():
         target=args.management_output.resolve()
         if target.is_relative_to(ROOT):raise ValueError('Management output must be outside the public repository.')
         target.parent.mkdir(parents=True,exist_ok=True);target.write_text(render(management,True))
-    print('Generated aggregate dashboard:',len(public['courses']),'courses;',sum(x['sessions'] for x in public['delivery']),'Runs;',len(r79),'applications. No source records saved.')
+    print('Generated aggregate dashboard:',len(public['courses']),'courses;',sum(x['sessions'] for x in public['delivery']),'Runs;',public['metadata']['application_records'],'valid applications from',len(r79),'attempt records. No source records saved.')
 if __name__=='__main__':
     try:main()
     except ValueError as e:sys.exit(str(e))

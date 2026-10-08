@@ -115,6 +115,23 @@ jobs:
           python scripts/update_dcepd_catalogue.py
           python scripts/build_dcepd_dashboard.py
 
+      - name: Build Project 79 course-choice QC
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_api
+        continue-on-error: true
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+        run: python scripts/build_project79_course_choice_qc.py
+
+      - name: Upload Project 79 course-choice QC
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project79-course-choice-qc-${{ github.run_id }}
+          path: project79-choice-qc
+          if-no-files-found: warn
+          retention-days: 90
+
       - name: Build DCEPD management reporting packet
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         run: |

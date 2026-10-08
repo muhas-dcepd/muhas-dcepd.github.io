@@ -10,8 +10,8 @@ def master():
 def run(instance, count='', start='2026-07-01'):
  r=dict.fromkeys(F75,'');r.update(record_id='1',redcap_repeat_instrument='course_run_log',redcap_repeat_instance=str(instance),run_start_date=start,run_participants=count);return r
 
-def app(i, code='A/2026 | Course A'):
- r=dict.fromkeys(F79,'');r.update(record_id=str(i),applied_course_id=code,application_date='2026-07-01',residence_region='Arusha');return r
+def app(i, code='A/2026 | Course A', appdate='2026-07-01', run_id='', complete=''):
+ r=dict.fromkeys(F79,'');r.update(record_id=str(i),applied_course_id=code,applied_run_id=run_id,application_date=appdate,residence_region='Arusha',short_course_application_complete=complete);return r
 
 def make(rows,apps=[]):return build(rows,apps,'2026-09-19T00:00:00+00:00','Test',date(2026,9,19))
 class Reporting(unittest.TestCase):
@@ -32,6 +32,12 @@ class Reporting(unittest.TestCase):
   b=master();b.update(record_id='2',course_name='Course B',course_code='B/2026')
   p,m=build([master(),b],[app(1,'Choice B')],'2026-09-19T00:00:00+00:00','Test',date(2026,9,19),{'Choice B':'199'},{'199':'2'})
   self.assertEqual(m['quality']['unmatched_applications'],0);self.assertEqual(m['applications'][0]['course_id'],'2')
+ def test_post_cutover_requires_complete_valid_run(self):
+  rows=[master(),run(1,'20','2026-10-20')]
+  p,m=make(rows,[app(1,appdate='2026-10-08',run_id='1-1',complete='2'),app(2,appdate='2026-10-08',run_id='',complete='2'),app(3,appdate='2026-10-08',run_id='1-1',complete='0')])
+  self.assertEqual(p['metadata']['application_records'],1)
+  self.assertEqual(p['metadata']['application_attempt_records'],3)
+  self.assertEqual(p['metadata']['excluded_application_attempts'],2)
  def test_small_cells_and_identifiers_absent(self):
   a=[app(i) for i in range(5)];a[0]['email']='private@example.test';p,m=make([master()],a)
   self.assertEqual(p['applications'][0]['applications'],5);self.assertNotIn('private@example.test',str(p));self.assertNotIn('record_id',str(p))
