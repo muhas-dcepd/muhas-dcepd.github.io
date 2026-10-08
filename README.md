@@ -29,7 +29,6 @@ From 8 October 2026, the public application architecture is run-aware:
 - Courses without an open run remain visible but show that applications are not open.
 - The general Project 79 survey URL remains a gateway: without run context it shows the catalogue-entry notice and links visitors back to the catalogue.
 - `date_next_offered` displayed publicly is derived from the earliest eligible future run start date rather than treated as a manually curated catalogue date.
-- The public dashboard also exposes the existing per-run `run_participants` value as a legacy/manual participant count. Blank remains Unknown; it is not inferred from Project 79 applications, attendance verification or certificate records.
 - Project 79 course choices remain a reviewed metadata control: new approvals and renamed course labels are QC items, not silent metadata writes.
 
 ## System boundaries
