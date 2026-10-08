@@ -1,13 +1,15 @@
 {
   "metadata": {
-    "schema_version": 1,
+    "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-07T07:45:50+00:00",
-    "as_of": "2026-10-07",
+    "source_at": "2026-10-08T15:03:55+00:00",
+    "as_of": "2026-10-08",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 999,
-    "notes": "Attendance is recorded attendances, not unique people or completion. Runs are assigned by start date; application periods use application date. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole snapshot."
+    "application_records": 993,
+    "application_attempt_records": 1015,
+    "excluded_application_attempts": 22,
+    "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
     {
@@ -2049,6 +2051,20 @@
       "unknown": 0
     },
     {
+      "course_id": "20",
+      "course": "Quality Control and Regulations governing Medicinal Plants and finished herbal products (Herbal Medicine Development Level III)",
+      "school": "Institute of Traditional Medicine",
+      "department": "ITM",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "state": "Recorded",
+      "sessions": 2,
+      "attendance": 19,
+      "reported": 1,
+      "unknown": 1
+    },
+    {
       "course_id": "21",
       "course": "Innovation and Entrepreneurship in Health Care",
       "school": "Institute of Traditional Medicine",
@@ -2536,6 +2552,20 @@
       "sessions": 3,
       "attendance": 67,
       "reported": 3,
+      "unknown": 0
+    },
+    {
+      "course_id": "27",
+      "course": "Teaching Methodology for Education and Health care Pofessionals",
+      "school": "School of Nursing",
+      "department": "Nursing Management",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 38,
+      "reported": 1,
       "unknown": 0
     },
     {
@@ -4905,6 +4935,20 @@
       "unknown": 0
     },
     {
+      "course_id": "121",
+      "course": "Oral Radiology",
+      "school": "School of Dentistry",
+      "department": "Oral and Maxillofacial Surgery",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q1",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 9,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
       "course_id": "122",
       "course": "HAEMODIALYSIS COURSE FOR HEALTH CARE PROVIDERS",
       "school": "School of Clinical Medicine",
@@ -6136,17 +6180,6 @@
       "withheld": true
     },
     {
-      "course_id": "unmatched",
-      "course": "Unmatched / unselected course",
-      "school": "Unknown",
-      "department": "Unknown",
-      "year": "Unknown",
-      "fy": "Unknown",
-      "quarter": "Unknown",
-      "applications": 7,
-      "withheld": false
-    },
-    {
       "course_id": "117",
       "course": "EMERGENCY POINT OF CARE ULTRASOUND (E-POCUS) COURSE",
       "school": "School of Clinical Medicine",
@@ -6381,7 +6414,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 466
+      "applications": 467
     },
     {
       "location": "Dodoma",
@@ -6436,10 +6469,6 @@
       "applications": 17
     },
     {
-      "location": "Singida",
-      "applications": 16
-    },
-    {
       "location": "Mara",
       "applications": 15
     },
@@ -6448,7 +6477,7 @@
       "applications": 15
     },
     {
-      "location": "Unknown",
+      "location": "Singida",
       "applications": 15
     },
     {
@@ -6466,6 +6495,10 @@
     {
       "location": "Kagera",
       "applications": 11
+    },
+    {
+      "location": "Unknown",
+      "applications": 9
     },
     {
       "location": "Rukwa",

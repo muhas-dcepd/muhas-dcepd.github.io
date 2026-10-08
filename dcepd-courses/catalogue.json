@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-07T07:45:50+00:00",
-  "api_refreshed_at": "2026-10-07T07:45:50+00:00",
+  "source_at": "2026-10-08T15:03:55+00:00",
+  "api_refreshed_at": "2026-10-08T15:03:55+00:00",
   "count": 86,
   "courses": [
     {
@@ -23,7 +23,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "163",
@@ -48,7 +49,8 @@
         "digital health",
         "health data analytics"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "128",
@@ -65,14 +67,15 @@
       "target_audience": "The course is designed for researchers, postgraduate students, and professionals who seek to enhance their skills in advanced research data analysis. Participants should have: A minimum of a bachelor's degree in a relevant field (e.g., social sciences, health sciences, education, statistics, or related disciplines). Basic knowledge of research methods and introductory data analysis techniques.",
       "learning_outcomes": "Upon successful completion of this course, participants are expected to: Demonstrate advanced understanding of quantitative and qualitative research data analysis concepts, techniques, and applications. Prepare, manage, and clean datasets for analysis using appropriate tools and procedures. Apply advanced statistical methods to analyze quantitative data and correctly interpret statistical outputs. Conduct rigorous qualitative data analysis, including coding, categorizing, and thematic interpretation of textual or narrative data. Use relevant data analysis software (e.g., SPSS, Stata, R, Excel, NVivo, ATLAS.ti, or similar tools) to perform both quantitative and qualitative analyses effectively. Develop clear, accurate data visualizations and interactive dashboards to support interpretation and presentation of findings. Critically evaluate and translate analytical results into evidence-based conclusions and recommendations. Communicate research findings effectively, both orally and in written scientific formats, including research reports and manuscripts.",
       "certificate_awarded": "",
-      "date_next_offered": "23-11-2026",
+      "date_next_offered": "",
       "category": "Digital Health, Data Science & Informatics",
       "tags": [
         "advanced",
         "data analysis",
         "statistics"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "149",
@@ -96,7 +99,8 @@
         "antibiotics",
         "antimicrobial resistance"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "34",
@@ -120,7 +124,8 @@
         "antibiotics",
         "antimicrobial resistance"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "130",
@@ -140,7 +145,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "138",
@@ -164,7 +170,8 @@
         "artificial intelligence",
         "digital health"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "134",
@@ -184,7 +191,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "168",
@@ -204,7 +212,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "97",
@@ -228,7 +237,8 @@
         "hepatitis C",
         "screening"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "151",
@@ -248,7 +258,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "153",
@@ -268,7 +279,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "154",
@@ -288,7 +300,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "75",
@@ -310,7 +323,8 @@
       "tags": [
         "qualitative methods"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "196",
@@ -330,7 +344,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "205",
@@ -350,7 +365,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "109",
@@ -370,7 +386,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "201",
@@ -390,7 +407,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "143",
@@ -410,7 +428,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "118",
@@ -430,7 +449,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "133",
@@ -450,7 +470,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "116",
@@ -474,7 +495,8 @@
         "medical devices",
         "regulatory assessment"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "147",
@@ -494,7 +516,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "110",
@@ -514,7 +537,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "204",
@@ -534,7 +558,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "171",
@@ -554,7 +579,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "117",
@@ -577,7 +603,8 @@
         "POCUS",
         "ultrasound"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "160",
@@ -597,7 +624,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "148",
@@ -621,7 +649,8 @@
         "critical care",
         "emergency care"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "157",
@@ -641,7 +670,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "176",
@@ -661,7 +691,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "199",
@@ -681,7 +712,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "172",
@@ -701,7 +733,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "175",
@@ -725,7 +758,8 @@
         "quantification",
         "supply chain"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "200",
@@ -745,7 +779,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "177",
@@ -765,7 +800,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "150",
@@ -785,7 +821,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "165",
@@ -805,7 +842,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "174",
@@ -825,7 +863,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "107",
@@ -845,7 +884,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "156",
@@ -865,7 +905,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "103",
@@ -885,7 +926,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "136",
@@ -908,7 +950,8 @@
         "GCP",
         "good clinical practice"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "132",
@@ -931,7 +974,8 @@
         "funding proposals",
         "grant writing"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "122",
@@ -954,7 +998,8 @@
         "dialysis",
         "renal care"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "167",
@@ -974,7 +1019,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "68",
@@ -997,7 +1043,8 @@
         "implementation research",
         "implementation science"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "170",
@@ -1017,7 +1064,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "131",
@@ -1040,7 +1088,8 @@
         "entrepreneurship",
         "innovation"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "123",
@@ -1064,7 +1113,8 @@
         "antibiotics",
         "antimicrobial resistance"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "162",
@@ -1084,7 +1134,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "141",
@@ -1107,7 +1158,8 @@
         "paramedics",
         "prehospital care"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "70",
@@ -1129,7 +1181,8 @@
       "tags": [
         "palliative care"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "142",
@@ -1149,7 +1202,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "113",
@@ -1169,7 +1223,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "164",
@@ -1193,7 +1248,8 @@
         "digital health",
         "health data analytics"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "190",
@@ -1216,7 +1272,8 @@
         "implementation research",
         "implementation science"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "139",
@@ -1236,7 +1293,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "180",
@@ -1260,7 +1318,8 @@
         "data analysis",
         "statistics"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "152",
@@ -1280,7 +1339,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "155",
@@ -1300,7 +1360,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "124",
@@ -1323,7 +1384,8 @@
         "Linux",
         "data science"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "112",
@@ -1343,7 +1405,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "202",
@@ -1363,7 +1426,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "173",
@@ -1387,7 +1451,8 @@
         "inventory control",
         "supply chain"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "145",
@@ -1407,7 +1472,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "197",
@@ -1427,7 +1493,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "198",
@@ -1447,7 +1514,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "135",
@@ -1470,7 +1538,8 @@
         "POCUS",
         "ultrasound"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "144",
@@ -1490,7 +1559,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "121",
@@ -1513,7 +1583,8 @@
         "dentistry",
         "radiology"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "111",
@@ -1533,7 +1604,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "119",
@@ -1555,7 +1627,8 @@
       "tags": [
         "philosophy of science"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "140",
@@ -1575,7 +1648,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "158",
@@ -1595,7 +1669,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "63",
@@ -1615,7 +1690,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "161",
@@ -1639,7 +1715,8 @@
         "manufacturing",
         "personal care"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "146",
@@ -1659,7 +1736,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "137",
@@ -1683,7 +1761,8 @@
         "newborn",
         "prehospital transfer"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "95",
@@ -1703,7 +1782,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "166",
@@ -1723,7 +1803,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "203",
@@ -1743,7 +1824,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "125",
@@ -1765,7 +1847,8 @@
       "tags": [
         "evidence synthesis"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "169",
@@ -1785,7 +1868,8 @@
       "date_next_offered": "",
       "category": "Other courses",
       "tags": [],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "115",
@@ -1809,7 +1893,8 @@
         "regulatory assessment",
         "vaccines"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "129",
@@ -1833,7 +1918,8 @@
         "weight management",
         "wellness"
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W"
+      "open_runs": [],
+      "apply_url": ""
     }
   ]
 }
