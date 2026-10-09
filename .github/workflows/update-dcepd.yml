@@ -139,6 +139,38 @@ jobs:
             --runtime .project75-runtime \
             --catalogue dcepd-courses/catalogue.json
 
+      - name: Build private weekly management workbook
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          TZ: Africa/Dar_es_Salaam
+        run: |
+          python -m pip install --disable-pip-version-check openpyxl
+          python scripts/build_and_send_dcepd_weekly_report.py
+
+      - name: Send Friday DCEPD management report
+        if: github.event_name == 'schedule'
+        continue-on-error: true
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          DCEPD_EMAIL_1: ${{ secrets.DCEPD_EMAIL_1 }}
+          DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
+          DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
+          DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
+          DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
+          DCEPD_SMTP_PORT: ${{ secrets.DCEPD_SMTP_PORT }}
+          DCEPD_SMTP_USERNAME: ${{ secrets.DCEPD_SMTP_USERNAME }}
+          DCEPD_SMTP_PASSWORD: ${{ secrets.DCEPD_SMTP_PASSWORD }}
+          TZ: Africa/Dar_es_Salaam
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$(TZ=Africa/Dar_es_Salaam date +%u)" != "5" ]]; then
+            echo "Not Friday in Africa/Dar_es_Salaam; weekly email skipped."
+            exit 0
+          fi
+          python scripts/build_and_send_dcepd_weekly_report.py --send
+
       - name: Upload DCEPD management reporting packet
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         uses: actions/upload-artifact@v4
