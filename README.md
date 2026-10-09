@@ -212,3 +212,16 @@ python -m unittest discover -s tests -p 'test_dcepd*.py'
 ```
 
 The public deployment stages an explicit allowlist only. No OpenAlex dependency exists in this repository.
+
+
+## 9 October 2026 operational refinements
+
+The Design Lock remains closed. The following operational refinements were added without changing the core Project 75/79 architecture:
+
+- Public application entry now routes through the catalogue rather than a generic REDCap application link. Applicants reach Project 79 only from an eligible open Course Run Log intake with course/run context.
+- Course 138 (Applications of Artificial Intelligence in Healthcare) is a live run-aware example: run 138-1, 28–30 October 2026, with a run-specific application link when the configured application window is active.
+- The private weekly management workbook now includes Course Director/contact columns and Project 79 course-choice QC where available. The verified full-refresh workflow is configured to send the workbook on Fridays using the existing DCEPD SMTP secrets; a manual verified send is also available through workflow dispatch.
+- New same-course Course Run Log instances with identical start/end dates are QC-warned for confirmation. The five historical duplicate-date groups reviewed on 9 October 2026 remain accepted and are not automatically changed.
+- Certificate signatories use the convention `Name; Title; Institution`. The primary MUHAS signatory is `Prof Emmy Metta; Director, CEPD; MUHAS`. A populated run-level certificate co-signatory field must follow the same three-part convention.
+- Certificate participant names are normalized for display only when the source is obviously all-uppercase or all-lowercase; mixed-case source names are preserved. REDCap source values are never rewritten merely for certificate typography.
+- Search metadata now explicitly identifies the site as `MUHAS DCEPD` / `DCEPD MUHAS` using WebSite structured data in addition to the institutional Organization metadata.
