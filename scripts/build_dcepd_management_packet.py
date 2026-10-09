@@ -18,6 +18,14 @@ from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("Africa/Dar_es_Salaam")
 KNOWN_NONACTIONABLE = {"KNOWN_PENDING_ACCREDITATION_1900"}
+# Historical same-date run pairs reviewed on 9 Oct 2026 and intentionally preserved.
+KNOWN_DUPLICATE_RUN_DATE_GROUPS = {
+    ("22", "2022-06-13", "2022-06-17"),
+    ("27", "2025-10-13", "2025-10-24"),
+    ("55", "2025-02-17", "2025-02-28"),
+    ("122", "2025-09-15", "2025-10-24"),
+    ("141", "2025-09-29", "2025-10-24"),
+}
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -122,6 +130,9 @@ def main() -> None:
             "last_date_conducted": r.get("last_date_conducted", ""),
             "interested_applicants": r.get("interested_applicants", ""),
             "public_catalogue": public_catalogue_label(r),
+            "course_director_id": r.get("course_director_id", ""),
+            "contact_email": r.get("contact_email", ""),
+            "contact_phone": r.get("contact_phone", ""),
         })
 
     overdue = [x for x in enriched if x["issue_code"] == "REACCREDITATION_OVERDUE"]
@@ -148,6 +159,51 @@ def main() -> None:
         if x["issue_code"] != "REACCREDITATION_OVERDUE"
         and x["issue_code"] not in KNOWN_NONACTIONABLE
     ]
+
+    # Warn on future/new same-course duplicate run date ranges without altering data.
+    duplicate_run_date_reviews = 0
+    run_groups: dict[tuple[str, str, str], list[dict[str, str]]] = {}
+    for row in export_rows:
+        if (row.get("redcap_repeat_instrument") or "").strip() != "course_run_log":
+            continue
+        rid = (row.get("record_id") or "").strip()
+        start = (row.get("run_start_date") or "").strip()
+        end = (row.get("run_end_date") or "").strip()
+        if rid and start and end:
+            run_groups.setdefault((rid, start, end), []).append(row)
+
+    for key, group in sorted(run_groups.items()):
+        if len(group) < 2 or key in KNOWN_DUPLICATE_RUN_DATE_GROUPS:
+            continue
+        rid, start, end = key
+        r = master.get(rid, {})
+        instances = ", ".join(
+            sorted(
+                (x.get("redcap_repeat_instance") or "").strip()
+                for x in group
+                if (x.get("redcap_repeat_instance") or "").strip()
+            )
+        )
+        action_list.append({
+            "record_id": rid,
+            "course_code": r.get("course_code", ""),
+            "course_name": r.get("course_name", ""),
+            "severity": "WARNING",
+            "issue_code": "DUPLICATE_RUN_DATES_REVIEW",
+            "detail": f"Multiple Course Run Log instances share {start} to {end}; repeat instances: {instances}. Confirm separate batch/cohort before proceeding.",
+            "accreditation_date": r.get("accreditation_date", ""),
+            "date_submitted": r.get("date_submitted", ""),
+            "review_sent_date": r.get("review_sent_date", ""),
+            "approval_date": r.get("approval_date", ""),
+            "reaccreditation_progress": "",
+            "last_date_conducted": r.get("last_date_conducted", ""),
+            "interested_applicants": r.get("interested_applicants", ""),
+            "public_catalogue": public_catalogue_label(r),
+            "course_director_id": r.get("course_director_id", ""),
+            "contact_email": r.get("contact_email", ""),
+            "contact_phone": r.get("contact_phone", ""),
+        })
+        duplicate_run_date_reviews += 1
 
     master_diff = data_row_count(run_dir / "verification_master_differences.csv")
     run_diff = data_row_count(run_dir / "verification_run_differences.csv")
@@ -189,6 +245,7 @@ def main() -> None:
         "verification_run_differences": run_diff,
         "action_list_rows": len(action_list),
         "overdue_rows": len(overdue),
+        "duplicate_run_date_reviews": duplicate_run_date_reviews,
     }
 
     (out_dir / "management_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
@@ -217,9 +274,10 @@ def main() -> None:
     (out_dir / "management_summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     fields = [
-        "record_id", "course_code", "course_name", "severity", "issue_code", "detail",
-        "accreditation_date", "date_submitted", "review_sent_date", "approval_date",
-        "reaccreditation_progress", "last_date_conducted", "interested_applicants", "public_catalogue",
+        "record_id", "course_code", "course_name", "course_director_id", "contact_email", "contact_phone",
+        "severity", "issue_code", "detail", "accreditation_date", "date_submitted",
+        "review_sent_date", "approval_date", "reaccreditation_progress",
+        "last_date_conducted", "interested_applicants", "public_catalogue",
     ]
     write_csv(out_dir / "action_list.csv", action_list, fields)
     write_csv(out_dir / "overdue_reaccreditation.csv", overdue, fields)
