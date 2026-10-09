@@ -254,6 +254,7 @@ derive_project75 <- function(raw, cfg, reference_date) {
       record_id = .record_id,
       redcap_repeat_instrument = .repeat_instrument,
       redcap_repeat_instance = .repeat_instance,
+      run_batch_id = paste0(.record_id, "-", .repeat_instance),
       calendar_year = ifelse(
         is.na(.run_start_date),
         "",
