@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-09T10:54:32+00:00",
+    "source_at": "2026-10-09T13:18:39+00:00",
     "as_of": "2026-10-09",
     "registered_courses": 195,
     "listed_courses": 86,
     "application_records": 999,
-    "application_attempt_records": 1031,
-    "excluded_application_attempts": 32,
+    "application_attempt_records": 1035,
+    "excluded_application_attempts": 36,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -2565,6 +2565,20 @@
       "state": "Recorded",
       "sessions": 1,
       "attendance": 38,
+      "reported": 1,
+      "unknown": 0
+    },
+    {
+      "course_id": "27",
+      "course": "Teaching Methodology for Education and Health care Pofessionals",
+      "school": "School of Nursing",
+      "department": "Nursing Management",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "state": "Recorded",
+      "sessions": 1,
+      "attendance": 13,
       "reported": 1,
       "unknown": 0
     },
@@ -5199,6 +5213,20 @@
       "attendance": 9,
       "reported": 1,
       "unknown": 0
+    },
+    {
+      "course_id": "155",
+      "course": "KEY AND VULNERABLE POPULATIONS HEALTH RESEARCH AND PROGRAMMING",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Behavioral Sciences",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "state": "Future-dated",
+      "sessions": 1,
+      "attendance": 0,
+      "reported": 0,
+      "unknown": 1
     },
     {
       "course_id": "161",

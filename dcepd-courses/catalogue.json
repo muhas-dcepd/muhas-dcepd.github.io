@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-09T10:54:32+00:00",
-  "api_refreshed_at": "2026-10-09T10:54:32+00:00",
+  "source_at": "2026-10-09T13:18:38+00:00",
+  "api_refreshed_at": "2026-10-09T13:18:38+00:00",
   "count": 86,
   "courses": [
     {
@@ -1373,11 +1373,19 @@
       "target_audience": "Postgraduate students and researchers with interest in KVP research Individuals working in HIV prevention programs (NGO employees and civil servants) Health care providers in HIV services",
       "learning_outcomes": ". At the end of the course, participants will be able to explain historical and theoretical perspectives related to KVP; describe how marginalization, stigma, and discrimination affect access to HIV services among KVP; design and implement HIV prevention programming tailored to KVP; apply effective community engagement strategies among KVP; and conduct of research in KVP communities.",
       "certificate_awarded": "",
-      "date_next_offered": "",
+      "date_next_offered": "09-11-2026",
       "category": "Other courses",
       "tags": [],
-      "open_runs": [],
-      "apply_url": ""
+      "open_runs": [
+        {
+          "run_id": "155-1",
+          "start": "09-11-2026",
+          "end": "13-11-2026",
+          "application_close": "30-10-2026",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=155&applied_run_id=155-1&course_requires_cv=0&course_requires_certificate=0"
+        }
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=155&applied_run_id=155-1&course_requires_cv=0&course_requires_certificate=0"
     },
     {
       "id": "124",
