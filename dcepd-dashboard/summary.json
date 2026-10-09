@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-09T05:51:34+00:00",
+    "source_at": "2026-10-09T09:18:59+00:00",
     "as_of": "2026-10-09",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 993,
-    "application_attempt_records": 1024,
-    "excluded_application_attempts": 31,
+    "application_records": 996,
+    "application_attempt_records": 1028,
+    "excluded_application_attempts": 32,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6339,7 +6339,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 6,
+      "applications": 9,
       "withheld": false
     },
     {
@@ -6472,19 +6472,19 @@
     },
     {
       "location": "Morogoro",
-      "applications": 30
+      "applications": 31
     },
     {
       "location": "Pwani",
       "applications": 27
     },
     {
-      "location": "Iringa",
-      "applications": 25
+      "location": "Kilimanjaro",
+      "applications": 26
     },
     {
-      "location": "Kilimanjaro",
-      "applications": 24
+      "location": "Iringa",
+      "applications": 25
     },
     {
       "location": "Mwanza",
