@@ -55,8 +55,7 @@ jobs:
         env:
           REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
-          DCEPD_DIRECTOR_NAME: Prof. Raphael Z. Sangeda
-          DCEPD_DIRECTOR_TITLE: Director, DCEPD - MUHAS
+          DCEPD_PRIMARY_SIGNATORY: 'Prof Emmy Metta; Director, CEPD; MUHAS'
           CERT_PROCESS_LIMIT: '10'
           TZ: Africa/Dar_es_Salaam
         run: python scripts/process_certificate_requests.py process
