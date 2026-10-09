@@ -43,8 +43,7 @@ RUN_CONFIGS = {
     }
 }
 
-DIRECTOR_NAME = os.getenv("DCEPD_DIRECTOR_NAME", "Prof. Raphael Z. Sangeda")
-DIRECTOR_TITLE = os.getenv("DCEPD_DIRECTOR_TITLE", "Director, DCEPD - MUHAS")
+PRIMARY_SIGNATORY = os.getenv("DCEPD_PRIMARY_SIGNATORY", "Prof Emmy Metta; Director, CEPD; MUHAS")
 
 GOVT_LOGO_URL = "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Coat_of_arms_of_Tanzania.svg/250px-Coat_of_arms_of_Tanzania.svg.png"
 MUHAS_LOGO_URL = "https://muhas.ac.tz/wp-content/uploads/2024/01/LOGO.png"
@@ -134,13 +133,50 @@ def fit_font(text, font, max_size, min_size, max_width):
     return size
 
 
+def display_name(value):
+    """Normalize obvious all-upper/all-lower names for display; preserve mixed case."""
+    text = " ".join(str(value or "").split())
+    if not text:
+        return ""
+    letters = "".join(ch for ch in text if ch.isalpha())
+    if letters and (letters.isupper() or letters.islower()):
+        return text.title()
+    return text
+
+
+def parse_signatory(value, fallback_name="", fallback_title="Course Director", fallback_institution="MUHAS"):
+    """Return Name; Title; Institution. Reject malformed populated values."""
+    text = " ".join(str(value or "").split())
+    if not text:
+        return (display_name(fallback_name), fallback_title, fallback_institution)
+    parts = [x.strip() for x in text.split(";")]
+    if len(parts) != 3 or not all(parts):
+        raise RuntimeError(
+            "Certificate co-signatory must use exactly: Name; Title; Institution"
+        )
+    return (display_name(parts[0]), parts[1], parts[2])
+
+
+def draw_signatory(c, x, y, name, title, institution, align="left"):
+    draw = c.drawString if align == "left" else c.drawRightString
+    c.setFont("Times-Roman", 9)
+    c.setFillColor(colors.HexColor("#222222"))
+    draw(x, y + 25, name)
+    c.setFont("Times-Bold", 8.6)
+    c.setFillColor(colors.HexColor("#0D4163"))
+    draw(x, y + 10, title)
+    c.setFont("Times-Roman", 8.2)
+    c.setFillColor(colors.HexColor("#222222"))
+    draw(x, y - 3, institution)
+
+
 def draw_centered_paragraph(c, text, x, y, width, height, style):
     p = Paragraph(text, style)
     w, h = p.wrap(width, height)
     p.drawOn(c, x + (width - w) / 2, y + (height - h) / 2)
 
 
-def render_certificate(record, course_name, course_director, cfg, pdf_path):
+def render_certificate(record, course_name, course_director, co_signatory, cfg, pdf_path):
     OUT.mkdir(parents=True, exist_ok=True)
     width, height = landscape(A4)
     c = canvas.Canvas(str(pdf_path), pagesize=(width, height))
@@ -178,7 +214,7 @@ def render_certificate(record, course_name, course_director, cfg, pdf_path):
     c.setFont("Times-Italic", 12.5)
     c.drawCentredString(width / 2, height - 154, "This is to certify that")
 
-    name = (record.get("full_name") or "").strip()
+    name = display_name(record.get("full_name"))
     name_size = fit_font(name, "Times-Bold", 25, 18, width - 170)
     c.setFillColor(red)
     c.setFont("Times-Bold", name_size)
@@ -207,20 +243,14 @@ def render_certificate(record, course_name, course_director, cfg, pdf_path):
     c.line(65, sig_y + 42, 260, sig_y + 42)
     c.line(width - 260, sig_y + 42, width - 65, sig_y + 42)
 
-    c.setFillColor(dark)
-    c.setFont("Times-Roman", 9)
-    c.drawString(65, sig_y + 25, DIRECTOR_NAME)
-    c.setFont("Times-Bold", 8.6)
-    c.setFillColor(dark_blue)
-    c.drawString(65, sig_y + 10, DIRECTOR_TITLE)
-
-    c.setFillColor(dark)
-    c.setFont("Times-Roman", 9)
-    right_name = course_director or "Course Director"
-    c.drawRightString(width - 65, sig_y + 25, right_name)
-    c.setFont("Times-Bold", 8.6)
-    c.setFillColor(dark_blue)
-    c.drawRightString(width - 65, sig_y + 10, "Course Director")
+    primary_name, primary_title, primary_institution = parse_signatory(
+        PRIMARY_SIGNATORY, "Prof Emmy Metta", "Director, CEPD", "MUHAS"
+    )
+    secondary_name, secondary_title, secondary_institution = parse_signatory(
+        co_signatory, course_director or "Course Director", "Course Director", "MUHAS"
+    )
+    draw_signatory(c, 65, sig_y, primary_name, primary_title, primary_institution, "left")
+    draw_signatory(c, width - 65, sig_y, secondary_name, secondary_title, secondary_institution, "right")
 
     c.setFillColor(colors.HexColor("#333333"))
     c.setFont("Helvetica", 7.7)
@@ -231,22 +261,28 @@ def render_certificate(record, course_name, course_director, cfg, pdf_path):
     c.save()
 
 
-def course_info(course_id):
-    raw = [
-        r for r in export75(course_id, label=False)
-        if not (r.get("redcap_repeat_instrument") or "").strip()
-    ]
-    lab = [
-        r for r in export75(course_id, label=True)
-        if not (r.get("redcap_repeat_instrument") or "").strip()
-    ]
+def course_info(course_id, batch_id):
+    raw_all = export75(course_id, label=False)
+    lab_all = export75(course_id, label=True)
+    raw = [r for r in raw_all if not (r.get("redcap_repeat_instrument") or "").strip()]
+    lab = [r for r in lab_all if not (r.get("redcap_repeat_instrument") or "").strip()]
     if not raw:
         raise RuntimeError(f"Project 75 course record {course_id} not found")
     rr = raw[0]
     ll = lab[0] if lab else {}
+
+    co_signatory = ""
+    for run in raw_all:
+        if (run.get("redcap_repeat_instrument") or "").strip() != "course_run_log":
+            continue
+        if (run.get("run_batch_id") or "").strip() == batch_id:
+            co_signatory = (run.get("certif_co_signatory") or "").strip()
+            break
+
     return (
         (rr.get("course_name") or "").strip(),
         (ll.get("course_director_id") or "").strip(),
+        co_signatory,
     )
 
 
@@ -287,7 +323,7 @@ def process(limit=None):
             continue
 
         course_id = (r.get("applied_course_id") or "").strip()
-        course_name, course_director = course_info(course_id)
+        course_name, course_director, co_signatory = course_info(course_id, batch)
         if not course_name:
             raise RuntimeError(f"Course title missing for record {rid}")
         if not course_director:
@@ -297,7 +333,7 @@ def process(limit=None):
             r.get("certificate_serial_no") or rid
         ).replace("/", "_").replace("\\", "_")
         pdf_path = OUT / f"{serial_safe}_{rid}.pdf"
-        render_certificate(r, course_name, course_director, cfg, pdf_path)
+        render_certificate(r, course_name, course_director, co_signatory, cfg, pdf_path)
 
         upload_pdf(rid, pdf_path)
         today = datetime.now(TZ).strftime("%d/%m/%Y")
