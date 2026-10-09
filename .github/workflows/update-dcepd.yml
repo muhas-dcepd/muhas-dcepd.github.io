@@ -186,6 +186,7 @@ jobs:
 
       - name: Validate and update search metadata
         run: |
+          python -m py_compile scripts/build_and_send_dcepd_weekly_report.py scripts/process_certificate_requests.py
           python -m unittest discover -s tests -p 'test_dcepd*.py'
           python scripts/build_site_seo.py
 
