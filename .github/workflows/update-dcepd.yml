@@ -85,6 +85,12 @@ jobs:
           TZ: Africa/Dar_es_Salaam
         run: Rscript project75_refresh_v2_2.R
 
+      - name: Backfill and verify Project 75 run batch IDs
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+        run: python scripts/backfill_project75_run_batch_ids.py
+
       - name: Promote verified Project 79 course crosswalk
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         shell: bash
