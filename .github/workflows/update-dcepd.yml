@@ -11,6 +11,10 @@ on:
         description: Refresh both REDCap feeds before publishing
         type: boolean
         default: true
+      send_weekly_report:
+        description: Send the private DCEPD weekly management workbook after a verified refresh
+        type: boolean
+        default: false
   schedule:
     - cron: '37 1 * * *'
 
@@ -149,7 +153,7 @@ jobs:
           python scripts/build_and_send_dcepd_weekly_report.py
 
       - name: Send Friday DCEPD management report
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api && inputs.send_weekly_report)
         continue-on-error: true
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
@@ -165,7 +169,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ "$(TZ=Africa/Dar_es_Salaam date +%u)" != "5" ]]; then
+          if [[ "${{ github.event_name }}" == "schedule" && "$(TZ=Africa/Dar_es_Salaam date +%u)" != "5" ]]; then
             echo "Not Friday in Africa/Dar_es_Salaam; weekly email skipped."
             exit 0
           fi
