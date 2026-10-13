@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-13T17:49:06+00:00",
+    "source_at": "2026-10-13T21:59:08+00:00",
     "as_of": "2026-10-13",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1010,
-    "application_attempt_records": 1062,
-    "excluded_application_attempts": 52,
+    "application_records": 1013,
+    "application_attempt_records": 1067,
+    "excluded_application_attempts": 54,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6367,7 +6367,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 23,
+      "applications": 26,
       "withheld": false
     },
     {
@@ -6496,7 +6496,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 42
+      "applications": 44
     },
     {
       "location": "Morogoro",
@@ -6519,12 +6519,12 @@
       "applications": 23
     },
     {
-      "location": "Tanga",
+      "location": "Mbeya",
       "applications": 23
     },
     {
-      "location": "Mbeya",
-      "applications": 22
+      "location": "Tanga",
+      "applications": 23
     },
     {
       "location": "Kigoma",
@@ -6597,16 +6597,16 @@
       "applications": 12
     },
     {
-      "location": "Other small groups (combined)",
+      "location": "Kenya",
       "applications": 9
     },
     {
-      "location": "Kenya",
-      "applications": 8
+      "location": "Other",
+      "applications": 9
     },
     {
-      "location": "Other",
-      "applications": 8
+      "location": "Other small groups (combined)",
+      "applications": 9
     },
     {
       "location": "Zambia",
