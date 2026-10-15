@@ -30,3 +30,5 @@ The full technical README and institutional HANDOFF are inside the runtime packa
 ## October 2026 closeout
 
 The 6 October verified full refresh produced a public catalogue of **86 courses**. SCEPD `accreditation_date` now drives first accreditation, immutable code generation and accreditation status; APC approval date/reference remain downstream letter-control fields. The approved one-time suspect-fee cleanup completed with **142/142** targeted records verified blank.
+
+<!-- deployment refresh trigger: 2026-10-15 -->
