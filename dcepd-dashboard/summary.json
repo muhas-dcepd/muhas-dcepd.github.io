@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-15T10:03:47+00:00",
+    "source_at": "2026-10-15T11:27:00+00:00",
     "as_of": "2026-10-15",
     "registered_courses": 195,
     "listed_courses": 86,
     "application_records": 1049,
-    "application_attempt_records": 1105,
-    "excluded_application_attempts": 56,
+    "application_attempt_records": 1106,
+    "excluded_application_attempts": 57,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -736,8 +736,8 @@
       "id": "91",
       "course": "MUHAS- Pharmacces Research Symposium",
       "code": "DCEPD/SON/091/2018",
-      "school": "School of Nursing",
-      "department": "SON",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
       "listed": false
     },
     {
@@ -4559,8 +4559,8 @@
     {
       "course_id": "91",
       "course": "MUHAS- Pharmacces Research Symposium",
-      "school": "School of Nursing",
-      "department": "SON",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
       "year": "2020",
       "fy": "2019/20",
       "quarter": "Q3",
@@ -4573,8 +4573,8 @@
     {
       "course_id": "91",
       "course": "MUHAS- Pharmacces Research Symposium",
-      "school": "School of Nursing",
-      "department": "SON",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
       "year": "2023",
       "fy": "2023/24",
       "quarter": "Q2",
@@ -5482,8 +5482,8 @@
     {
       "course_id": "91",
       "course": "MUHAS- Pharmacces Research Symposium",
-      "school": "School of Nursing",
-      "department": "SON",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Epidemiology and Biostatistics",
       "year": "2026",
       "fy": "2025/26",
       "quarter": "Q4",

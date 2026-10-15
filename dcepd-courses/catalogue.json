@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-15T10:03:47+00:00",
-  "api_refreshed_at": "2026-10-15T10:03:47+00:00",
+  "source_at": "2026-10-15T11:27:00+00:00",
+  "api_refreshed_at": "2026-10-15T11:27:00+00:00",
   "count": 86,
   "courses": [
     {
@@ -13,26 +13,26 @@
       "school": "School of Biomedical Sciences",
       "department": "Biomedical Engineering",
       "fee_tzs": "",
-      "cpd_points": "",
+      "cpd_points": "5",
       "summary": "This course provides practical, hands-on training in the use of low-cost 3D printing technologies to address healthcare challenges, particularly in low- and middle-income countries (LMICs). Participants will learn how to design, prototype, manufacture, and evaluate replacement parts for biomedical equipment, assistive devices, and clinical training models using computer-aided design (CAD) and 3D printing. The course also covers materials selection, printer operation and maintenance, and real-world implementation through case studies.",
       "duration": "The training will be conducted over a period of one month, 2 weeks online and 2 weeks physical. During the two-week online phase, participants will attend live webinars and interactive lectures covering the theoretical foundations of 3D printing, including printer components, materials, CAD software fundamentals and design principles for biomedical applications (Topics 1 and 2 of the Training Content).",
       "delivery_mode": "Online; Face-to-face/In-person",
       "target_audience": "The course is intended for biomedical engineers, biomedical engineering technicians, clinical engineers, medical equipment maintenance personnel, rehabilitation engineers, prosthetists and orthotists, healthcare professionals, university lecturers, researchers, innovators, makers, and students in engineering or health sciences. Professionals working in hospitals, research institutions, universities, innovation hubs, non-governmental organizations, and manufacturing industries with an interest in healthcare innovation are also encouraged to apply. Applicants should possess at least a Diploma or Bachelor's degree (or equivalent qualification) in Biomedical Engineering, Engineering, Health Sciences, or a related discipline.",
       "learning_outcomes": ". Upon successful completion of this course, participants will be able to: Explain the principles, applications, and benefits of 3D printing in healthcare. Design three-dimensional models for healthcare applications using Computer-Aided Design (CAD) software. Select appropriate printing materials and technologies for different medical applications. Set up, operate, calibrate, and perform routine maintenance of low-cost 3D printers. Apply iterative design and prototyping techniques to develop functional healthcare products. Design and manufacture replacement parts for biomedical equipment, clinical training simulators, and assistive devices using 3D printing. Evaluate the quality, functionality, and suitability of 3D-printed products for healthcare applications. Apply 3D printing technologies to address real-world healthcare challenges while supporting equipment maintenance, reducing downtime, and promoting sustainable local innovation.",
       "certificate_awarded": "Participants will be awarded a certificate upon successful completion of the course and achievement of a minimum score of 70% in the combined written and practical assessments",
-      "date_next_offered": "23-11-2026",
+      "date_next_offered": "09-11-2026",
       "category": "Other courses",
       "tags": [],
       "open_runs": [
         {
           "run_id": "206-1",
-          "start": "23-11-2026",
-          "end": "27-11-2026",
-          "application_close": "23-11-2026",
-          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=206&applied_run_id=206-1&course_requires_cv=0&course_requires_certificate=0"
+          "start": "09-11-2026",
+          "end": "04-12-2026",
+          "application_close": "30-10-2026",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=206&applied_run_id=206-1&course_requires_cv=1&course_requires_certificate=0"
         }
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=206&applied_run_id=206-1&course_requires_cv=0&course_requires_certificate=0"
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=206&applied_run_id=206-1&course_requires_cv=1&course_requires_certificate=0"
     },
     {
       "id": "163",
