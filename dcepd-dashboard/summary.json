@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-17T08:52:32+00:00",
+    "source_at": "2026-10-17T12:30:00+00:00",
     "as_of": "2026-10-17",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1059,
-    "application_attempt_records": 1133,
-    "excluded_application_attempts": 74,
+    "application_records": 1060,
+    "application_attempt_records": 1137,
+    "excluded_application_attempts": 77,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6511,7 +6511,7 @@
     },
     {
       "location": "Morogoro",
-      "applications": 33
+      "applications": 34
     },
     {
       "location": "Kilimanjaro",
