@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-19T17:33:04+00:00",
+    "source_at": "2026-10-19T21:43:25+00:00",
     "as_of": "2026-10-19",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1078,
-    "application_attempt_records": 1183,
-    "excluded_application_attempts": 105,
+    "application_records": 1080,
+    "application_attempt_records": 1188,
+    "excluded_application_attempts": 108,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6395,7 +6395,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 80,
+      "applications": 81,
       "withheld": false
     },
     {
@@ -6516,7 +6516,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 11,
+      "applications": 12,
       "withheld": false
     }
   ],
@@ -6535,7 +6535,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 47
+      "applications": 48
     },
     {
       "location": "Morogoro",
@@ -6551,7 +6551,7 @@
     },
     {
       "location": "Mbeya",
-      "applications": 25
+      "applications": 26
     },
     {
       "location": "Iringa",
@@ -6640,12 +6640,12 @@
       "applications": 11
     },
     {
-      "location": "Other small groups (combined)",
+      "location": "Other",
       "applications": 10
     },
     {
-      "location": "Other",
-      "applications": 9
+      "location": "Other small groups (combined)",
+      "applications": 10
     },
     {
       "location": "Zambia",
