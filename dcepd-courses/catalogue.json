@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-19T06:47:18+00:00",
-  "api_refreshed_at": "2026-10-19T06:47:18+00:00",
+  "source_at": "2026-10-19T11:17:30+00:00",
+  "api_refreshed_at": "2026-10-19T11:17:30+00:00",
   "count": 86,
   "courses": [
     {
@@ -100,15 +100,23 @@
       "target_audience": "",
       "learning_outcomes": "",
       "certificate_awarded": "",
-      "date_next_offered": "",
+      "date_next_offered": "18-01-2027",
       "category": "Other courses",
       "tags": [
         "AMR",
         "antibiotics",
         "antimicrobial resistance"
       ],
-      "open_runs": [],
-      "apply_url": ""
+      "open_runs": [
+        {
+          "run_id": "149-1",
+          "start": "18-01-2027",
+          "end": "23-01-2027",
+          "application_close": "15-01-2027",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=149&applied_run_id=149-1&course_requires_cv=0&course_requires_certificate=0"
+        }
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=149&applied_run_id=149-1&course_requires_cv=0&course_requires_certificate=0"
     },
     {
       "id": "34",
