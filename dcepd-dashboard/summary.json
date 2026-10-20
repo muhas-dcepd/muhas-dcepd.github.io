@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-20T06:32:35+00:00",
+    "source_at": "2026-10-20T10:09:15+00:00",
     "as_of": "2026-10-20",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1086,
-    "application_attempt_records": 1196,
-    "excluded_application_attempts": 110,
+    "application_records": 1093,
+    "application_attempt_records": 1207,
+    "excluded_application_attempts": 114,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6395,7 +6395,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 83,
+      "applications": 84,
       "withheld": false
     },
     {
@@ -6516,7 +6516,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 15,
+      "applications": 21,
       "withheld": false
     },
     {
@@ -6534,7 +6534,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 517
+      "applications": 523
     },
     {
       "location": "Dodoma",
@@ -6609,10 +6609,6 @@
       "applications": 14
     },
     {
-      "location": "Other small groups (combined)",
-      "applications": 12
-    },
-    {
       "location": "Simiyu",
       "applications": 11
     },
@@ -6637,8 +6633,16 @@
       "applications": 8
     },
     {
+      "location": "Other small groups (combined)",
+      "applications": 8
+    },
+    {
       "location": "Katavi",
       "applications": 6
+    },
+    {
+      "location": "Tabora",
+      "applications": 5
     }
   ],
   "countries": [
