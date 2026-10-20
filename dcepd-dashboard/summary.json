@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-20T10:09:15+00:00",
+    "source_at": "2026-10-20T15:01:31+00:00",
     "as_of": "2026-10-20",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1093,
-    "application_attempt_records": 1207,
-    "excluded_application_attempts": 114,
+    "application_records": 1099,
+    "application_attempt_records": 1217,
+    "excluded_application_attempts": 118,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6395,7 +6395,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 84,
+      "applications": 88,
       "withheld": false
     },
     {
@@ -6516,7 +6516,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 21,
+      "applications": 23,
       "withheld": false
     },
     {
@@ -6534,7 +6534,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 523
+      "applications": 526
     },
     {
       "location": "Dodoma",
@@ -6546,11 +6546,11 @@
     },
     {
       "location": "Foreigner",
-      "applications": 49
+      "applications": 50
     },
     {
       "location": "Morogoro",
-      "applications": 35
+      "applications": 37
     },
     {
       "location": "Kilimanjaro",
@@ -6651,11 +6651,11 @@
       "applications": 12
     },
     {
-      "location": "Kenya",
-      "applications": 11
+      "location": "Other",
+      "applications": 12
     },
     {
-      "location": "Other",
+      "location": "Kenya",
       "applications": 11
     },
     {
