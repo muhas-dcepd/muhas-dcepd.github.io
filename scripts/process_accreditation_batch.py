@@ -151,6 +151,16 @@ def claim():
             if not (r.get(f) or '').strip():missing.append(f"record {r['record_id']}: {f}")
     if missing:
         update_admin(i,{'apc_status':'4','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_qc_errors':len(missing),'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':'Missing required fields: '+'; '.join(missing[:20])}); raise RuntimeError('; '.join(missing))
+    # Fail closed on an ambiguous retry: the original failed APC may have
+    # written course-level dates/references before crashing. Reissuing again
+    # would consume another sequence and invalidate already-generated letters.
+    # The existing instance-6 failure occurred before any course-level writes,
+    # but every future resume must recheck the live registry first.
+    if resuming:
+        previously_written=[r['record_id'] for r in sel
+                            if (r.get('approval_date') or '').strip()==trigger_date.isoformat()]
+        if previously_written:
+            raise RuntimeError('Resume requires manual reconciliation: selected records already have the APC trigger approval date: '+','.join(previously_written))
     stem,vol=current_settings(adm,ms); pat=re.compile(r'^'+re.escape(stem)+re.escape(vol)+r'/([0-9]+)$'); seen={}; mx=0
     for r in ms:
         m=pat.match((r.get('approval_reference') or '').strip())
