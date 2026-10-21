@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-21T15:19:49+00:00",
+    "source_at": "2026-10-21T19:22:35+00:00",
     "as_of": "2026-10-21",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1111,
-    "application_attempt_records": 1262,
-    "excluded_application_attempts": 151,
+    "application_records": 1117,
+    "application_attempt_records": 1270,
+    "excluded_application_attempts": 153,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6437,7 +6437,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 92,
+      "applications": 94,
       "withheld": false
     },
     {
@@ -6558,7 +6558,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 29,
+      "applications": 33,
       "withheld": false
     },
     {
@@ -6598,11 +6598,11 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 536
+      "applications": 538
     },
     {
       "location": "Dodoma",
-      "applications": 66
+      "applications": 68
     },
     {
       "location": "Arusha",
@@ -6610,7 +6610,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 50
+      "applications": 51
     },
     {
       "location": "Morogoro",
@@ -6642,7 +6642,7 @@
     },
     {
       "location": "Kigoma",
-      "applications": 20
+      "applications": 21
     },
     {
       "location": "Ruvuma",
@@ -6711,11 +6711,11 @@
   ],
   "countries": [
     {
-      "location": "Uganda",
-      "applications": 12
+      "location": "Other",
+      "applications": 13
     },
     {
-      "location": "Other",
+      "location": "Uganda",
       "applications": 12
     },
     {
