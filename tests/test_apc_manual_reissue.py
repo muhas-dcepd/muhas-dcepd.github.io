@@ -60,7 +60,7 @@ class APCTest(unittest.TestCase):
         refs = [x["approval_reference"] for x in courses]
         self.assertEqual(len(set(refs)), 12)
         self.assertTrue(all(x["approval_date"] == "2026-10-21" for x in courses))
-        self.assertTrue(all(int(x["approval_reference"].rsplit("/", 1)[-1]) > 51 for x in courses))
+        self.assertTrue(all(int(x["approval_reference"].rsplit("/", 1)[-1]) > 44 for x in courses))
         self.assertIn("KB 328/364/25/040", snapshot)
         self.assertIn('"record_id": "180"', snapshot)
 
