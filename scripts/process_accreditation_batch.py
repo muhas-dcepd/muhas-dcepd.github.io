@@ -187,6 +187,18 @@ def claim():
     # records; no automatic current/previous-quarter cutoff applies here.
     if not refs:
         raise RuntimeError('No accreditation references allocated for selected quarter.')
+    # Persist the pre-write state before any Project 75 mutation. This file is
+    # uploaded even if subsequent write-back or letter generation fails.
+    prewrite=OUT/f'APC_instance_{i}_prewrite.json'
+    if prewrite.exists():
+        raise RuntimeError(f'Existing pre-write snapshot requires manual reconciliation: {prewrite}')
+    prewrite.write_text(json.dumps({
+        'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),
+        'selected_records':[{'record_id':r['record_id'],
+            'accreditation_date':r.get('accreditation_date',''),
+            'approval_reference':r.get('approval_reference',''),
+            'approval_date':r.get('approval_date','')} for r in sel],
+        'proposed_references':refs},indent=2),encoding='utf-8')
     update_admin(i,{'apc_status':'2','apc_trigger_date':trigger_date,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'{"Resumed" if resuming else "Claimed"} by GitHub; processing {fy} {q}. Original trigger date preserved: {trigger_date}.'})
     # An explicitly requested reissue resets the letter date for all selected
     # courses, including records with previously issued Q1 letters.
