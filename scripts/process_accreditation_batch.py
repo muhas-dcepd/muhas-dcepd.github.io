@@ -125,7 +125,11 @@ def claim():
         print('has_request=false'); return
     i=inst(req); now=datetime.now(TZ); today=now.date(); ms=masters(rows); resuming=(req.get('apc_status') or '')=='4'; trigger_date=(pdate(req.get('apc_trigger_date')) if resuming else None) or today
     qs,qe,q,fy=selected_period(req.get('apc_process_fiscal_year'),req.get('apc_process_quarter'))
-    reset_dates=date_reset_allowed(today,qs,qe)
+    # APC requests require explicit action and warning acknowledgement. Unlike scheduled
+    # catalogue refreshes, an authorized APC batch may process a historical quarter.
+    # Preserve accreditation_date as the quarter-selection source; issue letters
+    # using the original trigger date (including on an explicit failed-instance resume).
+    reset_dates=True
     sel=[r for r in ms if (d:=pdate(r.get('accreditation_date'))) and qs<=d<=qe]
     if not sel:
         update_admin(i,{
@@ -169,6 +173,11 @@ def claim():
             ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
         refs[rid]=ref
     batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'
+    # Complete date eligibility preflight before marking Running or writing course rows.
+    # A manual APC request is authorized to issue a new approval_date for selected
+    # records; no automatic current/previous-quarter cutoff applies here.
+    if not refs:
+        raise RuntimeError('No accreditation references allocated for selected quarter.')
     update_admin(i,{'apc_status':'2','apc_trigger_date':trigger_date,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'{"Resumed" if resuming else "Claimed"} by GitHub; processing {fy} {q}. Original trigger date preserved: {trigger_date}.'})
     writes=[]
     letter_dates={}
