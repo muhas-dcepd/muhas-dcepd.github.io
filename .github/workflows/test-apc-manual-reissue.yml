@@ -1,0 +1,21 @@
+name: Test APC manual reissue (offline)
+on:
+  push:
+    branches:
+      - fix/apc-manual-quarter-date-reset-20261021
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-apc-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests reportlab
+      - name: Compile APC source
+        run: python -m py_compile scripts/process_accreditation_batch.py
+      - name: Run mocked APC tests (no REDCap credentials)
+        run: python -m unittest discover -s tests -p test_apc_manual_reissue.py -v

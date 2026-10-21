@@ -125,7 +125,11 @@ def claim():
         print('has_request=false'); return
     i=inst(req); now=datetime.now(TZ); today=now.date(); ms=masters(rows); resuming=(req.get('apc_status') or '')=='4'; trigger_date=(pdate(req.get('apc_trigger_date')) if resuming else None) or today
     qs,qe,q,fy=selected_period(req.get('apc_process_fiscal_year'),req.get('apc_process_quarter'))
-    reset_dates=date_reset_allowed(today,qs,qe)
+    # APC requests require explicit action and warning acknowledgement. Unlike scheduled
+    # catalogue refreshes, an authorized APC batch may process a historical quarter.
+    # Preserve accreditation_date as the quarter-selection source; issue letters
+    # using the original trigger date (including on an explicit failed-instance resume).
+    reset_dates=True
     sel=[r for r in ms if (d:=pdate(r.get('accreditation_date'))) and qs<=d<=qe]
     if not sel:
         update_admin(i,{
@@ -147,6 +151,16 @@ def claim():
             if not (r.get(f) or '').strip():missing.append(f"record {r['record_id']}: {f}")
     if missing:
         update_admin(i,{'apc_status':'4','apc_trigger_date':today,'apc_quarter':f'{fy} {q}','apc_qc_errors':len(missing),'apc_completed_at':now.strftime('%Y-%m-%d %H:%M:%S'),'apc_result_message':'Missing required fields: '+'; '.join(missing[:20])}); raise RuntimeError('; '.join(missing))
+    # Fail closed on an ambiguous retry: the original failed APC may have
+    # written course-level dates/references before crashing. Reissuing again
+    # would consume another sequence and invalidate already-generated letters.
+    # The existing instance-6 failure occurred before any course-level writes,
+    # but every future resume must recheck the live registry first.
+    if resuming:
+        previously_written=[r['record_id'] for r in sel
+                            if (r.get('approval_date') or '').strip()==trigger_date.isoformat()]
+        if previously_written:
+            raise RuntimeError('Resume requires manual reconciliation: selected records already have the APC trigger approval date: '+','.join(previously_written))
     stem,vol=current_settings(adm,ms); pat=re.compile(r'^'+re.escape(stem)+re.escape(vol)+r'/([0-9]+)$'); seen={}; mx=0
     for r in ms:
         m=pat.match((r.get('approval_reference') or '').strip())
@@ -154,46 +168,49 @@ def claim():
             n=int(m.group(1));mx=max(mx,n);seen.setdefault(n,[]).append(r['record_id'])
     dup={k:v for k,v in seen.items() if len(v)>1}
     if dup:raise RuntimeError('Duplicate serials: '+json.dumps(dup))
+    # Explicit APC reissue: allocate a fresh reference for EVERY selected course.
+    # Preserve prior letters for audit, even when the course is not a re-accreditation.
     refs={}; reaccreditation_ids=set(); previous_letters={}; nxt=mx+1
     for r in sorted(sel,key=lambda r:(r.get('accreditation_date') or '',int(r['record_id']))):
         rid=r['record_id']
-        is_reacc=is_reaccreditation_approval(r)
-        if is_reacc:
+        if is_reaccreditation_approval(r):
             reaccreditation_ids.add(rid)
-            previous_letters[rid]={
-                'approval_reference':(r.get('approval_reference') or '').strip(),
-                'approval_date':(r.get('approval_date') or '').strip()
-            }
-        ref=(r.get('approval_reference') or '').strip()
-        if is_reacc or not ref:
-            ref=f'{stem}{vol}/{nxt:03d}';nxt+=1
-        refs[rid]=ref
+        previous_letters[rid]={
+            'approval_reference':(r.get('approval_reference') or '').strip(),
+            'approval_date':(r.get('approval_date') or '').strip()
+        }
+        refs[rid]=f'{stem}{vol}/{nxt:03d}'
+        nxt+=1
     batch_id=f'APC-{fy.replace("/","")}-{q}-I{i}'
+    # Complete date eligibility preflight before marking Running or writing course rows.
+    # A manual APC request is authorized to issue a new approval_date for selected
+    # records; no automatic current/previous-quarter cutoff applies here.
+    if not refs:
+        raise RuntimeError('No accreditation references allocated for selected quarter.')
+    # Persist the pre-write state before any Project 75 mutation. This file is
+    # uploaded even if subsequent write-back or letter generation fails.
+    prewrite=OUT/f'APC_instance_{i}_prewrite.json'
+    if prewrite.exists():
+        raise RuntimeError(f'Existing pre-write snapshot requires manual reconciliation: {prewrite}')
+    prewrite.write_text(json.dumps({
+        'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),
+        'selected_records':[{'record_id':r['record_id'],
+            'accreditation_date':r.get('accreditation_date',''),
+            'approval_reference':r.get('approval_reference',''),
+            'approval_date':r.get('approval_date','')} for r in sel],
+        'proposed_references':refs},indent=2),encoding='utf-8')
     update_admin(i,{'apc_status':'2','apc_trigger_date':trigger_date,'apc_quarter':f'{fy} {q}','apc_batch_id':batch_id,'apc_github_run_id':os.getenv('GITHUB_RUN_ID',''),'apc_result_message':f'{"Resumed" if resuming else "Claimed"} by GitHub; processing {fy} {q}. Original trigger date preserved: {trigger_date}.'})
-    writes=[]
-    letter_dates={}
-    for rid,ref in refs.items():
-        row={'record_id':rid,'approval_reference':ref}
-        existing=(next(r for r in sel if r['record_id']==rid).get('approval_date') or '').strip()
-        is_reacc=rid in reaccreditation_ids
-        if resuming and existing and not is_reacc:
-            letter_dates[rid]=existing
-        elif reset_dates:
-            row['approval_date']=trigger_date.isoformat()
-            letter_dates[rid]=trigger_date.isoformat()
-        else:
-            if is_reacc:
-                raise RuntimeError(f'record {rid}: re-accreditation needs a new approval letter date, but the selected quarter is outside the automatic date-reset window')
-            if not existing:
-                raise RuntimeError(f'record {rid}: approval_date is blank and selected quarter is outside the automatic date-reset window')
-            letter_dates[rid]=existing
-        writes.append(row)
+    # An explicitly requested reissue resets the letter date for all selected
+    # courses, including records with previously issued Q1 letters.
+    writes=[{'record_id':rid,'approval_reference':ref,
+             'approval_date':trigger_date.isoformat()} for rid,ref in refs.items()]
+    letter_dates={rid:trigger_date.isoformat() for rid in refs}
     import_rows(writes)
     chk={r['record_id']:r for r in masters(export_records())}
     bad=[]
     for rid,ref in refs.items():
         if chk.get(rid,{}).get('approval_reference')!=ref: bad.append(rid)
-        if (not resuming) and reset_dates and chk.get(rid,{}).get('approval_date')!=trigger_date.isoformat(): bad.append(rid)
+        if chk.get(rid,{}).get('approval_date')!=trigger_date.isoformat(): bad.append(rid)
     if bad:raise RuntimeError('Post-write verification failed: '+','.join(sorted(set(bad))))
     vals=list(refs.values()); state={'instance':i,'batch_id':batch_id,'trigger_date':trigger_date.isoformat(),'quarter':q,'fiscal_year':fy,'period_start':qs.isoformat(),'period_end':qe.isoformat(),'date_reset_allowed':reset_dates,'record_ids':list(refs),'references':refs,'letter_dates':letter_dates,'reaccreditation_record_ids':sorted(reaccreditation_ids,key=int),'previous_letters':previous_letters,'reference_range':f'{vals[0]} – {vals[-1]}','requested_by':req.get('apc_triggered_by','')}
     STATE.write_text(json.dumps(state,indent=2),encoding='utf-8'); print('has_request=true');print(f'instance={i}');print(f'selected={len(refs)}')

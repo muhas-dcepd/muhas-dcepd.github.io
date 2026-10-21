@@ -136,6 +136,15 @@ jobs:
             fi
           done <<< "$output"
 
+      - name: Preserve APC pre-write snapshot even if claim fails
+        if: always() && steps.peek.outputs.has_request == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dcepd-apc-prewrite-${{ github.run_id }}
+          path: .project75-runtime/accreditation/APC_instance_*_prewrite.json
+          if-no-files-found: ignore
+          retention-days: 180
+
       - name: Run verified Project 75 refresh after accreditation claim
         if: steps.claim.outputs.has_request == 'true'
         working-directory: .project75-runtime
