@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-21T22:29:25+00:00",
-    "as_of": "2026-10-21",
+    "source_at": "2026-10-22T00:50:06+00:00",
+    "as_of": "2026-10-22",
     "registered_courses": 195,
     "listed_courses": 86,
-    "application_records": 1118,
-    "application_attempt_records": 1272,
-    "excluded_application_attempts": 154,
+    "application_records": 1119,
+    "application_attempt_records": 1274,
+    "excluded_application_attempts": 155,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6558,7 +6558,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 34,
+      "applications": 35,
       "withheld": false
     },
     {
@@ -6610,7 +6610,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 51
+      "applications": 52
     },
     {
       "location": "Morogoro",
@@ -6712,7 +6712,7 @@
   "countries": [
     {
       "location": "Other",
-      "applications": 13
+      "applications": 14
     },
     {
       "location": "Uganda",
