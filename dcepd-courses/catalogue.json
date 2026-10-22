@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-22T00:50:06+00:00",
-  "api_refreshed_at": "2026-10-22T00:50:06+00:00",
+  "source_at": "2026-10-22T05:29:04+00:00",
+  "api_refreshed_at": "2026-10-22T05:29:04+00:00",
   "count": 86,
   "courses": [
     {
@@ -1936,7 +1936,7 @@
       "school": "School of Biomedical Sciences",
       "department": "Physiology",
       "fee_tzs": "",
-      "cpd_points": "",
+      "cpd_points": "5",
       "summary": "",
       "duration": "",
       "delivery_mode": "",
@@ -1956,10 +1956,10 @@
           "start": "15-03-2027",
           "end": "25-03-2027",
           "application_close": "13-03-2027",
-          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=129&applied_run_id=129-3&course_requires_cv=0&course_requires_certificate=0"
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=129&applied_run_id=129-3&course_requires_cv=1&course_requires_certificate=0"
         }
       ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=129&applied_run_id=129-3&course_requires_cv=0&course_requires_certificate=0"
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=129&applied_run_id=129-3&course_requires_cv=1&course_requires_certificate=0"
     }
   ]
 }
