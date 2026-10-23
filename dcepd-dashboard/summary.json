@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-23T06:42:34+00:00",
+    "source_at": "2026-10-23T10:23:38+00:00",
     "as_of": "2026-10-23",
     "registered_courses": 196,
     "listed_courses": 86,
-    "application_records": 1138,
-    "application_attempt_records": 1308,
-    "excluded_application_attempts": 170,
+    "application_records": 1141,
+    "application_attempt_records": 1316,
+    "excluded_application_attempts": 175,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -5035,23 +5035,9 @@
       "fy": "2026/27",
       "quarter": "Q1",
       "state": "Recorded",
-      "sessions": 1,
-      "attendance": 12,
-      "reported": 1,
-      "unknown": 0
-    },
-    {
-      "course_id": "122",
-      "course": "HAEMODIALYSIS COURSE FOR HEALTH CARE PROVIDERS",
-      "school": "School of Clinical Medicine",
-      "department": "Pediatric and Child Health",
-      "year": "2026",
-      "fy": "2026/27",
-      "quarter": "Q2",
-      "state": "Recorded",
-      "sessions": 1,
-      "attendance": 26,
-      "reported": 1,
+      "sessions": 2,
+      "attendance": 38,
+      "reported": 2,
       "unknown": 0
     },
     {
@@ -6487,7 +6473,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 110,
+      "applications": 112,
       "withheld": false
     },
     {
@@ -6608,7 +6594,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 37,
+      "applications": 38,
       "withheld": false
     },
     {
@@ -6671,6 +6657,10 @@
       "applications": 30
     },
     {
+      "location": "Iringa",
+      "applications": 28
+    },
+    {
       "location": "Pwani",
       "applications": 27
     },
@@ -6679,20 +6669,16 @@
       "applications": 27
     },
     {
-      "location": "Iringa",
-      "applications": 27
+      "location": "Mwanza",
+      "applications": 24
     },
     {
-      "location": "Mwanza",
+      "location": "Ruvuma",
       "applications": 24
     },
     {
       "location": "Tanga",
       "applications": 23
-    },
-    {
-      "location": "Ruvuma",
-      "applications": 22
     },
     {
       "location": "Kigoma",
