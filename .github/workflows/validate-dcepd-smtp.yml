@@ -1,0 +1,27 @@
+name: Validate DCEPD SMTP safety (offline)
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/test_dcepd_smtp.py'
+      - 'tests/test_smtp_isolation.py'
+      - '.github/workflows/test-dcepd-smtp.yml'
+      - '.github/workflows/validate-dcepd-smtp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compile SMTP probe
+        run: python -m py_compile scripts/test_dcepd_smtp.py
+      - name: Run offline SMTP isolation tests
+        run: python -m unittest discover -s tests -p 'test_smtp_isolation.py' -v
