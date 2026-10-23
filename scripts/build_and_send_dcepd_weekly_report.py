@@ -187,19 +187,16 @@ def build_workbook(management_dir: Path, qc_path: Path | None = None) -> Path:
 
 
 def send_email(workbook: Path, summary: dict):
-    recipients = []
-    for key in ("DCEPD_EMAIL_1", "DCEPD_EMAIL_2", "DCEPD_EMAIL_3", "DCEPD_EMAIL_4"):
-        value = (os.getenv(key) or "").strip()
-        if value and value not in recipients:
-            recipients.append(value)
+    # Management distribution is fixed by DCEPD; do not use generic secret
+    # slots to silently change recipients or CC into a primary recipient.
+    recipients = ["sangeda@gmail.com", "emetta2000@gmail.com", "dmyemba09@gmail.com"]
+    cc_recipients = ["billyrique@gmail.com"]
     required = {
         "DCEPD_SMTP_HOST": os.getenv("DCEPD_SMTP_HOST", "").strip(),
         "DCEPD_SMTP_USERNAME": os.getenv("DCEPD_SMTP_USERNAME", "").strip(),
         "DCEPD_SMTP_PASSWORD": os.getenv("DCEPD_SMTP_PASSWORD", "").strip(),
     }
     missing = [k for k, v in required.items() if not v]
-    if not recipients:
-        missing.append("DCEPD_EMAIL_1..4")
     if missing:
         raise RuntimeError("Missing email configuration: " + ", ".join(missing))
 
@@ -212,6 +209,7 @@ def send_email(workbook: Path, summary: dict):
     msg["Subject"] = "DCEPD Weekly Management Report - " + datetime.now(TZ).strftime("%d %B %Y")
     msg["From"] = username
     msg["To"] = ", ".join(recipients)
+    msg["Cc"] = ", ".join(cc_recipients)
     msg.set_content(
         "Dear DCEPD team,\n\n"
         "Please find attached the weekly DCEPD management report generated from the latest verified registry refresh. "
@@ -243,6 +241,7 @@ def send_email(workbook: Path, summary: dict):
             smtp.send_message(msg)
     print("email_sent=true")
     print("recipients=" + ",".join(recipients))
+    print("cc=" + ",".join(cc_recipients))
 
 
 def main():
