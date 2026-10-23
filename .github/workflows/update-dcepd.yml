@@ -158,9 +158,18 @@ jobs:
           python -m pip install --disable-pip-version-check openpyxl
           python scripts/build_and_send_dcepd_weekly_report.py
 
+      - name: Upload DCEPD management reporting packet
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dcepd-management-${{ github.run_id }}
+          path: .project75-runtime/management
+          if-no-files-found: error
+          retention-days: 90
+
       - name: Send Friday DCEPD management report
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api && inputs.send_weekly_report)
-        continue-on-error: true
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.refresh_api && inputs.send_weekly_report))
+        timeout-minutes: 5
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           DCEPD_EMAIL_1: ${{ secrets.DCEPD_EMAIL_1 }}
@@ -180,15 +189,6 @@ jobs:
             exit 0
           fi
           python scripts/build_and_send_dcepd_weekly_report.py --send
-
-      - name: Upload DCEPD management reporting packet
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
-        uses: actions/upload-artifact@v4
-        with:
-          name: dcepd-management-${{ github.run_id }}
-          path: .project75-runtime/management
-          if-no-files-found: error
-          retention-days: 90
 
       - name: Validate and update search metadata
         run: |
