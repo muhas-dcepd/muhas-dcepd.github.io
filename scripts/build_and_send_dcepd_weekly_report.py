@@ -186,11 +186,14 @@ def build_workbook(management_dir: Path, qc_path: Path | None = None) -> Path:
     return out
 
 
-def send_email(workbook: Path, summary: dict):
+def send_email(workbook: Path, summary: dict, test_mode: bool = False):
     # Management distribution is fixed by DCEPD; do not use generic secret
     # slots to silently change recipients or CC into a primary recipient.
     recipients = ["emetta2000@gmail.com"]
     cc_recipients = ["dmyemba09@gmail.com", "billyrique@gmail.com", "sangeda@gmail.com"]
+    if test_mode:
+        recipients = ["sangeda@gmail.com"]
+        cc_recipients = []
     required = {
         "DCEPD_SMTP_HOST": os.getenv("DCEPD_SMTP_HOST", "").strip(),
         "DCEPD_SMTP_USERNAME": os.getenv("DCEPD_SMTP_USERNAME", "").strip(),
@@ -206,7 +209,7 @@ def send_email(workbook: Path, summary: dict):
     port = int(os.getenv("DCEPD_SMTP_PORT") or ("465" if "gmail" in host.lower() else "587"))
 
     msg = EmailMessage()
-    msg["Subject"] = "DCEPD Weekly Management Report - " + datetime.now(TZ).strftime("%d %B %Y")
+    msg["Subject"] = ("[TEST] " if test_mode else "") + "DCEPD Weekly Management Report - " + datetime.now(TZ).strftime("%d %B %Y")
     msg["From"] = username
     msg["To"] = ", ".join(recipients)
     msg["Cc"] = ", ".join(cc_recipients)
@@ -249,14 +252,17 @@ def main():
     ap.add_argument("--management-dir", default=".project75-runtime/management")
     ap.add_argument("--qc", default="project79-choice-qc/project79_course_choice_qc.csv")
     ap.add_argument("--send", action="store_true")
+    ap.add_argument("--test-email", action="store_true", help="Send only to the designated technical test mailbox; requires --send")
     args = ap.parse_args()
+    if args.test_email and not args.send:
+        ap.error("--test-email requires --send")
 
     management_dir = Path(args.management_dir)
     qc_path = Path(args.qc)
     summary = json.loads((management_dir / "management_summary.json").read_text(encoding="utf-8"))
     workbook = build_workbook(management_dir, qc_path)
     if args.send:
-        send_email(workbook, summary)
+        send_email(workbook, summary, test_mode=args.test_email)
 
 
 if __name__ == "__main__":
