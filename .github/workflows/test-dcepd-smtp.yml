@@ -1,0 +1,30 @@
+name: DCEPD isolated SMTP test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dcepd-smtp-test
+  cancel-in-progress: false
+
+jobs:
+  smtp-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate isolated SMTP test
+        run: python -m py_compile scripts/test_dcepd_smtp.py
+      - name: Send one test email to technical recipient only
+        env:
+          DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
+          DCEPD_SMTP_PORT: ${{ secrets.DCEPD_SMTP_PORT }}
+          DCEPD_SMTP_USERNAME: ${{ secrets.DCEPD_SMTP_USERNAME }}
+          DCEPD_SMTP_PASSWORD: ${{ secrets.DCEPD_SMTP_PASSWORD }}
+        run: python scripts/test_dcepd_smtp.py
