@@ -20,7 +20,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Validate isolated SMTP test
-        run: python -m py_compile scripts/test_dcepd_smtp.py
+        run: |
+          python -m py_compile scripts/test_dcepd_smtp.py
+          python -m unittest discover -s tests -p 'test_smtp_isolation.py'
       - name: Send one test email to technical recipient only
         env:
           DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
