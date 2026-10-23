@@ -15,10 +15,6 @@ on:
         description: Send the private DCEPD weekly management workbook after a verified refresh
         type: boolean
         default: false
-      test_weekly_email:
-        description: Send a TEST report only to the technical mailbox (never the management list)
-        type: boolean
-        default: false
   schedule:
     - cron: '37 1 * * *'
 
@@ -41,7 +37,7 @@ jobs:
           ref: main
 
       - uses: r-lib/actions/setup-r@v2
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.refresh_api || inputs.test_weekly_email))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_api)
         with:
           r-version: 'release'
 
@@ -121,7 +117,7 @@ jobs:
           python-version: '3.12'
 
       - name: Refresh public catalogue and aggregate dashboard
-        if: github.event_name != 'workflow_dispatch' || inputs.refresh_api || inputs.test_weekly_email
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_api
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
@@ -172,7 +168,7 @@ jobs:
           retention-days: 90
 
       - name: Send Friday DCEPD management report
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.test_weekly_email || (inputs.refresh_api && inputs.send_weekly_report)))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.refresh_api && inputs.send_weekly_report))
         timeout-minutes: 5
         env:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
@@ -192,11 +188,7 @@ jobs:
             echo "Not Friday in Africa/Dar_es_Salaam; weekly email skipped."
             exit 0
           fi
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.test_weekly_email }}" == "true" ]]; then
-            python scripts/build_and_send_dcepd_weekly_report.py --send --test-email
-          else
-            python scripts/build_and_send_dcepd_weekly_report.py --send
-          fi
+          python scripts/build_and_send_dcepd_weekly_report.py --send
 
       - name: Validate and update search metadata
         run: |
