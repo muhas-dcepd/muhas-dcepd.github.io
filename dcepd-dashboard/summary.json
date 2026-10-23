@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-23T15:14:36+00:00",
+    "source_at": "2026-10-23T19:15:37+00:00",
     "as_of": "2026-10-23",
     "registered_courses": 196,
     "listed_courses": 86,
-    "application_records": 1153,
-    "application_attempt_records": 1332,
-    "excluded_application_attempts": 179,
+    "application_records": 1154,
+    "application_attempt_records": 1336,
+    "excluded_application_attempts": 182,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6747,6 +6747,10 @@
       "applications": 9
     },
     {
+      "location": "Other small groups (combined)",
+      "applications": 9
+    },
+    {
       "location": "Rukwa",
       "applications": 8
     },
@@ -6756,10 +6760,6 @@
     },
     {
       "location": "Katavi",
-      "applications": 8
-    },
-    {
-      "location": "Other small groups (combined)",
       "applications": 8
     },
     {
