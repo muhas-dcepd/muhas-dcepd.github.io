@@ -189,8 +189,8 @@ def build_workbook(management_dir: Path, qc_path: Path | None = None) -> Path:
 def send_email(workbook: Path, summary: dict):
     # Management distribution is fixed by DCEPD; do not use generic secret
     # slots to silently change recipients or CC into a primary recipient.
-    recipients = ["sangeda@gmail.com", "emetta2000@gmail.com", "dmyemba09@gmail.com"]
-    cc_recipients = ["billyrique@gmail.com"]
+    recipients = ["emetta2000@gmail.com"]
+    cc_recipients = ["dmyemba09@gmail.com", "billyrique@gmail.com", "sangeda@gmail.com"]
     required = {
         "DCEPD_SMTP_HOST": os.getenv("DCEPD_SMTP_HOST", "").strip(),
         "DCEPD_SMTP_USERNAME": os.getenv("DCEPD_SMTP_USERNAME", "").strip(),
