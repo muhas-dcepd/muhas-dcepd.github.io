@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-24T09:25:46+00:00",
+    "source_at": "2026-10-24T13:26:39+00:00",
     "as_of": "2026-10-24",
     "registered_courses": 196,
     "listed_courses": 86,
-    "application_records": 1156,
-    "application_attempt_records": 1340,
-    "excluded_application_attempts": 184,
+    "application_records": 1161,
+    "application_attempt_records": 1347,
+    "excluded_application_attempts": 186,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6594,7 +6594,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 41,
+      "applications": 45,
       "withheld": false
     },
     {
@@ -6638,8 +6638,8 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": null,
-      "withheld": true
+      "applications": 5,
+      "withheld": false
     },
     {
       "course_id": "153",
@@ -6656,7 +6656,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 556
+      "applications": 559
     },
     {
       "location": "Dodoma",
@@ -6668,7 +6668,7 @@
     },
     {
       "location": "Foreigner",
-      "applications": 52
+      "applications": 53
     },
     {
       "location": "Morogoro",
@@ -6679,12 +6679,12 @@
       "applications": 30
     },
     {
-      "location": "Iringa",
+      "location": "Pwani",
       "applications": 28
     },
     {
-      "location": "Pwani",
-      "applications": 27
+      "location": "Iringa",
+      "applications": 28
     },
     {
       "location": "Mbeya",
@@ -6782,7 +6782,7 @@
     },
     {
       "location": "Other small groups (combined)",
-      "applications": 10
+      "applications": 11
     },
     {
       "location": "Zambia",
