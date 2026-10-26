@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-25T23:18:48+00:00",
-  "api_refreshed_at": "2026-10-25T23:18:48+00:00",
+  "source_at": "2026-10-26T01:19:00+00:00",
+  "api_refreshed_at": "2026-10-26T01:19:00+00:00",
   "count": 86,
   "courses": [
     {
@@ -186,16 +186,8 @@
         "artificial intelligence",
         "digital health"
       ],
-      "open_runs": [
-        {
-          "run_id": "138-1",
-          "start": "28-10-2026",
-          "end": "30-10-2026",
-          "application_close": "25-10-2026",
-          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=138&applied_run_id=138-1&course_requires_cv=0&course_requires_certificate=0"
-        }
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=138&applied_run_id=138-1&course_requires_cv=0&course_requires_certificate=0"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "134",
