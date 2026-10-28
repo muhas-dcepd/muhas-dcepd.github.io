@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-28T07:30:16+00:00",
-  "api_refreshed_at": "2026-10-28T07:30:16+00:00",
+  "source_at": "2026-10-28T14:21:59+00:00",
+  "api_refreshed_at": "2026-10-28T14:21:59+00:00",
   "count": 86,
   "courses": [
     {
@@ -855,11 +855,19 @@
       "target_audience": "The course is open to: Health professionals (clinical, public health etc) Health managers and administrators ICT and digital health personnel Researchers, data managers, and M&E officers Policy, ethics, and compliance officers Data protection officers",
       "learning_outcomes": ". Upon successful completion of this course, participants are expected to demonstrate the ability to: Explain and contextualise health data types, data flows, and information systems used in clinical care, public health, research, and administration within the Tanzanian health system. Identify and assess common cybersecurity threats and vulnerabilities affecting healthcare environments, including risks related to electronic health records, digital surveillance systems, and networked medical technologies. Apply basic cybersecurity controls and safe digital practices appropriate for healthcare settings, including secure access management, data handling, password hygiene, and incident awareness. Interpret and comply with legal, ethical, and regulatory requirements governing health data protection in Tanzania, with reference to the Personal Data Protection Act, 2022, Ministry of Health policies, and e-Government Authority (eGA) guidelines. Recognise, document, and report cybersecurity and data protection incidents in accordance with institutional procedures and national regulatory expectations. Contribute to institutional cyber risk management and governance processes, including risk identification, escalation, and communication within healthcare organisations. Support business conti",
       "certificate_awarded": "",
-      "date_next_offered": "",
+      "date_next_offered": "02-11-2026",
       "category": "Other courses",
       "tags": [],
-      "open_runs": [],
-      "apply_url": ""
+      "open_runs": [
+        {
+          "run_id": "165-1",
+          "start": "02-11-2026",
+          "end": "06-11-2026",
+          "application_close": "06-11-2026",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=165&applied_run_id=165-1&course_requires_cv=0&course_requires_certificate=0"
+        }
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=165&applied_run_id=165-1&course_requires_cv=0&course_requires_certificate=0"
     },
     {
       "id": "174",
@@ -1114,14 +1122,22 @@
       "target_audience": "",
       "learning_outcomes": "",
       "certificate_awarded": "",
-      "date_next_offered": "",
+      "date_next_offered": "09-11-2026",
       "category": "Health Leadership, Management & Financing",
       "tags": [
         "entrepreneurship",
         "innovation"
       ],
-      "open_runs": [],
-      "apply_url": ""
+      "open_runs": [
+        {
+          "run_id": "131-2",
+          "start": "09-11-2026",
+          "end": "13-11-2026",
+          "application_close": "08-11-2026",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=131&applied_run_id=131-2&course_requires_cv=0&course_requires_certificate=0"
+        }
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=131&applied_run_id=131-2&course_requires_cv=0&course_requires_certificate=0"
     },
     {
       "id": "123",
