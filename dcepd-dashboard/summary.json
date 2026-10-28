@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-10-28T14:21:59+00:00",
+    "source_at": "2026-10-28T19:41:01+00:00",
     "as_of": "2026-10-28",
     "registered_courses": 196,
     "listed_courses": 86,
-    "application_records": 1198,
-    "application_attempt_records": 1413,
-    "excluded_application_attempts": 215,
+    "application_records": 1202,
+    "application_attempt_records": 1419,
+    "excluded_application_attempts": 217,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6545,7 +6545,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 6,
+      "applications": 9,
       "withheld": false
     },
     {
@@ -6622,7 +6622,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 56,
+      "applications": 57,
       "withheld": false
     },
     {
@@ -6684,7 +6684,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 573
+      "applications": 574
     },
     {
       "location": "Dodoma",
@@ -6703,12 +6703,12 @@
       "applications": 38
     },
     {
-      "location": "Kilimanjaro",
+      "location": "Pwani",
       "applications": 30
     },
     {
-      "location": "Pwani",
-      "applications": 29
+      "location": "Kilimanjaro",
+      "applications": 30
     },
     {
       "location": "Mbeya",
@@ -6723,12 +6723,12 @@
       "applications": 26
     },
     {
-      "location": "Mwanza",
-      "applications": 24
+      "location": "Tanga",
+      "applications": 25
     },
     {
-      "location": "Tanga",
-      "applications": 23
+      "location": "Mwanza",
+      "applications": 24
     },
     {
       "location": "Kigoma",
