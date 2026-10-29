@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-10-28T23:32:55+00:00",
-  "api_refreshed_at": "2026-10-28T23:32:55+00:00",
+  "source_at": "2026-10-29T02:45:41+00:00",
+  "api_refreshed_at": "2026-10-29T02:45:41+00:00",
   "count": 86,
   "courses": [
     {
@@ -179,7 +179,7 @@
       "target_audience": "",
       "learning_outcomes": "",
       "certificate_awarded": "",
-      "date_next_offered": "28-10-2026",
+      "date_next_offered": "",
       "category": "Digital Health, Data Science & Informatics",
       "tags": [
         "AI",
