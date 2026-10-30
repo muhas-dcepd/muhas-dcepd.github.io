@@ -573,7 +573,7 @@ def write_invalid_application_qc(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def run_manual_selection(run_id: str, mode: str) -> int:
+def run_manual_selection(run_id: str, mode: str, include_documents: bool = False) -> int:
     """Private, manual, workbook-only preparation; never emails or updates daily state."""
     if not re.fullmatch(r"[0-9]+-[0-9]+", run_id):
         raise ValueError("Invalid run ID.")
@@ -598,12 +598,13 @@ def run_manual_selection(run_id: str, mode: str) -> int:
     labels = {field: choice_map(metadata, field) for field in DIRECTOR_FIELDS}
     run_record = dict(verified[0])
     data, exceptions = prepare_selection_package(course, run_id, applicants, {run_id},
-                                                   labels=labels, mode=mode, run_record=run_record)
+                                                   labels=labels, mode=mode, run_record=run_record,
+                                                   include_documents=include_documents)
     PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
     output = PRIVATE_PACK_DIR / f"{mode}_selection_{run_id}.zip"
     output.write_bytes(data)
     print(f"Prepared private {mode} workbook ZIP for {run_id}; exceptions: {len(exceptions)}.")
-    print("No email sent. No documents downloaded. No daily state changed.")
+    print("No email sent. No daily state changed.")
     return 0
 
 
@@ -612,9 +613,10 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true", help="Build packs/QC but do not send email or update state.")
     parser.add_argument("--selection-run", help="Manually prepare one verified run, e.g. 206-1.")
     parser.add_argument("--selection-mode", choices=("interim", "final"), default="interim")
+    parser.add_argument("--include-documents", action="store_true")
     args = parser.parse_args()
     if args.selection_run:
-        return run_manual_selection(args.selection_run, args.selection_mode)
+        return run_manual_selection(args.selection_run, args.selection_mode, args.include_documents)
 
     today = datetime.now(TZ).date()
     fy_start, fy_end, fy_label = fiscal_year_bounds(today)
