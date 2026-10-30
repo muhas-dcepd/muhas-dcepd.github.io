@@ -4,7 +4,7 @@ import io
 import os
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 from openpyxl import load_workbook
 
@@ -44,6 +44,32 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertEqual(module.applicable_upload_fields(applicant), [])
         applicant["upload_support_letter"] = "789"
         self.assertEqual(module.applicable_upload_fields(applicant), ["upload_support_letter"])
+
+    def test_file_export_is_read_only_and_sanitizes_filename(self):
+        response = Mock()
+        response.content = b"%PDF-synthetic-test-data"
+        response.headers = {
+            "Content-Type": "application/pdf",
+            "Content-Disposition": 'attachment; filename="../../unsafe.pdf"',
+        }
+        response.raise_for_status.return_value = None
+        with patch.object(module.requests, "post", return_value=response) as post:
+            content, name = module.fetch_private_upload("123", "upload_cv")
+        self.assertEqual(content, b"%PDF-synthetic-test-data")
+        self.assertNotIn("/", name)
+        self.assertEqual(post.call_args.kwargs["data"]["action"], "export")
+        self.assertEqual(post.call_args.kwargs["data"]["content"], "file")
+        with self.assertRaises(ValueError):
+            module.fetch_private_upload("123", "certificate_file")
+
+    def test_file_export_rejects_json_error_payload(self):
+        response = Mock()
+        response.content = b'{"error":"file not found"}'
+        response.headers = {"Content-Type": "application/json"}
+        response.raise_for_status.return_value = None
+        with patch.object(module.requests, "post", return_value=response):
+            with self.assertRaises(RuntimeError):
+                module.fetch_private_upload("123", "upload_cv")
 
     def test_choice_labels_and_return_headers_unchanged(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1", "sex": "2", "full_name": "Pilot Applicant"}]
