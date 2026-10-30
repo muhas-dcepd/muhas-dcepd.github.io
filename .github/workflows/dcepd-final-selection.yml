@@ -32,7 +32,7 @@ jobs:
           DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
           DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
           DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
-          DCEPD_FINAL_SEND_ENABLED: 'false'
+          DCEPD_FINAL_SEND_ENABLED: 'true'
         run: python scripts/process_project79_final_selection.py
       - name: Persist final delivery receipts
         run: |
