@@ -453,6 +453,16 @@ def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
     return out.getvalue()
 
 
+def validate_final_run_deadline(run_record: dict, run_id: str, today: date) -> None:
+    """Final selection is allowed only after the Project 75 closing date."""
+    actual_run = str(run_record.get("run_batch_id", "")).strip()
+    close_date = parse_iso_date(run_record.get("run_application_close_date", ""))
+    if actual_run != run_id or close_date is None:
+        raise ValueError("Project 75 run identity or application closing date is unverified.")
+    if today <= close_date:
+        raise ValueError("Applications are still open; final selection package is not due.")
+
+
 def prepare_final_selection_package(course, run_id, applicants, known_run_ids, labels=None):
     eligible, exceptions = reconcile_final_run(course, run_id, applicants, known_run_ids)
     package = build_private_run_zip(course, run_id, eligible, labels, include_documents=False)
