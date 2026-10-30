@@ -302,7 +302,7 @@ def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[
     for r in applicants:
         ws_sel.append([
             r.get("record_id", ""),
-            r.get("full_name", ""),
+            safe_excel_text(r.get("full_name", "")),
             r.get("selected_for_batch", ""),
             r.get("selected_batch_id", ""),
             r.get("batch_role", "") or ("1" if str(r.get("selected_for_batch", "")).strip() == "1" else ""),
@@ -335,7 +335,7 @@ def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[
     for r in selected:
         ws_cert.append([
             r.get("record_id", ""),
-            r.get("full_name", ""),
+            safe_excel_text(r.get("full_name", "")),
             r.get("gepg_control_no", ""),
             r.get("attendance_verified", ""),
             r.get("attendance_verified_date", ""),
