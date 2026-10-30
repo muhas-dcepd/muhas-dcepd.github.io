@@ -580,7 +580,7 @@ def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
     expected = str(confirmed_email or "").strip().lower()
     if not actual or "@" not in actual or actual != expected:
         raise ValueError("Confirmed recipient must match the Project 75 contact email.")
-    if not payload.startswith(b"PK\\x03\\x04"):
+    if not payload.startswith(b"PK\x03\x04"):
         raise ValueError("Private selection attachment is not a valid ZIP payload.")
     max_bytes = int(os.getenv("DCEPD_PRIVATE_EMAIL_MAX_BYTES", "18000000"))
     if len(payload) > max_bytes:
