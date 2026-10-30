@@ -585,11 +585,12 @@ def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
     max_bytes = int(os.getenv("DCEPD_PRIVATE_EMAIL_MAX_BYTES", "18000000"))
     if len(payload) > max_bytes:
         raise ValueError("Private ZIP exceeds configured email attachment limit; no email sent.")
-    host, port, user, password, _ = smtp_settings()
+    host, port, user, password, cc = smtp_settings()
     msg = EmailMessage()
     msg["Subject"] = f"MUHAS DCEPD {mode.title()} Applicant Review - Run {run_id}"
     msg["From"] = user
     msg["To"] = actual
+    msg["Cc"] = ", ".join(address for address in cc if address.lower() != actual)
     msg.set_content("Private applicant review pack attached. Please handle confidentially and return selection decisions through the approved DCEPD channel.")
     msg.add_attachment(payload, maintype="application", subtype="zip",
                        filename=f"{mode}_selection_{run_id}.zip")
