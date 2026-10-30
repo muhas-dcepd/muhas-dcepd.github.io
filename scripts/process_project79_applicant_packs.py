@@ -269,8 +269,29 @@ def director_columns(applicants: list[dict]) -> list[str]:
 def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[str, str]] | None = None) -> bytes:
     labels = labels or {}
     wb = Workbook()
-    ws_all = wb.active
-    ws_all.title = "All Applicants"
+    ws_help = wb.active
+    ws_help.title = "Instructions"
+    guidance = [
+        ("MUHAS DCEPD | COURSE DIRECTOR APPLICANT PACK", ""),
+        ("Course", str(course.get("course_name", ""))),
+        ("Course code", str(course.get("course_code", ""))),
+        ("Applicants included", str(len(applicants))),
+        ("1. Review", "Review All Applicants and supporting files in Documents."),
+        ("2. Match documents", "Filenames begin with the applicant record_id shown in Excel."),
+        ("3. Decide", "In Selection Return, selected_for_batch: 1=selected; 0=not selected."),
+        ("4. Complete", "Enter selected_batch_id, batch_role, selection_date (YYYY-MM-DD), and selection_by."),
+        ("5. Preserve", "Do not change record_id, worksheet names, or column headers."),
+        ("6. Return", "Return the completed workbook confidentially to DCEPD."),
+        ("DCEPD", "DCEPD validates and converts the return tab to CSV UTF-8 for REDCap import."),
+        ("Interim review", "Selections remain provisional while applications are open."),
+        ("Certification", "Cert-Graduands Return is for later certification, not selection."),
+        ("Confidentiality", "Do not circulate applicant information publicly."),
+    ]
+    for item in guidance:
+        ws_help.append(item)
+    ws_help.column_dimensions["A"].width = 32
+    ws_help.column_dimensions["B"].width = 108
+    ws_all = wb.create_sheet("All Applicants")
     all_headers = director_columns(applicants)
     ws_all.append(all_headers)
     for r in applicants:
@@ -476,7 +497,7 @@ def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
                     content, filename = document
                     if len(content) > 20 * 1024 * 1024:
                         raise ValueError("An uploaded document exceeds the 20 MB safety limit.")
-                    archive.writestr(f"Documents/{rid}/{field}_{clean_filename(filename)}", content)
+                    archive.writestr(f"Documents/{rid}_{field.removeprefix('upload_')}{Path(filename).suffix.lower()}", content)
     return out.getvalue()
 
 
