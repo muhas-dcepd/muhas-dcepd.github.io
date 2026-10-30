@@ -165,6 +165,13 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertEqual(msg["To"], "director@example.org")
         self.assertEqual(msg["Cc"], "admin1@example.org, admin2@example.org, admin3@example.org")
 
+    def test_director_workbook_starts_with_instructions(self):
+        data = module.build_workbook({"course_code": "DCEPD/SBM/206/2026", "course_name": "3D PRINTING IN HEALTHCARE"}, [])
+        wb = load_workbook(io.BytesIO(data), read_only=True)
+        self.assertEqual(wb.sheetnames[0], "Instructions")
+        self.assertIn("Selection Return", wb.sheetnames)
+        self.assertIn("All Applicants", wb.sheetnames)
+
     def test_cv_document_extension_detection(self):
         self.assertEqual(module.document_extension(b"%PDF-1.7\\nsynthetic"), ".pdf")
         self.assertEqual(module.document_extension(b"\\xff\\xd8\\xffsynthetic"), ".jpg")
