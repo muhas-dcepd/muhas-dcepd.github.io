@@ -1,6 +1,9 @@
 name: Applicant Pack Pilot Offline Tests
 
 on:
+  push:
+    branches:
+      - 'pilot/applicant-pack-selection-fields-20261030'
   pull_request:
     paths:
       - 'scripts/process_project79_applicant_packs.py'
