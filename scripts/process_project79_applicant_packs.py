@@ -365,6 +365,30 @@ def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[
     return buf.getvalue()
 
 
+def document_extension(content: bytes) -> str:
+    """Identify common applicant document types by file signature."""
+    if content.startswith(b"%PDF-"):
+        return ".pdf"
+    if content.startswith(b"PK\\x03\\x04"):
+        import zipfile as _zipfile
+        try:
+            with _zipfile.ZipFile(io.BytesIO(content)) as archive:
+                names = set(archive.namelist())
+                if "word/document.xml" in names:
+                    return ".docx"
+                if "xl/workbook.xml" in names:
+                    return ".xlsx"
+        except _zipfile.BadZipFile:
+            pass
+    if content.startswith(b"\\xd0\\xcf\\x11\\xe0\\xa1\\xb1\\x1a\\xe1"):
+        return ".doc"
+    if content.startswith(b"\\xff\\xd8\\xff"):
+        return ".jpg"
+    if content.startswith(b"\\x89PNG\\r\\n\\x1a\\n"):
+        return ".png"
+    return ""
+
+
 def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] | None:
     """Read one permitted Project 79 file; never expose API token or raw response."""
     if field_name not in UPLOAD_RULES:
@@ -386,6 +410,9 @@ def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] |
     name_match = re.search("filename=\\\"?([^;\\\"]+)", disposition, re.I)
     supplied_name = name_match.group(1).strip() if name_match else field_name
     safe_name = clean_filename(Path(supplied_name).name)
+    detected = document_extension(response.content)
+    if detected and Path(safe_name).suffix.lower() != detected:
+        safe_name = f"{Path(safe_name).stem}{detected}"
     return response.content, safe_name
 
 
