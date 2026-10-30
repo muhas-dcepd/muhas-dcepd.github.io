@@ -618,7 +618,25 @@ def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
     msg["From"] = user
     msg["To"] = actual
     msg["Cc"] = ", ".join(address for address in cc if address.lower() != actual)
-    msg.set_content("Private applicant review pack attached. Please handle confidentially and return selection decisions through the approved DCEPD channel.")
+    msg.set_content(
+        f"Dear {course.get('course_director_name', 'Course Director')},\\n\\n"
+        f"Please find attached the MUHAS DCEPD Course Director Applicant Pack for:\\n"
+        f"{course.get('course_code', '')} — {course.get('course_name', '')}\\n"
+        f"Run: {run_id} ({mode} review).\\n\\n"
+        "Please extract the attached ZIP to a private location. Review the All Applicants "
+        "tab in Applicant_Selection.xlsx and the relevant supporting documents in the "
+        "Documents folder. Document filenames begin with the applicant record_id shown "
+        "in the workbook.\\n\\n"
+        "Complete the Selection Return tab, retaining the applicant record IDs and column "
+        "headings. The Cert-Graduands Return tab is for subsequent certification processing "
+        "and is not required for applicant selection.\\n\\n"
+        "Return the completed Excel workbook confidentially to DCEPD. The DCEPD "
+        "Coordinator/Admin will validate the return, convert the relevant tab to CSV "
+        "UTF-8 and import it into REDCap.\\n\\n"
+        "For interim reviews, decisions remain provisional while applications are open. "
+        "Please keep all applicant information confidential.\\n\\n"
+        "Regards,\\nMUHAS DCEPD"
+    )
     msg.add_attachment(payload, maintype="application", subtype="zip",
                        filename=f"{mode}_selection_{run_id}.zip")
     with smtplib.SMTP(host, port, timeout=60) as smtp:
