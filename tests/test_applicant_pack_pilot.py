@@ -33,6 +33,18 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertEqual(sheet.cell(2, col).value, None)
         self.assertEqual(sheet.cell(3, col).value, "Clinical qualification")
 
+    def test_uploads_only_when_requested_and_present(self):
+        applicant = {
+            "applied_run_id": "206-1", "course_requires_cv": "1",
+            "course_requires_certificate": "0", "upload_cv": "123",
+            "upload_certificate": "456", "upload_support_letter": "",
+        }
+        self.assertEqual(module.applicable_upload_fields(applicant), ["upload_cv"])
+        applicant["course_requires_cv"] = "0"
+        self.assertEqual(module.applicable_upload_fields(applicant), [])
+        applicant["upload_support_letter"] = "789"
+        self.assertEqual(module.applicable_upload_fields(applicant), ["upload_support_letter"])
+
     def test_choice_labels_and_return_headers_unchanged(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1", "sex": "2", "full_name": "Pilot Applicant"}]
         workbook = load_workbook(io.BytesIO(module.build_workbook({}, applicants, {"sex": {"2": "Female"}})))
