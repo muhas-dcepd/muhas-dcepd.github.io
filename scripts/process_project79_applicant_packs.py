@@ -356,6 +356,30 @@ def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[
     return buf.getvalue()
 
 
+def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] | None:
+    """Read one permitted Project 79 file; never expose API token or raw response."""
+    if field_name not in UPLOAD_RULES:
+        raise ValueError("Field is not an approved applicant document upload.")
+    if not str(record_id).strip():
+        raise ValueError("A REDCap record ID is required.")
+    response = requests.post(REDCAP_URL, data={
+        "token": P79_TOKEN, "content": "file", "action": "export",
+        "record": str(record_id), "field": field_name,
+        "returnFormat": "json",
+    }, timeout=90)
+    response.raise_for_status()
+    if not response.content:
+        return None
+    content_type = response.headers.get("Content-Type", "").lower()
+    if "application/json" in content_type or "text/html" in content_type:
+        raise RuntimeError("REDCap returned an error or unexpected response instead of a document.")
+    disposition = response.headers.get("Content-Disposition", "")
+    name_match = re.search(r'filename\\*?=(?:UTF-8\\'\\')?["\\']?([^;"\\']+)', disposition, re.I)
+    supplied_name = name_match.group(1).strip() if name_match else field_name
+    safe_name = clean_filename(Path(supplied_name).name)
+    return response.content, safe_name
+
+
 def smtp_settings() -> tuple[str, int, str, str, list[str]]:
     host = os.getenv("DCEPD_SMTP_HOST", "").strip()
     user = os.getenv("DCEPD_SMTP_USERNAME", "").strip()
