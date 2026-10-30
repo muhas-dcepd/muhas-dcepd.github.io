@@ -72,6 +72,24 @@ class ApplicantPackPilotTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 module.fetch_private_upload("123", "upload_cv")
 
+    def test_reconciliation_separates_incomplete_and_missing_cv(self):
+        rows = [
+            {"record_id": "1", "applied_run_id": "206-1",
+             "short_course_application_complete": "2",
+             "course_requires_cv": "1", "upload_cv": ""},
+            {"record_id": "2", "applied_run_id": "206-1",
+             "short_course_application_complete": "0"},
+            {"record_id": "3", "applied_run_id": "206-2",
+             "short_course_application_complete": "2"},
+        ]
+        eligible, issues = module.reconcile_final_run(
+            {"record_id": "206"}, "206-1", rows, {"206-1"})
+        self.assertEqual([r["record_id"] for r in eligible], ["1"])
+        self.assertEqual(len(issues), 2)
+        self.assertTrue(any("upload_cv" in i["issue"] for i in issues))
+        with self.assertRaises(ValueError):
+            module.reconcile_final_run({"record_id": "206"}, "206-1", rows, set())
+
     def test_private_zip_requires_one_run(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1"},
                       {"record_id": "2", "applied_run_id": "206-2"}]
