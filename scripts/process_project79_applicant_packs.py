@@ -374,7 +374,7 @@ def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] |
     if "application/json" in content_type or "text/html" in content_type:
         raise RuntimeError("REDCap returned an error or unexpected response instead of a document.")
     disposition = response.headers.get("Content-Disposition", "")
-    name_match = re.search(r'filename\\*?=(?:UTF-8\\'\\')?["\\']?([^;"\\']+)', disposition, re.I)
+    name_match = re.search("filename=\\\"?([^;\\\"]+)", disposition, re.I)
     supplied_name = name_match.group(1).strip() if name_match else field_name
     safe_name = clean_filename(Path(supplied_name).name)
     return response.content, safe_name
