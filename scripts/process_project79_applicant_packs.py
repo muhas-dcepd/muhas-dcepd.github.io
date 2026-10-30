@@ -22,6 +22,7 @@ import os
 import re
 import smtplib
 import ssl
+import zipfile
 from collections import defaultdict
 from datetime import date, datetime
 from email.message import EmailMessage
@@ -42,15 +43,22 @@ DESIGN_LOCK_CUTOVER = date(2026, 10, 8)
 STATE_PATH = Path(os.getenv("DCEPD_APPLICANT_PACK_STATE", "automation/applicant-pack-state.json"))
 CROSSWALK_PATH = Path(os.getenv("DCEPD_PROJECT79_CROSSWALK", "automation/project79-course-crosswalk.csv"))
 OUT_DIR = Path(os.getenv("DCEPD_APPLICANT_PACK_OUT", ".applicant-pack-output"))
+PRIVATE_PACK_DIR = Path(os.getenv("DCEPD_PRIVATE_PACK_DIR", ".private-applicant-packs"))
 
 P75_FIELDS = [
     "record_id", "course_code", "course_name", "course_director_id",
-    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status",
+    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status", "run_batch_id", "run_application_close_date",
 ]
 P79_FIELDS = [
     "record_id", "applied_course_id", "applied_run_id", "application_date", "short_course_application_complete", "full_name", "email",
     "phone_number", "institution_name", "job_title", "payment_reference",
-    "fee_verified", "selected_for_batch", "selected_batch_id", "batch_role",
+    "fee_verified", "sex", "residence_region", "country_of_residence", "other_country", "district_residence",
+    "alt_phone", "highest_education", "other_education", "professional_category", "other_prof_category",
+    "employment_status", "years_experience", "prior_training", "prior_training_details",
+    "why_apply", "expected_benefit", "expectations", "fee_payer", "sponsor_name", "sponsor_contact",
+    "need_invoice", "invoice_details", "hear_about_course", "hear_about_other",
+    "course_requires_cv", "course_requires_certificate", "upload_cv", "upload_certificate", "upload_support_letter",
+    "selected_for_batch", "selected_batch_id", "batch_role",
     "selection_date", "selection_by", "attendance_verified",
     "attendance_verified_date", "certificate_approved", "gepg_control_no",
     "certification_notes",
@@ -190,35 +198,99 @@ def set_widths(ws, widths: dict[str, float]) -> None:
         ws.column_dimensions[col].width = width
 
 
-def build_workbook(course: dict, applicants: list[dict]) -> bytes:
+# Director-facing fields: never export internal workflow or sensitive support fields.
+# A conditional column is omitted when no applicant was asked that question.
+DIRECTOR_FIELDS = [
+    "record_id", "applied_run_id", "application_date", "full_name", "email", "phone_number",
+    "alt_phone", "sex", "residence_region", "country_of_residence", "other_country",
+    "district_residence", "highest_education", "other_education", "professional_category",
+    "other_prof_category", "employment_status", "institution_name", "job_title",
+    "years_experience", "prior_training", "prior_training_details", "why_apply",
+    "expected_benefit", "expectations", "fee_payer", "sponsor_name", "sponsor_contact",
+    "need_invoice", "invoice_details", "hear_about_course", "hear_about_other",
+    "payment_reference", "fee_verified", "selected_for_batch", "selected_batch_id",
+]
+
+# File fields are handled separately from the spreadsheet. Never export REDCap's
+# file-upload values as document contents or assume that an empty value is a file.
+UPLOAD_RULES = {
+    "upload_cv": "course_requires_cv",
+    "upload_certificate": "course_requires_certificate",
+    "upload_support_letter": None,
+}
+
+
+def applicable_upload_fields(applicant: dict) -> list[str]:
+    """Only actual, applicable uploads may be retrieved for a private pack."""
+    if not str(applicant.get("applied_run_id", "")).strip():
+        return []
+    result = []
+    for field, flag in UPLOAD_RULES.items():
+        if flag and str(applicant.get(flag, "")).strip() != "1":
+            continue
+        if str(applicant.get(field, "")).strip():
+            result.append(field)
+    return result
+
+
+CONDITIONAL_FIELDS = {
+    "country_of_residence": ("residence_region", {"27"}),
+    "other_country": ("country_of_residence", {"99"}),
+    "other_education": ("highest_education", {"99"}),
+    "other_prof_category": ("professional_category", {"99"}),
+    "institution_name": ("employment_status", {"1"}),
+    "job_title": ("employment_status", {"1", "2"}),
+    "prior_training_details": ("prior_training", {"1"}),
+    "sponsor_name": ("fee_payer", {"1"}),
+    "sponsor_contact": ("fee_payer", {"1"}),
+    "invoice_details": ("need_invoice", {"1"}),
+    "hear_about_other": ("hear_about_course", {"99"}),
+}
+
+
+def safe_excel_text(value: object) -> str:
+    """Prevent applicant-supplied text from becoming executable Excel formulas."""
+    text = str(value or "")
+    if text.lstrip().startswith(("=", "+", "-", "@")):
+        return "'" + text
+    return text
+
+
+def director_columns(applicants: list[dict]) -> list[str]:
+    result = []
+    for field in DIRECTOR_FIELDS:
+        rule = CONDITIONAL_FIELDS.get(field)
+        if rule and not any(str(r.get(rule[0], "")).strip() in rule[1] for r in applicants):
+            continue
+        result.append(field)
+    return result
+
+
+def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[str, str]] | None = None) -> bytes:
+    labels = labels or {}
     wb = Workbook()
     ws_all = wb.active
     ws_all.title = "All Applicants"
-
-    all_headers = [
-        "record_id", "applied_run_id", "application_date", "full_name", "email", "phone_number",
-        "institution_name", "job_title", "payment_reference", "fee_verified",
-        "selected_for_batch", "selected_batch_id",
-    ]
+    all_headers = director_columns(applicants)
     ws_all.append(all_headers)
     for r in applicants:
-        ws_all.append([
-            r.get("record_id", ""),
-            r.get("applied_run_id", ""),
-            r.get("application_date", ""),
-            r.get("full_name", ""),
-            r.get("email", ""),
-            r.get("phone_number", ""),
-            r.get("institution_name", ""),
-            r.get("job_title", ""),
-            r.get("payment_reference", ""),
-            as_yes_no(r.get("fee_verified", "")),
-            as_yes_no(r.get("selected_for_batch", "")),
-            r.get("selected_batch_id", "") or r.get("applied_run_id", ""),
-        ])
+        values = []
+        for field in all_headers:
+            rule = CONDITIONAL_FIELDS.get(field)
+            if rule and str(r.get(rule[0], "")).strip() not in rule[1]:
+                values.append("")
+                continue
+            raw = str(r.get(field, "") or "")
+            values.append(safe_excel_text(labels.get(field, {}).get(raw, raw)))
+        ws_all.append(values)
     ws_all.freeze_panes = "A2"
     ws_all.auto_filter.ref = ws_all.dimensions
-    set_widths(ws_all, {"A": 14, "B": 16, "C": 15, "D": 28, "E": 28, "F": 18, "G": 28, "H": 24, "I": 24, "J": 15, "K": 20, "L": 28})
+    for idx, field in enumerate(all_headers, start=1):
+        from openpyxl.utils import get_column_letter
+        ws_all.column_dimensions[get_column_letter(idx)].width = (
+            46 if field in {"why_apply", "expected_benefit", "expectations", "prior_training_details"}
+            else 30 if field in {"full_name", "email", "institution_name"} else 21
+        )
 
     ws_sel = wb.create_sheet("Selection Return")
     sel_headers = [
@@ -230,7 +302,7 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
     for r in applicants:
         ws_sel.append([
             r.get("record_id", ""),
-            r.get("full_name", ""),
+            safe_excel_text(r.get("full_name", "")),
             r.get("selected_for_batch", ""),
             r.get("selected_batch_id", ""),
             r.get("batch_role", "") or ("1" if str(r.get("selected_for_batch", "")).strip() == "1" else ""),
@@ -263,7 +335,7 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
     for r in selected:
         ws_cert.append([
             r.get("record_id", ""),
-            r.get("full_name", ""),
+            safe_excel_text(r.get("full_name", "")),
             r.get("gepg_control_no", ""),
             r.get("attendance_verified", ""),
             r.get("attendance_verified_date", ""),
@@ -291,6 +363,125 @@ def build_workbook(course: dict, applicants: list[dict]) -> bytes:
     buf = io.BytesIO()
     wb.save(buf)
     return buf.getvalue()
+
+
+def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] | None:
+    """Read one permitted Project 79 file; never expose API token or raw response."""
+    if field_name not in UPLOAD_RULES:
+        raise ValueError("Field is not an approved applicant document upload.")
+    if not str(record_id).strip():
+        raise ValueError("A REDCap record ID is required.")
+    response = requests.post(REDCAP_URL, data={
+        "token": P79_TOKEN, "content": "file", "action": "export",
+        "record": str(record_id), "field": field_name,
+        "returnFormat": "json",
+    }, timeout=90)
+    response.raise_for_status()
+    if not response.content:
+        return None
+    content_type = response.headers.get("Content-Type", "").lower()
+    if "application/json" in content_type or "text/html" in content_type:
+        raise RuntimeError("REDCap returned an error or unexpected response instead of a document.")
+    disposition = response.headers.get("Content-Disposition", "")
+    name_match = re.search("filename=\\\"?([^;\\\"]+)", disposition, re.I)
+    supplied_name = name_match.group(1).strip() if name_match else field_name
+    safe_name = clean_filename(Path(supplied_name).name)
+    return response.content, safe_name
+
+
+def reconcile_final_run(course: dict, run_id: str, applicants: list[dict],
+                        known_run_ids: set[str]) -> tuple[list[dict], list[dict]]:
+    """Fail closed on unknown runs; separate incomplete and missing-upload cases.
+
+    Only complete applications for the exact course run enter the eligible group.
+    The caller must provide run IDs independently verified from Project 75.
+    """
+    course_id = str(course.get("record_id", "")).strip()
+    if not course_id or run_id not in known_run_ids or run_id.split("-", 1)[0] != course_id:
+        raise ValueError("The requested run is not verified for this Project 75 course.")
+    eligible, exceptions = [], []
+    for r in applicants:
+        if str(r.get("applied_run_id", "")).strip() != run_id:
+            continue
+        rid = str(r.get("record_id", "")).strip()
+        status = str(r.get("short_course_application_complete", "")).strip().lower()
+        if status not in {"2", "complete"}:
+            exceptions.append({"record_id": rid, "issue": "Application incomplete"})
+            continue
+        eligible.append(r)
+        for field, requirement in (( "upload_cv", "course_requires_cv"),
+                                   ("upload_certificate", "course_requires_certificate")):
+            if str(r.get(requirement, "")).strip() == "1" and not str(r.get(field, "")).strip():
+                exceptions.append({"record_id": rid, "issue": f"Required {field} missing"})
+    return eligible, exceptions
+
+
+def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
+                          labels: dict[str, dict[str, str]] | None = None,
+                          include_documents: bool = False) -> bytes:
+    """Build a single-run selection ZIP in memory; caller controls private delivery.
+
+    Documents are opt-in and never included in routine daily workbooks.
+    A missing or mismatched run fails closed rather than mixing course deliveries.
+    """
+    if not re.fullmatch(r"[0-9]+-[0-9]+", str(run_id)):
+        raise ValueError("A valid course run ID is required.")
+    course_record_id = str(course.get("record_id", "")).strip()
+    if not course_record_id or run_id.split("-", 1)[0] != course_record_id:
+        raise ValueError("Run ID does not belong to the requested Project 75 course.")
+    if not applicants:
+        raise ValueError("A final selection pack requires at least one applicant.")
+    if any(str(r.get("applied_run_id", "")).strip() != run_id for r in applicants):
+        raise ValueError("Applicant records contain another run or a missing run ID.")
+    workbook = build_workbook(course, applicants, labels)
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("Applicant_Selection.xlsx", workbook)
+        if include_documents:
+            for applicant in applicants:
+                rid = str(applicant.get("record_id", "")).strip()
+                if not rid or not re.fullmatch(r"[A-Za-z0-9_-]+", rid):
+                    raise ValueError("Invalid applicant record ID.")
+                for field in applicable_upload_fields(applicant):
+                    document = fetch_private_upload(rid, field)
+                    if document is None:
+                        raise RuntimeError(f"Expected upload missing for record {rid}, field {field}.")
+                    content, filename = document
+                    if len(content) > 20 * 1024 * 1024:
+                        raise ValueError("An uploaded document exceeds the 20 MB safety limit.")
+                    archive.writestr(f"Documents/{rid}/{field}_{clean_filename(filename)}", content)
+    return out.getvalue()
+
+
+def validate_final_run_deadline(run_record: dict, run_id: str, today: date) -> None:
+    """Final selection is allowed only after the Project 75 closing date."""
+    actual_run = str(run_record.get("run_batch_id", "")).strip()
+    close_date = parse_iso_date(run_record.get("run_application_close_date", ""))
+    if actual_run != run_id or close_date is None:
+        raise ValueError("Project 75 run identity or application closing date is unverified.")
+    if today <= close_date:
+        raise ValueError("Applications are still open; final selection package is not due.")
+
+
+def prepare_selection_package(course, run_id, applicants, known_run_ids,
+                              labels=None, mode="interim", run_record=None,
+                              today=None, include_documents=False):
+    """Build an interim review or final selection package without sending it."""
+    if mode not in {"interim", "final"}:
+        raise ValueError("Selection package mode must be interim or final.")
+    if mode == "final":
+        if run_record is None:
+            raise ValueError("Final packages require authoritative Project 75 run dates.")
+        validate_final_run_deadline(run_record, run_id, today or datetime.now(TZ).date())
+    eligible, exceptions = reconcile_final_run(course, run_id, applicants, known_run_ids)
+    package = build_private_run_zip(course, run_id, eligible, labels, include_documents=include_documents)
+    return package, exceptions
+
+
+def prepare_final_selection_package(course, run_id, applicants, known_run_ids,
+                                    labels=None, run_record=None, today=None):
+    return prepare_selection_package(course, run_id, applicants, known_run_ids,
+                                     labels, mode="final", run_record=run_record, today=today)
 
 
 def smtp_settings() -> tuple[str, int, str, str, list[str]]:
@@ -382,16 +573,92 @@ def write_invalid_application_qc(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
+                               mode: str, confirmed_email: str) -> None:
+    """Explicitly approved, private delivery; never logs applicant content."""
+    actual = str(course.get("contact_email", "")).strip().lower()
+    expected = str(confirmed_email or "").strip().lower()
+    if not actual or "@" not in actual or actual != expected:
+        raise ValueError("Confirmed recipient must match the Project 75 contact email.")
+    if not payload.startswith(b"PK\x03\x04"):
+        raise ValueError("Private selection attachment is not a valid ZIP payload.")
+    max_bytes = int(os.getenv("DCEPD_PRIVATE_EMAIL_MAX_BYTES", "18000000"))
+    if len(payload) > max_bytes:
+        raise ValueError("Private ZIP exceeds configured email attachment limit; no email sent.")
+    host, port, user, password, _ = smtp_settings()
+    msg = EmailMessage()
+    msg["Subject"] = f"MUHAS DCEPD {mode.title()} Applicant Review - Run {run_id}"
+    msg["From"] = user
+    msg["To"] = actual
+    msg.set_content("Private applicant review pack attached. Please handle confidentially and return selection decisions through the approved DCEPD channel.")
+    msg.add_attachment(payload, maintype="application", subtype="zip",
+                       filename=f"{mode}_selection_{run_id}.zip")
+    with smtplib.SMTP(host, port, timeout=60) as smtp:
+        smtp.starttls(context=ssl.create_default_context())
+        smtp.login(user, password)
+        smtp.send_message(msg)
+
+
+def run_manual_selection(run_id: str, mode: str, include_documents: bool = False,
+                         send_to: str = "") -> int:
+    """Private, manual, workbook-only preparation; never emails or updates daily state."""
+    if not re.fullmatch(r"[0-9]+-[0-9]+", run_id):
+        raise ValueError("Invalid run ID.")
+    all_p75 = export_records(P75_TOKEN, P75_FIELDS)
+    all_p79 = master_rows(export_records(P79_TOKEN, P79_FIELDS))
+    course_id, instance = run_id.split("-", 1)
+    verified = [r for r in all_p75 if str(r.get("record_id", "")).strip() == course_id
+                and str(r.get("redcap_repeat_instrument", "")).strip() == "course_run_log"
+                and str(r.get("redcap_repeat_instance", "")).strip() == instance]
+    if len(verified) != 1 or str(verified[0].get("run_batch_id", "")).strip() != run_id:
+        raise ValueError("Run ID does not match the authoritative Project 75 run log.")
+    masters = [r for r in master_rows(all_p75) if str(r.get("record_id", "")).strip() == course_id]
+    if len(masters) != 1:
+        raise ValueError("Course master record missing or ambiguous.")
+    course = masters[0]
+    choices = load_course_crosswalk()
+    applicants = [r for r in all_p79 if str(r.get("applied_run_id", "")).strip() == run_id]
+    if any(str(choices.get(str(r.get("applied_course_id", "")).strip(), "")).strip() != course_id
+           for r in applicants):
+        raise ValueError("Project 79 course choice does not match the verified run.")
+    metadata = export_metadata(P79_TOKEN)
+    labels = {field: choice_map(metadata, field) for field in DIRECTOR_FIELDS}
+    run_record = dict(verified[0])
+    data, exceptions = prepare_selection_package(course, run_id, applicants, {run_id},
+                                                   labels=labels, mode=mode, run_record=run_record,
+                                                   include_documents=include_documents)
+    PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
+    output = PRIVATE_PACK_DIR / f"{mode}_selection_{run_id}.zip"
+    output.write_bytes(data)
+    print(f"Prepared private {mode} workbook ZIP for {run_id}; exceptions: {len(exceptions)}.")
+    if send_to:
+        send_private_selection_zip(course, data, run_id, mode, send_to)
+        print("Private selection email submitted to verified Project 75 recipient.")
+    else:
+        print("No email sent.")
+    print("No daily state changed.")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true", help="Build packs/QC but do not send email or update state.")
+    parser.add_argument("--selection-run", help="Manually prepare one verified run, e.g. 206-1.")
+    parser.add_argument("--selection-mode", choices=("interim", "final"), default="interim")
+    parser.add_argument("--include-documents", action="store_true")
+    parser.add_argument("--send-to-confirmed", default="", help="Only send when this matches the verified Project 75 director email.")
     args = parser.parse_args()
+    if args.selection_run:
+        return run_manual_selection(args.selection_run, args.selection_mode, args.include_documents,
+                                    args.send_to_confirmed)
 
     today = datetime.now(TZ).date()
     fy_start, fy_end, fy_label = fiscal_year_bounds(today)
     is_friday = today.weekday() == 4
 
     p75_metadata = export_metadata(P75_TOKEN)
+    p79_metadata = export_metadata(P79_TOKEN)
+    director_labels_map = {f: choice_map(p79_metadata, f) for f in DIRECTOR_FIELDS}
     p75_all_rows = export_records(P75_TOKEN, P75_FIELDS)
     p75_rows = master_rows(p75_all_rows)
     p79_rows = master_rows(export_records(P79_TOKEN, P79_FIELDS))
@@ -539,9 +806,10 @@ def main() -> int:
 
         eligible_count += 1
         filename = f"DCEPD_Applicant_Pack_{clean_filename(course['course_code'])}_{today.isoformat()}.xlsx"
-        workbook = build_workbook(course, scope_apps)
-        OUT_DIR.mkdir(parents=True, exist_ok=True)
-        (OUT_DIR / filename).write_bytes(workbook)
+        workbook = build_workbook(course, scope_apps, director_labels_map)
+        # Applicant identities must never enter the routine GitHub Actions QC artifact.
+        PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
+        (PRIVATE_PACK_DIR / filename).write_bytes(workbook)
 
         if args.dry_run:
             print(f"DRY_RUN choice={choice_id} course_record={course_id} applicants={len(scope_apps)} new={len(new_ids)} file={filename}")

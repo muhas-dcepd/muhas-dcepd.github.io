@@ -1,0 +1,70 @@
+name: Manual Project 79 Selection Pack Pilot
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Verified Project 75 run ID (e.g. 206-1)'
+        required: true
+        type: string
+      include_documents:
+        description: 'Include applicable CVs and other uploaded documents'
+        required: true
+        type: boolean
+        default: false
+      send_email:
+        description: 'Send private ZIP to confirmed Project 75 recipient (default NO)'
+        required: true
+        type: boolean
+        default: false
+      confirmed_recipient:
+        description: 'Must match Project 75 course contact email if sending'
+        required: false
+        type: string
+      package_type:
+        description: 'Interim before deadline; final after deadline'
+        required: true
+        type: choice
+        options: [interim, final]
+        default: interim
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests openpyxl
+      - name: Prepare private workbook-only pilot (no email or artifact)
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          DCEPD_PRIVATE_PACK_DIR: .private-applicant-packs
+          SELECT_RUN_ID: ${{ inputs.run_id }}
+          SELECT_MODE: ${{ inputs.package_type }}
+          INCLUDE_DOCS: ${{ inputs.include_documents }}
+          SEND_EMAIL: ${{ inputs.send_email }}
+          CONFIRMED_RECIPIENT: ${{ inputs.confirmed_recipient }}
+          DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
+          DCEPD_SMTP_PORT: ${{ secrets.DCEPD_SMTP_PORT }}
+          DCEPD_SMTP_USERNAME: ${{ secrets.DCEPD_SMTP_USERNAME }}
+          DCEPD_SMTP_PASSWORD: ${{ secrets.DCEPD_SMTP_PASSWORD }}
+          DCEPD_EMAIL_1: ${{ secrets.DCEPD_EMAIL_1 }}
+          DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
+          DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
+          DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
+        run: |
+          set -euo pipefail
+          args=(--selection-run "$SELECT_RUN_ID" --selection-mode "$SELECT_MODE")
+          if [[ "$INCLUDE_DOCS" == "true" ]]; then args+=(--include-documents); fi
+          if [[ "$SEND_EMAIL" == "true" ]]; then
+            if [[ -z "$CONFIRMED_RECIPIENT" ]]; then echo "Confirmed recipient required" >&2; exit 1; fi
+            args+=(--send-to-confirmed "$CONFIRMED_RECIPIENT")
+          fi
+          python scripts/process_project79_applicant_packs.py "${args[@]}"
+      - name: Privacy cleanup
+        if: always()
+        run: rm -rf .private-applicant-packs
