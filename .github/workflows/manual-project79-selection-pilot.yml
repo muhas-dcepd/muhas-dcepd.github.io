@@ -28,9 +28,11 @@ jobs:
           REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
           REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
           DCEPD_PRIVATE_PACK_DIR: .private-applicant-packs
+          SELECT_RUN_ID: ${{ inputs.run_id }}
+          SELECT_MODE: ${{ inputs.package_type }}
         run: |
           set -euo pipefail
-          python scripts/process_project79_applicant_packs.py --selection-run "${{ inputs.run_id }}" --selection-mode "${{ inputs.package_type }}"
+          python scripts/process_project79_applicant_packs.py --selection-run "$SELECT_RUN_ID" --selection-mode "$SELECT_MODE"
       - name: Privacy cleanup
         if: always()
         run: rm -rf .private-applicant-packs
