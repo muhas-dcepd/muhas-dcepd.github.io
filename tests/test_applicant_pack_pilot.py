@@ -76,15 +76,20 @@ class ApplicantPackPilotTests(unittest.TestCase):
         applicants = [{"record_id": "1", "applied_run_id": "206-1"},
                       {"record_id": "2", "applied_run_id": "206-2"}]
         with self.assertRaises(ValueError):
-            module.build_private_run_zip({}, "206-1", applicants)
+            module.build_private_run_zip({"record_id": "206"}, "206-1", applicants)
         with self.assertRaises(ValueError):
             module.build_private_run_zip({}, "206-1", [])
+
+    def test_private_zip_rejects_course_run_mismatch(self):
+        applicants = [{"record_id": "1", "applied_run_id": "206-1"}]
+        with self.assertRaises(ValueError):
+            module.build_private_run_zip({"record_id": "205"}, "206-1", applicants)
 
     def test_private_zip_contains_only_workbook_without_opt_in(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1",
                        "course_requires_cv": "1", "upload_cv": "123"}]
         with patch.object(module, "fetch_private_upload") as fetch:
-            payload = module.build_private_run_zip({}, "206-1", applicants)
+            payload = module.build_private_run_zip({"record_id": "206"}, "206-1", applicants)
             fetch.assert_not_called()
         with zipfile.ZipFile(io.BytesIO(payload)) as archive:
             self.assertEqual(archive.namelist(), ["Applicant_Selection.xlsx"])
@@ -94,7 +99,7 @@ class ApplicantPackPilotTests(unittest.TestCase):
                        "course_requires_cv": "1", "upload_cv": "123",
                        "course_requires_certificate": "0", "upload_certificate": "456"}]
         with patch.object(module, "fetch_private_upload", return_value=(b"synthetic", "cv.pdf")) as fetch:
-            payload = module.build_private_run_zip({}, "206-1", applicants, include_documents=True)
+            payload = module.build_private_run_zip({"record_id": "206"}, "206-1", applicants, include_documents=True)
             fetch.assert_called_once_with("1", "upload_cv")
         with zipfile.ZipFile(io.BytesIO(payload)) as archive:
             self.assertEqual(archive.namelist(),
