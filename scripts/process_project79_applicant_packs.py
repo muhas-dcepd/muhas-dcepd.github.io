@@ -389,6 +389,33 @@ def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] |
     return response.content, safe_name
 
 
+def reconcile_final_run(course: dict, run_id: str, applicants: list[dict],
+                        known_run_ids: set[str]) -> tuple[list[dict], list[dict]]:
+    """Fail closed on unknown runs; separate incomplete and missing-upload cases.
+
+    Only complete applications for the exact course run enter the eligible group.
+    The caller must provide run IDs independently verified from Project 75.
+    """
+    course_id = str(course.get("record_id", "")).strip()
+    if not course_id or run_id not in known_run_ids or run_id.split("-", 1)[0] != course_id:
+        raise ValueError("The requested run is not verified for this Project 75 course.")
+    eligible, exceptions = [], []
+    for r in applicants:
+        if str(r.get("applied_run_id", "")).strip() != run_id:
+            continue
+        rid = str(r.get("record_id", "")).strip()
+        status = str(r.get("short_course_application_complete", "")).strip().lower()
+        if status not in {"2", "complete"}:
+            exceptions.append({"record_id": rid, "issue": "Application incomplete"})
+            continue
+        eligible.append(r)
+        for field, requirement in (( "upload_cv", "course_requires_cv"),
+                                   ("upload_certificate", "course_requires_certificate")):
+            if str(r.get(requirement, "")).strip() == "1" and not str(r.get(field, "")).strip():
+                exceptions.append({"record_id": rid, "issue": f"Required {field} missing"})
+    return eligible, exceptions
+
+
 def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
                           labels: dict[str, dict[str, str]] | None = None,
                           include_documents: bool = False) -> bytes:
