@@ -50,7 +50,13 @@ P75_FIELDS = [
 P79_FIELDS = [
     "record_id", "applied_course_id", "applied_run_id", "application_date", "short_course_application_complete", "full_name", "email",
     "phone_number", "institution_name", "job_title", "payment_reference",
-    "fee_verified", "selected_for_batch", "selected_batch_id", "batch_role",
+    "fee_verified", "sex", "residence_region", "country_of_residence", "other_country", "district_residence",
+    "alt_phone", "highest_education", "other_education", "professional_category", "other_prof_category",
+    "employment_status", "years_experience", "prior_training", "prior_training_details",
+    "why_apply", "expected_benefit", "expectations", "fee_payer", "sponsor_name", "sponsor_contact",
+    "need_invoice", "invoice_details", "hear_about_course", "hear_about_other",
+    "course_requires_cv", "course_requires_certificate", "upload_cv", "upload_certificate", "upload_support_letter",
+    "selected_for_batch", "selected_batch_id", "batch_role",
     "selection_date", "selection_by", "attendance_verified",
     "attendance_verified_date", "certificate_approved", "gepg_control_no",
     "certification_notes",
@@ -190,35 +196,69 @@ def set_widths(ws, widths: dict[str, float]) -> None:
         ws.column_dimensions[col].width = width
 
 
-def build_workbook(course: dict, applicants: list[dict]) -> bytes:
+# Director-facing fields: never export internal workflow or sensitive support fields.
+# A conditional column is omitted when no applicant was asked that question.
+DIRECTOR_FIELDS = [
+    "record_id", "applied_run_id", "application_date", "full_name", "email", "phone_number",
+    "alt_phone", "sex", "residence_region", "country_of_residence", "other_country",
+    "district_residence", "highest_education", "other_education", "professional_category",
+    "other_prof_category", "employment_status", "institution_name", "job_title",
+    "years_experience", "prior_training", "prior_training_details", "why_apply",
+    "expected_benefit", "expectations", "fee_payer", "sponsor_name", "sponsor_contact",
+    "need_invoice", "invoice_details", "hear_about_course", "hear_about_other",
+    "payment_reference", "fee_verified", "selected_for_batch", "selected_batch_id",
+]
+
+CONDITIONAL_FIELDS = {
+    "country_of_residence": ("residence_region", {"27"}),
+    "other_country": ("country_of_residence", {"99"}),
+    "other_education": ("highest_education", {"99"}),
+    "other_prof_category": ("professional_category", {"99"}),
+    "institution_name": ("employment_status", {"1"}),
+    "job_title": ("employment_status", {"1", "2"}),
+    "prior_training_details": ("prior_training", {"1"}),
+    "sponsor_name": ("fee_payer", {"1"}),
+    "sponsor_contact": ("fee_payer", {"1"}),
+    "invoice_details": ("need_invoice", {"1"}),
+    "hear_about_other": ("hear_about_course", {"99"}),
+}
+
+
+def director_columns(applicants: list[dict]) -> list[str]:
+    result = []
+    for field in DIRECTOR_FIELDS:
+        rule = CONDITIONAL_FIELDS.get(field)
+        if rule and not any(str(r.get(rule[0], "")).strip() in rule[1] for r in applicants):
+            continue
+        result.append(field)
+    return result
+
+
+def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[str, str]] | None = None) -> bytes:
+    labels = labels or {}
     wb = Workbook()
     ws_all = wb.active
     ws_all.title = "All Applicants"
-
-    all_headers = [
-        "record_id", "applied_run_id", "application_date", "full_name", "email", "phone_number",
-        "institution_name", "job_title", "payment_reference", "fee_verified",
-        "selected_for_batch", "selected_batch_id",
-    ]
+    all_headers = director_columns(applicants)
     ws_all.append(all_headers)
     for r in applicants:
-        ws_all.append([
-            r.get("record_id", ""),
-            r.get("applied_run_id", ""),
-            r.get("application_date", ""),
-            r.get("full_name", ""),
-            r.get("email", ""),
-            r.get("phone_number", ""),
-            r.get("institution_name", ""),
-            r.get("job_title", ""),
-            r.get("payment_reference", ""),
-            as_yes_no(r.get("fee_verified", "")),
-            as_yes_no(r.get("selected_for_batch", "")),
-            r.get("selected_batch_id", "") or r.get("applied_run_id", ""),
-        ])
+        values = []
+        for field in all_headers:
+            rule = CONDITIONAL_FIELDS.get(field)
+            if rule and str(r.get(rule[0], "")).strip() not in rule[1]:
+                values.append("")
+                continue
+            raw = str(r.get(field, "") or "")
+            values.append(labels.get(field, {}).get(raw, raw))
+        ws_all.append(values)
     ws_all.freeze_panes = "A2"
     ws_all.auto_filter.ref = ws_all.dimensions
-    set_widths(ws_all, {"A": 14, "B": 16, "C": 15, "D": 28, "E": 28, "F": 18, "G": 28, "H": 24, "I": 24, "J": 15, "K": 20, "L": 28})
+    for idx, field in enumerate(all_headers, start=1):
+        from openpyxl.utils import get_column_letter
+        ws_all.column_dimensions[get_column_letter(idx)].width = (
+            46 if field in {"why_apply", "expected_benefit", "expectations", "prior_training_details"}
+            else 30 if field in {"full_name", "email", "institution_name"} else 21
+        )
 
     ws_sel = wb.create_sheet("Selection Return")
     sel_headers = [
@@ -392,6 +432,8 @@ def main() -> int:
     is_friday = today.weekday() == 4
 
     p75_metadata = export_metadata(P75_TOKEN)
+    p79_metadata = export_metadata(P79_TOKEN)
+    director_labels_map = {f: choice_map(p79_metadata, f) for f in DIRECTOR_FIELDS}
     p75_all_rows = export_records(P75_TOKEN, P75_FIELDS)
     p75_rows = master_rows(p75_all_rows)
     p79_rows = master_rows(export_records(P79_TOKEN, P79_FIELDS))
@@ -539,7 +581,7 @@ def main() -> int:
 
         eligible_count += 1
         filename = f"DCEPD_Applicant_Pack_{clean_filename(course['course_code'])}_{today.isoformat()}.xlsx"
-        workbook = build_workbook(course, scope_apps)
+        workbook = build_workbook(course, scope_apps, director_labels_map)
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         (OUT_DIR / filename).write_bytes(workbook)
 
