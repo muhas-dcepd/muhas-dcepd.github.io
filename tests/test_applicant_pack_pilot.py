@@ -100,6 +100,19 @@ class ApplicantPackPilotTests(unittest.TestCase):
             self.assertEqual(archive.namelist(),
                              ["Applicant_Selection.xlsx", "Documents/1/upload_cv_cv.pdf"])
 
+    def test_applicant_text_cannot_become_excel_formula(self):
+        applicant = {"record_id": "1", "applied_run_id": "206-1",
+                     "full_name": "=HYPERLINK(\\\"https://example.invalid\\\")",
+                     "why_apply": "+1+1"}
+        workbook = load_workbook(io.BytesIO(module.build_workbook({}, [applicant])))
+        all_sheet = workbook["All Applicants"]
+        headers = [cell.value for cell in all_sheet[1]]
+        for field in ("full_name", "why_apply"):
+            cell = all_sheet.cell(2, headers.index(field) + 1)
+            self.assertEqual(cell.data_type, "s")
+            self.assertTrue(cell.value.startswith("'"))
+        self.assertEqual(workbook["Selection Return"]["B2"].data_type, "s")
+
     def test_choice_labels_and_return_headers_unchanged(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1", "sex": "2", "full_name": "Pilot Applicant"}]
         workbook = load_workbook(io.BytesIO(module.build_workbook({}, applicants, {"sex": {"2": "Female"}})))
