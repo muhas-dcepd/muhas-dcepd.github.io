@@ -580,6 +580,9 @@ def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
     expected = str(confirmed_email or "").strip().lower()
     if not actual or "@" not in actual or actual != expected:
         raise ValueError("Confirmed recipient must match the Project 75 contact email.")
+    max_bytes = int(os.getenv("DCEPD_PRIVATE_EMAIL_MAX_BYTES", "18000000"))
+    if len(payload) > max_bytes:
+        raise ValueError("Private ZIP exceeds configured email attachment limit; no email sent.")
     host, port, user, password, _ = smtp_settings()
     msg = EmailMessage()
     msg["Subject"] = f"MUHAS DCEPD {mode.title()} Applicant Review - Run {run_id}"
