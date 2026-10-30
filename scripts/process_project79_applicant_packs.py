@@ -209,6 +209,28 @@ DIRECTOR_FIELDS = [
     "payment_reference", "fee_verified", "selected_for_batch", "selected_batch_id",
 ]
 
+# File fields are handled separately from the spreadsheet. Never export REDCap's
+# file-upload values as document contents or assume that an empty value is a file.
+UPLOAD_RULES = {
+    "upload_cv": "course_requires_cv",
+    "upload_certificate": "course_requires_certificate",
+    "upload_support_letter": None,
+}
+
+
+def applicable_upload_fields(applicant: dict) -> list[str]:
+    """Only actual, applicable uploads may be retrieved for a private pack."""
+    if not str(applicant.get("applied_run_id", "")).strip():
+        return []
+    result = []
+    for field, flag in UPLOAD_RULES.items():
+        if flag and str(applicant.get(flag, "")).strip() != "1":
+            continue
+        if str(applicant.get(field, "")).strip():
+            result.append(field)
+    return result
+
+
 CONDITIONAL_FIELDS = {
     "country_of_residence": ("residence_region", {"27"}),
     "other_country": ("country_of_residence", {"99"}),
