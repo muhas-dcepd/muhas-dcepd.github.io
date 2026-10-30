@@ -47,7 +47,7 @@ PRIVATE_PACK_DIR = Path(os.getenv("DCEPD_PRIVATE_PACK_DIR", ".private-applicant-
 
 P75_FIELDS = [
     "record_id", "course_code", "course_name", "course_director_id",
-    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status", "run_application_close_date",
+    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status", "run_batch_id", "run_application_close_date",
 ]
 P79_FIELDS = [
     "record_id", "applied_course_id", "applied_run_id", "application_date", "short_course_application_complete", "full_name", "email",
@@ -583,8 +583,8 @@ def run_manual_selection(run_id: str, mode: str) -> int:
     verified = [r for r in all_p75 if str(r.get("record_id", "")).strip() == course_id
                 and str(r.get("redcap_repeat_instrument", "")).strip() == "course_run_log"
                 and str(r.get("redcap_repeat_instance", "")).strip() == instance]
-    if len(verified) != 1:
-        raise ValueError("Run not independently verified in Project 75.")
+    if len(verified) != 1 or str(verified[0].get("run_batch_id", "")).strip() != run_id:
+        raise ValueError("Run ID does not match the authoritative Project 75 run log.")
     masters = [r for r in master_rows(all_p75) if str(r.get("record_id", "")).strip() == course_id]
     if len(masters) != 1:
         raise ValueError("Course master record missing or ambiguous.")
@@ -597,7 +597,6 @@ def run_manual_selection(run_id: str, mode: str) -> int:
     metadata = export_metadata(P79_TOKEN)
     labels = {field: choice_map(metadata, field) for field in DIRECTOR_FIELDS}
     run_record = dict(verified[0])
-    run_record["run_batch_id"] = run_id
     data, exceptions = prepare_selection_package(course, run_id, applicants, {run_id},
                                                    labels=labels, mode=mode, run_record=run_record)
     PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
