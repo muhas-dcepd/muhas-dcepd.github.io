@@ -453,6 +453,12 @@ def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
     return out.getvalue()
 
 
+def prepare_final_selection_package(course, run_id, applicants, known_run_ids, labels=None):
+    eligible, exceptions = reconcile_final_run(course, run_id, applicants, known_run_ids)
+    package = build_private_run_zip(course, run_id, eligible, labels, include_documents=False)
+    return package, exceptions
+
+
 def smtp_settings() -> tuple[str, int, str, str, list[str]]:
     host = os.getenv("DCEPD_SMTP_HOST", "").strip()
     user = os.getenv("DCEPD_SMTP_USERNAME", "").strip()
