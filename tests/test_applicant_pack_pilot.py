@@ -165,6 +165,11 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertEqual(msg["To"], "director@example.org")
         self.assertEqual(msg["Cc"], "admin1@example.org, admin2@example.org, admin3@example.org")
 
+    def test_cv_document_extension_detection(self):
+        self.assertEqual(module.document_extension(b"%PDF-1.7\\nsynthetic"), ".pdf")
+        self.assertEqual(module.document_extension(b"\\xff\\xd8\\xffsynthetic"), ".jpg")
+        self.assertEqual(module.document_extension(b"unknown"), "")
+
     def test_private_delivery_rejects_unverified_recipient(self):
         with patch.object(module, "smtp_settings") as settings:
             with self.assertRaises(ValueError):
