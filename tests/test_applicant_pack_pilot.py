@@ -90,6 +90,18 @@ class ApplicantPackPilotTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.reconcile_final_run({"record_id": "206"}, "206-1", rows, set())
 
+    def test_prepared_package_excludes_incomplete_forms(self):
+        rows = [
+            {"record_id": "1", "applied_run_id": "206-1", "short_course_application_complete": "2"},
+            {"record_id": "2", "applied_run_id": "206-1", "short_course_application_complete": "0"},
+        ]
+        payload, exceptions = module.prepare_final_selection_package(
+            {"record_id": "206"}, "206-1", rows, {"206-1"})
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            book = load_workbook(io.BytesIO(archive.read("Applicant_Selection.xlsx")))
+        self.assertEqual(book["All Applicants"].max_row, 2)
+        self.assertEqual(len(exceptions), 1)
+
     def test_private_zip_requires_one_run(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1"},
                       {"record_id": "2", "applied_run_id": "206-2"}]
