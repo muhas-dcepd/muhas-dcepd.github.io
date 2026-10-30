@@ -248,6 +248,14 @@ CONDITIONAL_FIELDS = {
 }
 
 
+def safe_excel_text(value: object) -> str:
+    """Prevent applicant-supplied text from becoming executable Excel formulas."""
+    text = str(value or "")
+    if text.lstrip().startswith(("=", "+", "-", "@")):
+        return "'" + text
+    return text
+
+
 def director_columns(applicants: list[dict]) -> list[str]:
     result = []
     for field in DIRECTOR_FIELDS:
@@ -273,7 +281,7 @@ def build_workbook(course: dict, applicants: list[dict], labels: dict[str, dict[
                 values.append("")
                 continue
             raw = str(r.get(field, "") or "")
-            values.append(labels.get(field, {}).get(raw, raw))
+            values.append(safe_excel_text(labels.get(field, {}).get(raw, raw)))
         ws_all.append(values)
     ws_all.freeze_panes = "A2"
     ws_all.auto_filter.ref = ws_all.dimensions
