@@ -152,6 +152,19 @@ class ApplicantPackPilotTests(unittest.TestCase):
                         b"synthetic", "206-1", "interim", "director@example.org")
                 settings.assert_not_called()
 
+    def test_private_delivery_copies_standard_cc_without_duplicates(self):
+        payload = io.BytesIO()
+        with zipfile.ZipFile(payload, "w") as z:
+            z.writestr("Applicant_Selection.xlsx", b"synthetic")
+        cc = ["director@example.org", "admin1@example.org", "admin2@example.org", "admin3@example.org"]
+        with patch.object(module, "smtp_settings", return_value=("smtp.example.org", 587, "sender@example.org", "password", cc)):
+            with patch.object(module.smtplib, "SMTP") as smtp:
+                module.send_private_selection_zip({"contact_email": "director@example.org"},
+                    payload.getvalue(), "206-1", "interim", "director@example.org")
+                msg = smtp.return_value.__enter__.return_value.send_message.call_args.args[0]
+        self.assertEqual(msg["To"], "director@example.org")
+        self.assertEqual(msg["Cc"], "admin1@example.org, admin2@example.org, admin3@example.org")
+
     def test_private_delivery_rejects_unverified_recipient(self):
         with patch.object(module, "smtp_settings") as settings:
             with self.assertRaises(ValueError):
