@@ -4,6 +4,7 @@ import io
 import os
 import zipfile
 import unittest
+from datetime import date
 from pathlib import Path
 from unittest.mock import patch, Mock
 
@@ -89,6 +90,15 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertTrue(any("upload_cv" in i["issue"] for i in issues))
         with self.assertRaises(ValueError):
             module.reconcile_final_run({"record_id": "206"}, "206-1", rows, set())
+
+    def test_final_deadline_blocks_pack_until_after_closing_date(self):
+        run = {"run_batch_id": "206-1", "run_application_close_date": "2026-11-08"}
+        for day in (date(2026, 10, 30), date(2026, 11, 8)):
+            with self.assertRaises(ValueError):
+                module.validate_final_run_deadline(run, "206-1", day)
+        module.validate_final_run_deadline(run, "206-1", date(2026, 11, 9))
+        with self.assertRaises(ValueError):
+            module.validate_final_run_deadline(run, "206-2", date(2026, 11, 9))
 
     def test_final_package_fails_without_independent_run_verification(self):
         rows = [{"record_id": "1", "applied_run_id": "206-1",
