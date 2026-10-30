@@ -1,0 +1,48 @@
+name: DCEPD Final Selection Pack (daily closing-date check)
+on:
+  schedule:
+    - cron: '25 4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dcepd-final-selection-delivery
+  cancel-in-progress: false
+jobs:
+  final-selection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests openpyxl
+      - name: Process due final packages privately
+        env:
+          REDCAP_PROJECT75_TOKEN: ${{ secrets.REDCAP_PROJECT75_TOKEN }}
+          REDCAP_PROJECT79_TOKEN: ${{ secrets.REDCAP_PROJECT79_TOKEN }}
+          DCEPD_SMTP_HOST: ${{ secrets.DCEPD_SMTP_HOST }}
+          DCEPD_SMTP_PORT: ${{ secrets.DCEPD_SMTP_PORT }}
+          DCEPD_SMTP_USERNAME: ${{ secrets.DCEPD_SMTP_USERNAME }}
+          DCEPD_SMTP_PASSWORD: ${{ secrets.DCEPD_SMTP_PASSWORD }}
+          DCEPD_EMAIL_1: ${{ secrets.DCEPD_EMAIL_1 }}
+          DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
+          DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
+          DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
+          DCEPD_FINAL_SEND_ENABLED: 'false'
+        run: python scripts/process_project79_final_selection.py
+      - name: Persist final delivery receipts
+        run: |
+          if [[ -n "$(git status --porcelain -- automation/final-selection-delivery-state.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add automation/final-selection-delivery-state.json
+            git commit -m "Record private final selection delivery receipts"
+            git push
+          fi
+      - name: Remove private temporary files
+        if: always()
+        run: rm -rf .private-applicant-packs
