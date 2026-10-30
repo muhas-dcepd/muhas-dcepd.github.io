@@ -399,6 +399,9 @@ def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
     """
     if not re.fullmatch(r"[0-9]+-[0-9]+", str(run_id)):
         raise ValueError("A valid course run ID is required.")
+    course_record_id = str(course.get("record_id", "")).strip()
+    if not course_record_id or run_id.split("-", 1)[0] != course_record_id:
+        raise ValueError("Run ID does not belong to the requested Project 75 course.")
     if not applicants:
         raise ValueError("A final selection pack requires at least one applicant.")
     if any(str(r.get("applied_run_id", "")).strip() != run_id for r in applicants):
