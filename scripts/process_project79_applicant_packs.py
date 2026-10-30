@@ -463,10 +463,25 @@ def validate_final_run_deadline(run_record: dict, run_id: str, today: date) -> N
         raise ValueError("Applications are still open; final selection package is not due.")
 
 
-def prepare_final_selection_package(course, run_id, applicants, known_run_ids, labels=None):
+def prepare_selection_package(course, run_id, applicants, known_run_ids,
+                              labels=None, mode="interim", run_record=None,
+                              today=None):
+    """Build an interim review or final selection package without sending it."""
+    if mode not in {"interim", "final"}:
+        raise ValueError("Selection package mode must be interim or final.")
+    if mode == "final":
+        if run_record is None:
+            raise ValueError("Final packages require authoritative Project 75 run dates.")
+        validate_final_run_deadline(run_record, run_id, today or datetime.now(TZ).date())
     eligible, exceptions = reconcile_final_run(course, run_id, applicants, known_run_ids)
     package = build_private_run_zip(course, run_id, eligible, labels, include_documents=False)
     return package, exceptions
+
+
+def prepare_final_selection_package(course, run_id, applicants, known_run_ids,
+                                    labels=None, run_record=None, today=None):
+    return prepare_selection_package(course, run_id, applicants, known_run_ids,
+                                     labels, mode="final", run_record=run_record, today=today)
 
 
 def smtp_settings() -> tuple[str, int, str, str, list[str]]:
