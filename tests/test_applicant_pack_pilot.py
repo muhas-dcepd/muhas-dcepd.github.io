@@ -131,6 +131,19 @@ class ApplicantPackPilotTests(unittest.TestCase):
         self.assertEqual(book["All Applicants"].max_row, 2)
         self.assertEqual(len(exceptions), 1)
 
+    def test_interim_package_can_include_applicable_documents(self):
+        rows = [{"record_id": "1", "applied_run_id": "206-1",
+                 "short_course_application_complete": "2",
+                 "course_requires_cv": "1", "upload_cv": "stored"}]
+        with patch.object(module, "fetch_private_upload", return_value=(b"test-pdf", "cv.pdf")) as fetch:
+            payload, exceptions = module.prepare_selection_package(
+                {"record_id": "206"}, "206-1", rows, {"206-1"},
+                mode="interim", include_documents=True)
+            fetch.assert_called_once_with("1", "upload_cv")
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            self.assertIn("Documents/1/upload_cv_cv.pdf", archive.namelist())
+        self.assertEqual(exceptions, [])
+
     def test_private_zip_requires_one_run(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1"},
                       {"record_id": "2", "applied_run_id": "206-2"}]
