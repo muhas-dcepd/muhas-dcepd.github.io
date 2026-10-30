@@ -42,6 +42,7 @@ DESIGN_LOCK_CUTOVER = date(2026, 10, 8)
 STATE_PATH = Path(os.getenv("DCEPD_APPLICANT_PACK_STATE", "automation/applicant-pack-state.json"))
 CROSSWALK_PATH = Path(os.getenv("DCEPD_PROJECT79_CROSSWALK", "automation/project79-course-crosswalk.csv"))
 OUT_DIR = Path(os.getenv("DCEPD_APPLICANT_PACK_OUT", ".applicant-pack-output"))
+PRIVATE_PACK_DIR = Path(os.getenv("DCEPD_PRIVATE_PACK_DIR", ".private-applicant-packs"))
 
 P75_FIELDS = [
     "record_id", "course_code", "course_name", "course_director_id",
@@ -604,8 +605,9 @@ def main() -> int:
         eligible_count += 1
         filename = f"DCEPD_Applicant_Pack_{clean_filename(course['course_code'])}_{today.isoformat()}.xlsx"
         workbook = build_workbook(course, scope_apps, director_labels_map)
-        OUT_DIR.mkdir(parents=True, exist_ok=True)
-        (OUT_DIR / filename).write_bytes(workbook)
+        # Applicant identities must never enter the routine GitHub Actions QC artifact.
+        PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
+        (PRIVATE_PACK_DIR / filename).write_bytes(workbook)
 
         if args.dry_run:
             print(f"DRY_RUN choice={choice_id} course_record={course_id} applicants={len(scope_apps)} new={len(new_ids)} file={filename}")
