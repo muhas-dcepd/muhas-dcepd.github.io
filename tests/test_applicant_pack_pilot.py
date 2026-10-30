@@ -91,6 +91,18 @@ class ApplicantPackPilotTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             module.reconcile_final_run({"record_id": "206"}, "206-1", rows, set())
 
+    def test_final_package_requires_deadline_but_interim_does_not(self):
+        rows = [{"record_id": "1", "applied_run_id": "206-1",
+                 "short_course_application_complete": "2"}]
+        course = {"record_id": "206"}
+        module.prepare_selection_package(course, "206-1", rows, {"206-1"},
+                                         mode="interim", today=date(2026, 10, 30))
+        with self.assertRaises(ValueError):
+            module.prepare_final_selection_package(course, "206-1", rows, {"206-1"},
+                run_record={"run_batch_id": "206-1",
+                            "run_application_close_date": "2026-11-08"},
+                today=date(2026, 10, 30))
+
     def test_final_deadline_blocks_pack_until_after_closing_date(self):
         run = {"run_batch_id": "206-1", "run_application_close_date": "2026-11-08"}
         for day in (date(2026, 10, 30), date(2026, 11, 8)):
@@ -112,8 +124,8 @@ class ApplicantPackPilotTests(unittest.TestCase):
             {"record_id": "1", "applied_run_id": "206-1", "short_course_application_complete": "2"},
             {"record_id": "2", "applied_run_id": "206-1", "short_course_application_complete": "0"},
         ]
-        payload, exceptions = module.prepare_final_selection_package(
-            {"record_id": "206"}, "206-1", rows, {"206-1"})
+        payload, exceptions = module.prepare_selection_package(
+            {"record_id": "206"}, "206-1", rows, {"206-1"}, mode="interim")
         with zipfile.ZipFile(io.BytesIO(payload)) as archive:
             book = load_workbook(io.BytesIO(archive.read("Applicant_Selection.xlsx")))
         self.assertEqual(book["All Applicants"].max_row, 2)
