@@ -573,7 +573,29 @@ def write_invalid_application_qc(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def run_manual_selection(run_id: str, mode: str, include_documents: bool = False) -> int:
+def send_private_selection_zip(course: dict, payload: bytes, run_id: str,
+                               mode: str, confirmed_email: str) -> None:
+    """Explicitly approved, private delivery; never logs applicant content."""
+    actual = str(course.get("contact_email", "")).strip().lower()
+    expected = str(confirmed_email or "").strip().lower()
+    if not actual or "@" not in actual or actual != expected:
+        raise ValueError("Confirmed recipient must match the Project 75 contact email.")
+    host, port, user, password, _ = smtp_settings()
+    msg = EmailMessage()
+    msg["Subject"] = f"MUHAS DCEPD {mode.title()} Applicant Review - Run {run_id}"
+    msg["From"] = user
+    msg["To"] = actual
+    msg.set_content("Private applicant review pack attached. Please handle confidentially and return selection decisions through the approved DCEPD channel.")
+    msg.add_attachment(payload, maintype="application", subtype="zip",
+                       filename=f"{mode}_selection_{run_id}.zip")
+    with smtplib.SMTP(host, port, timeout=60) as smtp:
+        smtp.starttls(context=ssl.create_default_context())
+        smtp.login(user, password)
+        smtp.send_message(msg)
+
+
+def run_manual_selection(run_id: str, mode: str, include_documents: bool = False,
+                         send_to: str = "") -> int:
     """Private, manual, workbook-only preparation; never emails or updates daily state."""
     if not re.fullmatch(r"[0-9]+-[0-9]+", run_id):
         raise ValueError("Invalid run ID.")
@@ -604,7 +626,12 @@ def run_manual_selection(run_id: str, mode: str, include_documents: bool = False
     output = PRIVATE_PACK_DIR / f"{mode}_selection_{run_id}.zip"
     output.write_bytes(data)
     print(f"Prepared private {mode} workbook ZIP for {run_id}; exceptions: {len(exceptions)}.")
-    print("No email sent. No daily state changed.")
+    if send_to:
+        send_private_selection_zip(course, data, run_id, mode, send_to)
+        print("Private selection email submitted to verified Project 75 recipient.")
+    else:
+        print("No email sent.")
+    print("No daily state changed.")
     return 0
 
 
@@ -614,9 +641,11 @@ def main() -> int:
     parser.add_argument("--selection-run", help="Manually prepare one verified run, e.g. 206-1.")
     parser.add_argument("--selection-mode", choices=("interim", "final"), default="interim")
     parser.add_argument("--include-documents", action="store_true")
+    parser.add_argument("--send-to-confirmed", default="", help="Only send when this matches the verified Project 75 director email.")
     args = parser.parse_args()
     if args.selection_run:
-        return run_manual_selection(args.selection_run, args.selection_mode, args.include_documents)
+        return run_manual_selection(args.selection_run, args.selection_mode, args.include_documents,
+                                    args.send_to_confirmed)
 
     today = datetime.now(TZ).date()
     fy_start, fy_end, fy_label = fiscal_year_bounds(today)
