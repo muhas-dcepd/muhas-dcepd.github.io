@@ -465,7 +465,7 @@ def validate_final_run_deadline(run_record: dict, run_id: str, today: date) -> N
 
 def prepare_selection_package(course, run_id, applicants, known_run_ids,
                               labels=None, mode="interim", run_record=None,
-                              today=None):
+                              today=None, include_documents=False):
     """Build an interim review or final selection package without sending it."""
     if mode not in {"interim", "final"}:
         raise ValueError("Selection package mode must be interim or final.")
@@ -474,7 +474,7 @@ def prepare_selection_package(course, run_id, applicants, known_run_ids,
             raise ValueError("Final packages require authoritative Project 75 run dates.")
         validate_final_run_deadline(run_record, run_id, today or datetime.now(TZ).date())
     eligible, exceptions = reconcile_final_run(course, run_id, applicants, known_run_ids)
-    package = build_private_run_zip(course, run_id, eligible, labels, include_documents=False)
+    package = build_private_run_zip(course, run_id, eligible, labels, include_documents=include_documents)
     return package, exceptions
 
 
