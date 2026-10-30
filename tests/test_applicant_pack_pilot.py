@@ -2,6 +2,7 @@
 import importlib.util
 import io
 import os
+import zipfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch, Mock
@@ -70,6 +71,34 @@ class ApplicantPackPilotTests(unittest.TestCase):
         with patch.object(module.requests, "post", return_value=response):
             with self.assertRaises(RuntimeError):
                 module.fetch_private_upload("123", "upload_cv")
+
+    def test_private_zip_requires_one_run(self):
+        applicants = [{"record_id": "1", "applied_run_id": "206-1"},
+                      {"record_id": "2", "applied_run_id": "206-2"}]
+        with self.assertRaises(ValueError):
+            module.build_private_run_zip({}, "206-1", applicants)
+        with self.assertRaises(ValueError):
+            module.build_private_run_zip({}, "206-1", [])
+
+    def test_private_zip_contains_only_workbook_without_opt_in(self):
+        applicants = [{"record_id": "1", "applied_run_id": "206-1",
+                       "course_requires_cv": "1", "upload_cv": "123"}]
+        with patch.object(module, "fetch_private_upload") as fetch:
+            payload = module.build_private_run_zip({}, "206-1", applicants)
+            fetch.assert_not_called()
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            self.assertEqual(archive.namelist(), ["Applicant_Selection.xlsx"])
+
+    def test_private_zip_includes_only_eligible_uploads_when_requested(self):
+        applicants = [{"record_id": "1", "applied_run_id": "206-1",
+                       "course_requires_cv": "1", "upload_cv": "123",
+                       "course_requires_certificate": "0", "upload_certificate": "456"}]
+        with patch.object(module, "fetch_private_upload", return_value=(b"synthetic", "cv.pdf")) as fetch:
+            payload = module.build_private_run_zip({}, "206-1", applicants, include_documents=True)
+            fetch.assert_called_once_with("1", "upload_cv")
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            self.assertEqual(archive.namelist(),
+                             ["Applicant_Selection.xlsx", "Documents/1/upload_cv_cv.pdf"])
 
     def test_choice_labels_and_return_headers_unchanged(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1", "sex": "2", "full_name": "Pilot Applicant"}]
