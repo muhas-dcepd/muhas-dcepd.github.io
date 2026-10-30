@@ -22,6 +22,7 @@ import os
 import re
 import smtplib
 import ssl
+import zipfile
 from collections import defaultdict
 from datetime import date, datetime
 from email.message import EmailMessage
@@ -378,6 +379,40 @@ def fetch_private_upload(record_id: str, field_name: str) -> tuple[bytes, str] |
     supplied_name = name_match.group(1).strip() if name_match else field_name
     safe_name = clean_filename(Path(supplied_name).name)
     return response.content, safe_name
+
+
+def build_private_run_zip(course: dict, run_id: str, applicants: list[dict],
+                          labels: dict[str, dict[str, str]] | None = None,
+                          include_documents: bool = False) -> bytes:
+    """Build a single-run selection ZIP in memory; caller controls private delivery.
+
+    Documents are opt-in and never included in routine daily workbooks.
+    A missing or mismatched run fails closed rather than mixing course deliveries.
+    """
+    if not re.fullmatch(r"[0-9]+-[0-9]+", str(run_id)):
+        raise ValueError("A valid course run ID is required.")
+    if not applicants:
+        raise ValueError("A final selection pack requires at least one applicant.")
+    if any(str(r.get("applied_run_id", "")).strip() != run_id for r in applicants):
+        raise ValueError("Applicant records contain another run or a missing run ID.")
+    workbook = build_workbook(course, applicants, labels)
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("Applicant_Selection.xlsx", workbook)
+        if include_documents:
+            for applicant in applicants:
+                rid = str(applicant.get("record_id", "")).strip()
+                if not rid or not re.fullmatch(r"[A-Za-z0-9_-]+", rid):
+                    raise ValueError("Invalid applicant record ID.")
+                for field in applicable_upload_fields(applicant):
+                    document = fetch_private_upload(rid, field)
+                    if document is None:
+                        raise RuntimeError(f"Expected upload missing for record {rid}, field {field}.")
+                    content, filename = document
+                    if len(content) > 20 * 1024 * 1024:
+                        raise ValueError("An uploaded document exceeds the 20 MB safety limit.")
+                    archive.writestr(f"Documents/{rid}/{field}_{clean_filename(filename)}", content)
+    return out.getvalue()
 
 
 def smtp_settings() -> tuple[str, int, str, str, list[str]]:
