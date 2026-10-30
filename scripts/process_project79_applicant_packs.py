@@ -47,7 +47,7 @@ PRIVATE_PACK_DIR = Path(os.getenv("DCEPD_PRIVATE_PACK_DIR", ".private-applicant-
 
 P75_FIELDS = [
     "record_id", "course_code", "course_name", "course_director_id",
-    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status",
+    "contact_email", "contact_phone", "vote_code", "run_start_date", "run_end_date", "run_status", "run_application_close_date",
 ]
 P79_FIELDS = [
     "record_id", "applied_course_id", "applied_run_id", "application_date", "short_course_application_complete", "full_name", "email",
@@ -573,10 +573,49 @@ def write_invalid_application_qc(rows: list[dict]) -> None:
         w.writerows(rows)
 
 
+def run_manual_selection(run_id: str, mode: str) -> int:
+    """Private, manual, workbook-only preparation; never emails or updates daily state."""
+    if not re.fullmatch(r"[0-9]+-[0-9]+", run_id):
+        raise ValueError("Invalid run ID.")
+    all_p75 = export_records(P75_TOKEN, P75_FIELDS)
+    all_p79 = master_rows(export_records(P79_TOKEN, P79_FIELDS))
+    course_id, instance = run_id.split("-", 1)
+    verified = [r for r in all_p75 if str(r.get("record_id", "")).strip() == course_id
+                and str(r.get("redcap_repeat_instrument", "")).strip() == "course_run_log"
+                and str(r.get("redcap_repeat_instance", "")).strip() == instance]
+    if len(verified) != 1:
+        raise ValueError("Run not independently verified in Project 75.")
+    masters = [r for r in master_rows(all_p75) if str(r.get("record_id", "")).strip() == course_id]
+    if len(masters) != 1:
+        raise ValueError("Course master record missing or ambiguous.")
+    course = masters[0]
+    choices = load_course_crosswalk()
+    applicants = [r for r in all_p79 if str(r.get("applied_run_id", "")).strip() == run_id]
+    if any(str(choices.get(str(r.get("applied_course_id", "")).strip(), "")).strip() != course_id
+           for r in applicants):
+        raise ValueError("Project 79 course choice does not match the verified run.")
+    metadata = export_metadata(P79_TOKEN)
+    labels = {field: choice_map(metadata, field) for field in DIRECTOR_FIELDS}
+    run_record = dict(verified[0])
+    run_record["run_batch_id"] = run_id
+    data, exceptions = prepare_selection_package(course, run_id, applicants, {run_id},
+                                                   labels=labels, mode=mode, run_record=run_record)
+    PRIVATE_PACK_DIR.mkdir(parents=True, exist_ok=True)
+    output = PRIVATE_PACK_DIR / f"{mode}_selection_{run_id}.zip"
+    output.write_bytes(data)
+    print(f"Prepared private {mode} workbook ZIP for {run_id}; exceptions: {len(exceptions)}.")
+    print("No email sent. No documents downloaded. No daily state changed.")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true", help="Build packs/QC but do not send email or update state.")
+    parser.add_argument("--selection-run", help="Manually prepare one verified run, e.g. 206-1.")
+    parser.add_argument("--selection-mode", choices=("interim", "final"), default="interim")
     args = parser.parse_args()
+    if args.selection_run:
+        return run_manual_selection(args.selection_run, args.selection_mode)
 
     today = datetime.now(TZ).date()
     fy_start, fy_end, fy_label = fiscal_year_bounds(today)
