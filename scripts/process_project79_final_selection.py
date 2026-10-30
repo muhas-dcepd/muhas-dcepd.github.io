@@ -59,9 +59,12 @@ def main():
             payload, exceptions = p.prepare_selection_package(
                 course, run_id, grouped[run_id], {run_id}, labels=labels,
                 mode="final", run_record=run, today=today, include_documents=True)
-            if exceptions:
-                print(f"SKIP run={run_id} reason=application-exceptions count={len(exceptions)}")
+            missing_required = [e for e in exceptions if str(e.get("issue", "")).startswith("Required ")]
+            if missing_required:
+                print(f"SKIP run={run_id} reason=missing-required-uploads count={len(missing_required)}")
                 continue
+            if exceptions:
+                print(f"INFO run={run_id} excluded-or-flagged-applications={len(exceptions)}")
             if os.getenv("DCEPD_FINAL_SEND_ENABLED", "false").lower() != "true":
                 print(f"DRY_RUN run={run_id} zip_bytes={len(payload)}")
                 continue
