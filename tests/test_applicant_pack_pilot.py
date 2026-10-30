@@ -144,6 +144,13 @@ class ApplicantPackPilotTests(unittest.TestCase):
             self.assertIn("Documents/1/upload_cv_cv.pdf", archive.namelist())
         self.assertEqual(exceptions, [])
 
+    def test_private_delivery_rejects_unverified_recipient(self):
+        with patch.object(module, "smtp_settings") as settings:
+            with self.assertRaises(ValueError):
+                module.send_private_selection_zip({"contact_email": "director@example.org"},
+                    b"synthetic", "206-1", "interim", "other@example.org")
+            settings.assert_not_called()
+
     def test_private_zip_requires_one_run(self):
         applicants = [{"record_id": "1", "applied_run_id": "206-1"},
                       {"record_id": "2", "applied_run_id": "206-2"}]
