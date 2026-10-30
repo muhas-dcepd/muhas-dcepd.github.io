@@ -141,7 +141,7 @@ class ApplicantPackPilotTests(unittest.TestCase):
                 mode="interim", include_documents=True)
             fetch.assert_called_once_with("1", "upload_cv")
         with zipfile.ZipFile(io.BytesIO(payload)) as archive:
-            self.assertIn("Documents/1/upload_cv_cv.pdf", archive.namelist())
+            self.assertIn("Documents/1_cv.pdf", archive.namelist())
         self.assertEqual(exceptions, [])
 
     def test_private_delivery_rejects_oversized_zip_before_smtp(self):
