@@ -6,6 +6,11 @@ on:
         description: 'Verified Project 75 run ID (e.g. 206-1)'
         required: true
         type: string
+      include_documents:
+        description: 'Include applicable CVs and other uploaded documents'
+        required: true
+        type: boolean
+        default: false
       package_type:
         description: 'Interim before deadline; final after deadline'
         required: true
@@ -31,9 +36,12 @@ jobs:
           DCEPD_PRIVATE_PACK_DIR: .private-applicant-packs
           SELECT_RUN_ID: ${{ inputs.run_id }}
           SELECT_MODE: ${{ inputs.package_type }}
+          INCLUDE_DOCS: ${{ inputs.include_documents }}
         run: |
           set -euo pipefail
-          python scripts/process_project79_applicant_packs.py --selection-run "$SELECT_RUN_ID" --selection-mode "$SELECT_MODE"
+          args=(--selection-run "$SELECT_RUN_ID" --selection-mode "$SELECT_MODE")
+          if [[ "$INCLUDE_DOCS" == "true" ]]; then args+=(--include-documents); fi
+          python scripts/process_project79_applicant_packs.py "${args[@]}"
       - name: Privacy cleanup
         if: always()
         run: rm -rf .private-applicant-packs
