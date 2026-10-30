@@ -144,6 +144,14 @@ class ApplicantPackPilotTests(unittest.TestCase):
             self.assertIn("Documents/1/upload_cv_cv.pdf", archive.namelist())
         self.assertEqual(exceptions, [])
 
+    def test_private_delivery_rejects_oversized_zip_before_smtp(self):
+        with patch.dict(os.environ, {"DCEPD_PRIVATE_EMAIL_MAX_BYTES": "3"}):
+            with patch.object(module, "smtp_settings") as settings:
+                with self.assertRaises(ValueError):
+                    module.send_private_selection_zip({"contact_email": "director@example.org"},
+                        b"synthetic", "206-1", "interim", "director@example.org")
+                settings.assert_not_called()
+
     def test_private_delivery_rejects_unverified_recipient(self):
         with patch.object(module, "smtp_settings") as settings:
             with self.assertRaises(ValueError):
