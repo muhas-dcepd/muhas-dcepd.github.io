@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-02T16:38:15+00:00",
+    "source_at": "2026-11-02T23:40:35+00:00",
     "as_of": "2026-11-02",
     "registered_courses": 196,
     "listed_courses": 86,
-    "application_records": 1276,
-    "application_attempt_records": 1519,
-    "excluded_application_attempts": 243,
+    "application_records": 1279,
+    "application_attempt_records": 1523,
+    "excluded_application_attempts": 244,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6545,7 +6545,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 22,
+      "applications": 24,
       "withheld": false
     },
     {
@@ -6666,7 +6666,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 8,
+      "applications": 9,
       "withheld": false
     },
     {
@@ -6695,7 +6695,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 628
+      "applications": 630
     },
     {
       "location": "Dodoma",
@@ -6754,15 +6754,15 @@
       "applications": 18
     },
     {
+      "location": "Singida",
+      "applications": 16
+    },
+    {
       "location": "Shinyanga",
       "applications": 16
     },
     {
       "location": "Lindi",
-      "applications": 15
-    },
-    {
-      "location": "Singida",
       "applications": 15
     },
     {
