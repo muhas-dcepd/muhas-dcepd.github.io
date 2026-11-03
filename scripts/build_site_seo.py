@@ -22,7 +22,7 @@ def optimise_site():
   for key,value in [('og:title',title),('og:description',description),('og:url',BASE+route),('og:type','website'),('og:site_name','MUHAS DCEPD')]:tags+=f'<meta property="{key}" content="{html.escape(value,quote=True)}">'
   tags+='<script type="application/ld+json">'+json.dumps({'@context':'https://schema.org','@graph':[org,website,page]},ensure_ascii=False).replace('<','\\u003c')+'</script>'
   s=s.replace('</head>','<!-- SEO START -->'+tags+'<!-- SEO END --></head>');s=re.sub(r'<!-- SITE-DIRECTORY START -->.*?<!-- SITE-DIRECTORY END -->','',s,flags=re.S)
-  nav='<nav aria-label="DCEPD pages" style="padding:24px;display:flex;gap:24px;flex-wrap:wrap"><a href="/">DCEPD home</a><a href="/dcepd-courses/">Courses</a><a href="/dcepd-dashboard/">Dashboard</a></nav>'
+  nav='<nav aria-label="DCEPD pages" style="padding:24px;display:flex;gap:24px;flex-wrap:wrap"><a href="/">DCEPD home</a><a href="/dcepd-courses/">Courses</a><a href="/dcepd-dashboard/">Dashboard</a><a href="https://muhas-osp.github.io/opportunities/">OSP funding opportunities</a><a href="https://sangeda.github.io/">Academic profile</a></nav>'
   p.write_text(s.replace('</body>','<!-- SITE-DIRECTORY START -->'+nav+'<!-- SITE-DIRECTORY END --></body>'))
  (ROOT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+r+'</loc></url>' for r,_,_ in PAGES.values())+''.join('<url><loc>'+u+'</loc></url>' for u in course_urls)+'</urlset>')
  (ROOT/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+BASE+'sitemap.xml\n')
