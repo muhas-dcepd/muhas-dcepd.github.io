@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-04T03:17:02+00:00",
+    "source_at": "2026-11-04T08:00:48+00:00",
     "as_of": "2026-11-04",
     "registered_courses": 199,
     "listed_courses": 86,
-    "application_records": 1289,
-    "application_attempt_records": 1539,
-    "excluded_application_attempts": 250,
+    "application_records": 1291,
+    "application_attempt_records": 1544,
+    "excluded_application_attempts": 253,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6569,7 +6569,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 31,
+      "applications": 33,
       "withheld": false
     },
     {
@@ -6746,16 +6746,16 @@
       "applications": 32
     },
     {
+      "location": "Mwanza",
+      "applications": 30
+    },
+    {
       "location": "Kilimanjaro",
       "applications": 30
     },
     {
       "location": "Mbeya",
       "applications": 29
-    },
-    {
-      "location": "Mwanza",
-      "applications": 28
     },
     {
       "location": "Ruvuma",
