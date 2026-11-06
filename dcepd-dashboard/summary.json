@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-06T08:30:35+00:00",
+    "source_at": "2026-11-06T15:20:31+00:00",
     "as_of": "2026-11-06",
     "registered_courses": 199,
     "listed_courses": 86,
-    "application_records": 1312,
-    "application_attempt_records": 1587,
-    "excluded_application_attempts": 275,
+    "application_records": 1315,
+    "application_attempt_records": 1591,
+    "excluded_application_attempts": 276,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6569,7 +6569,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 41,
+      "applications": 42,
       "withheld": false
     },
     {
@@ -6646,7 +6646,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 80,
+      "applications": 81,
       "withheld": false
     },
     {
@@ -6668,7 +6668,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 17,
+      "applications": 18,
       "withheld": false
     },
     {
@@ -6719,7 +6719,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 651
+      "applications": 652
     },
     {
       "location": "Dodoma",
@@ -6738,11 +6738,11 @@
       "applications": 40
     },
     {
-      "location": "Mwanza",
-      "applications": 32
+      "location": "Pwani",
+      "applications": 33
     },
     {
-      "location": "Pwani",
+      "location": "Mwanza",
       "applications": 32
     },
     {
@@ -6750,12 +6750,12 @@
       "applications": 32
     },
     {
-      "location": "Kilimanjaro",
+      "location": "Mbeya",
       "applications": 30
     },
     {
-      "location": "Mbeya",
-      "applications": 29
+      "location": "Kilimanjaro",
+      "applications": 30
     },
     {
       "location": "Tanga",
