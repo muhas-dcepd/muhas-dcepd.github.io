@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-06T00:56:12+00:00",
+    "source_at": "2026-11-06T07:34:16+00:00",
     "as_of": "2026-11-06",
     "registered_courses": 199,
     "listed_courses": 86,
-    "application_records": 1308,
-    "application_attempt_records": 1575,
-    "excluded_application_attempts": 267,
+    "application_records": 1312,
+    "application_attempt_records": 1587,
+    "excluded_application_attempts": 275,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6668,7 +6668,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 15,
+      "applications": 17,
       "withheld": false
     },
     {
@@ -6690,7 +6690,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 10,
+      "applications": 12,
       "withheld": false
     },
     {
@@ -6719,7 +6719,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 650
+      "applications": 651
     },
     {
       "location": "Dodoma",
@@ -6758,12 +6758,12 @@
       "applications": 29
     },
     {
-      "location": "Ruvuma",
-      "applications": 26
+      "location": "Tanga",
+      "applications": 28
     },
     {
-      "location": "Tanga",
-      "applications": 25
+      "location": "Ruvuma",
+      "applications": 26
     },
     {
       "location": "Kigoma",
