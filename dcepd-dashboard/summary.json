@@ -2,12 +2,12 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-07T13:28:19+00:00",
+    "source_at": "2026-11-07T18:11:03+00:00",
     "as_of": "2026-11-07",
     "registered_courses": 199,
     "listed_courses": 86,
-    "application_records": 1316,
-    "application_attempt_records": 1592,
+    "application_records": 1319,
+    "application_attempt_records": 1595,
     "excluded_application_attempts": 276,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
@@ -6569,7 +6569,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 42,
+      "applications": 44,
       "withheld": false
     },
     {
@@ -6712,14 +6712,14 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 40,
+      "applications": 41,
       "withheld": false
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 653
+      "applications": 654
     },
     {
       "location": "Dodoma",
@@ -6738,12 +6738,12 @@
       "applications": 40
     },
     {
-      "location": "Pwani",
+      "location": "Mwanza",
       "applications": 33
     },
     {
-      "location": "Mwanza",
-      "applications": 32
+      "location": "Pwani",
+      "applications": 33
     },
     {
       "location": "Iringa",
@@ -6751,7 +6751,7 @@
     },
     {
       "location": "Mbeya",
-      "applications": 30
+      "applications": 31
     },
     {
       "location": "Kilimanjaro",
