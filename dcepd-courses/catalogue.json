@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-11-09T08:43:48+00:00",
-  "api_refreshed_at": "2026-11-09T08:43:48+00:00",
+  "source_at": "2026-11-09T19:10:12+00:00",
+  "api_refreshed_at": "2026-11-09T19:10:12+00:00",
   "count": 86,
   "courses": [
     {
@@ -370,11 +370,19 @@
       "target_audience": "Applicants should hold at least a diploma or degree in a recognized health- related discipline. Be currently involved, or intending to become involved, in teaching, clinical instruction, student supervision or health professional training. Have basic computer literacy.",
       "learning_outcomes": "6 0. COURSE DESCRIPTION AND CONDUCT 7 1. Course purpose 7 2. Course duration 7 3. Course objectives 7 4. Course learning outcomes 7 5. Instructional methods 7 6. Assessment methods 7 7. Course participants 7 0. ADMINISTRATION OF THE COURSE 8 1. Funding 8 2. Available resources 8 3. Quality control 9 4. COURSE ORGANISATION 10 5. RECOMMENDED READINGS 13 ACKNOWLEDGEMENTS The Erasmus+ Mobility supported the visit of Prof Obadia Nyongole to Radboud University Medical Center in the Netherland which helped him to learn the best practice for strengthening the quality of medical education in Tanzania. For accreditation, the curriculum is submitted to the Directorate of Continuing Education and Professional Development [DCEPD] at MUHAS. Prof. Obadia Nyongole Course Director LIST OF ABBREVIATIONS |AI |Artificial Intelligence | |BTQHS |Basic Teaching Qualification In Health Sciences | |CPD |Continuing Professional Development | |DCEPD |Directorate of Continuing Education and Professional| | |Development | |QA |Quality Assurance | |QAU |Quality Assurance Unit | |SPHSs |School of Public Health and Social Sciences | |TZS |Tanzanian Shilling",
       "certificate_awarded": "course requirements will be awarded a Certificate of Competency, co-",
-      "date_next_offered": "",
+      "date_next_offered": "15-02-2027",
       "category": "Other courses",
       "tags": [],
-      "open_runs": [],
-      "apply_url": ""
+      "open_runs": [
+        {
+          "run_id": "205-1",
+          "start": "15-02-2027",
+          "end": "27-02-2027",
+          "application_close": "14-02-2027",
+          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=205&applied_run_id=205-1&course_requires_cv=0&course_requires_certificate=0"
+        }
+      ],
+      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=205&applied_run_id=205-1&course_requires_cv=0&course_requires_certificate=0"
     },
     {
       "id": "109",
