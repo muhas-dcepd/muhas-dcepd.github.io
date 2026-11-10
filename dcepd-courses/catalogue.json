@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-11-10T02:01:56+00:00",
-  "api_refreshed_at": "2026-11-10T02:01:56+00:00",
+  "source_at": "2026-11-10T08:52:20+00:00",
+  "api_refreshed_at": "2026-11-10T08:52:20+00:00",
   "count": 86,
   "courses": [
     {
@@ -377,7 +377,7 @@
         {
           "run_id": "205-1",
           "start": "15-02-2027",
-          "end": "27-02-2027",
+          "end": "26-02-2027",
           "application_close": "14-02-2027",
           "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=205&applied_run_id=205-1&course_requires_cv=0&course_requires_certificate=0"
         }
