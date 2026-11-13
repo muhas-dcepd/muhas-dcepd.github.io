@@ -2,10 +2,10 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-13T07:47:22+00:00",
+    "source_at": "2026-11-13T08:46:03+00:00",
     "as_of": "2026-11-13",
     "registered_courses": 199,
-    "listed_courses": 86,
+    "listed_courses": 88,
     "application_records": 1334,
     "application_attempt_records": 1626,
     "excluded_application_attempts": 292,
@@ -162,7 +162,7 @@
       "code": "DCEPD/ITM/019/2021",
       "school": "Institute of Traditional Medicine",
       "department": "ITM",
-      "listed": false
+      "listed": true
     },
     {
       "id": "20",
@@ -850,7 +850,7 @@
       "code": "DCEPD/ITM/105/2021",
       "school": "Institute of Traditional Medicine",
       "department": "ITM",
-      "listed": false
+      "listed": true
     },
     {
       "id": "106",
