@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-11-13T21:38:33+00:00",
-  "api_refreshed_at": "2026-11-13T21:38:33+00:00",
+  "source_at": "2026-11-14T01:44:37+00:00",
+  "api_refreshed_at": "2026-11-14T01:44:37+00:00",
   "count": 88,
   "courses": [
     {
@@ -995,16 +995,8 @@
         "GCP",
         "good clinical practice"
       ],
-      "open_runs": [
-        {
-          "run_id": "136-2",
-          "start": "23-11-2026",
-          "end": "27-10-2026",
-          "application_close": "13-11-2026",
-          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=136&applied_run_id=136-2&course_requires_cv=0&course_requires_certificate=0"
-        }
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=136&applied_run_id=136-2&course_requires_cv=0&course_requires_certificate=0"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "132",
