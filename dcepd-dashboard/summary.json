@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-15T16:53:12+00:00",
+    "source_at": "2026-11-15T21:22:49+00:00",
     "as_of": "2026-11-15",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1342,
-    "application_attempt_records": 1639,
-    "excluded_application_attempts": 297,
+    "application_records": 1344,
+    "application_attempt_records": 1642,
+    "excluded_application_attempts": 298,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6710,7 +6710,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 23,
+      "applications": 25,
       "withheld": false
     },
     {
@@ -6852,7 +6852,7 @@
     },
     {
       "location": "Kagera",
-      "applications": 11
+      "applications": 13
     },
     {
       "location": "Njombe",
