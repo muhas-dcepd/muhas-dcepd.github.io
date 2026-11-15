@@ -3,6 +3,14 @@
     "155-1": {
       "closing_date": "2026-10-30",
       "sent_at": "2026-10-31T13:29:23.233655+03:00"
+    },
+    "131-2": {
+      "sent_at": "2026-11-15T15:05:46+03:00",
+      "source": "Gmail audit; six messages observed Nov 10-15; no further automatic delivery"
+    },
+    "136-2": {
+      "sent_at": "2026-11-15T15:05:48+03:00",
+      "source": "Gmail audit; two messages observed Nov 14-15; no further automatic delivery"
     }
   }
 }
