@@ -32,17 +32,9 @@ jobs:
           DCEPD_EMAIL_2: ${{ secrets.DCEPD_EMAIL_2 }}
           DCEPD_EMAIL_3: ${{ secrets.DCEPD_EMAIL_3 }}
           DCEPD_EMAIL_4: ${{ secrets.DCEPD_EMAIL_4 }}
-          DCEPD_FINAL_SEND_ENABLED: 'false'
+          DCEPD_FINAL_SEND_ENABLED: 'true'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/process_project79_final_selection.py
-      - name: Persist final delivery receipts
-        run: |
-          if [[ -n "$(git status --porcelain -- automation/final-selection-delivery-state.json)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add automation/final-selection-delivery-state.json
-            git commit -m "Record private final selection delivery receipts"
-            git push
-          fi
       - name: Remove private temporary files
         if: always()
         run: rm -rf .private-applicant-packs
