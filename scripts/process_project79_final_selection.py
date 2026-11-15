@@ -29,7 +29,7 @@ def claim_delivery(run_id, close):
         sent[run_id] = {"status": "reserved", "closing_date": close.isoformat(),
                         "reserved_at": datetime.now(p.TZ).isoformat(),
                         "note": "Never auto-retry; manually reconcile uncertain delivery"}
-        encoded = base64.b64encode((json.dumps(current, indent=2, sort_keys=True) + "\\n").encode()).decode()
+        encoded = base64.b64encode((json.dumps(current, indent=2, sort_keys=True) + "\n").encode()).decode()
         response = requests.put(url, headers=headers, json={"branch": "main",
             "message": "Reserve final ZIP before SMTP for " + run_id,
             "sha": remote["sha"], "content": encoded}, timeout=30)
@@ -56,7 +56,7 @@ def confirm_delivery(run_id):
             raise RuntimeError("Reservation changed; reconcile manually")
         entry["status"] = "sent"
         entry["sent_at"] = datetime.now(p.TZ).isoformat()
-        encoded = base64.b64encode((json.dumps(current, indent=2, sort_keys=True) + "\\n").encode()).decode()
+        encoded = base64.b64encode((json.dumps(current, indent=2, sort_keys=True) + "\n").encode()).decode()
         response = requests.put(url, headers=headers, json={"branch": "main",
             "message": "Confirm final ZIP sent for " + run_id,
             "sha": remote["sha"], "content": encoded}, timeout=30)
