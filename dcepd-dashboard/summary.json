@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-17T09:46:52+00:00",
+    "source_at": "2026-11-17T18:31:18+00:00",
     "as_of": "2026-11-17",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1350,
-    "application_attempt_records": 1652,
-    "excluded_application_attempts": 302,
+    "application_records": 1355,
+    "application_attempt_records": 1659,
+    "excluded_application_attempts": 304,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6639,7 +6639,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 63,
+      "applications": 64,
       "withheld": false
     },
     {
@@ -6738,7 +6738,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 26,
+      "applications": 30,
       "withheld": false
     },
     {
@@ -6800,7 +6800,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 664
+      "applications": 665
     },
     {
       "location": "Dodoma",
@@ -6808,11 +6808,11 @@
     },
     {
       "location": "Arusha",
-      "applications": 75
+      "applications": 77
     },
     {
       "location": "Foreigner",
-      "applications": 59
+      "applications": 60
     },
     {
       "location": "Morogoro",
@@ -6891,6 +6891,10 @@
       "applications": 9
     },
     {
+      "location": "Mjini Magharibi",
+      "applications": 9
+    },
+    {
       "location": "Rukwa",
       "applications": 8
     },
@@ -6900,10 +6904,6 @@
     },
     {
       "location": "Katavi",
-      "applications": 8
-    },
-    {
-      "location": "Mjini Magharibi",
       "applications": 8
     },
     {
@@ -6933,11 +6933,11 @@
       "applications": 11
     },
     {
-      "location": "Zambia",
-      "applications": 5
+      "location": "Lesotho",
+      "applications": 6
     },
     {
-      "location": "Lesotho",
+      "location": "Zambia",
       "applications": 5
     }
   ]
