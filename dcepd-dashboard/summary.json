@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-18T09:04:44+00:00",
+    "source_at": "2026-11-18T17:29:28+00:00",
     "as_of": "2026-11-18",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1355,
-    "application_attempt_records": 1660,
-    "excluded_application_attempts": 305,
+    "application_records": 1357,
+    "application_attempt_records": 1663,
+    "excluded_application_attempts": 306,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6639,7 +6639,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 64,
+      "applications": 66,
       "withheld": false
     },
     {
@@ -6847,12 +6847,12 @@
       "applications": 26
     },
     {
-      "location": "Kigoma",
-      "applications": 21
+      "location": "Mara",
+      "applications": 22
     },
     {
-      "location": "Mara",
-      "applications": 20
+      "location": "Kigoma",
+      "applications": 21
     },
     {
       "location": "Mtwara",
