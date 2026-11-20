@@ -2,12 +2,12 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-20T09:08:45+00:00",
+    "source_at": "2026-11-20T10:28:43+00:00",
     "as_of": "2026-11-20",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1360,
-    "application_attempt_records": 1666,
+    "application_records": 1361,
+    "application_attempt_records": 1667,
     "excluded_application_attempts": 306,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
@@ -6738,7 +6738,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 30,
+      "applications": 31,
       "withheld": false
     },
     {
@@ -6820,7 +6820,7 @@
     },
     {
       "location": "Mwanza",
-      "applications": 34
+      "applications": 35
     },
     {
       "location": "Pwani",
