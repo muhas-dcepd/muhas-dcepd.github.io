@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "source": "Project 75 API",
-  "source_at": "2026-11-20T18:43:54+00:00",
-  "api_refreshed_at": "2026-11-20T18:43:54+00:00",
+  "source_at": "2026-11-21T00:17:27+00:00",
+  "api_refreshed_at": "2026-11-21T00:17:27+00:00",
   "count": 88,
   "courses": [
     {
@@ -879,16 +879,8 @@
       "date_next_offered": "23-11-2026",
       "category": "Other courses",
       "tags": [],
-      "open_runs": [
-        {
-          "run_id": "165-1",
-          "start": "23-11-2026",
-          "end": "27-11-2026",
-          "application_close": "20-11-2026",
-          "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=165&applied_run_id=165-1&course_requires_cv=0&course_requires_certificate=0"
-        }
-      ],
-      "apply_url": "https://utafiti.muhas.ac.tz/surveys/?s=RCJLANHXKKMKXC7W&applied_course_id=165&applied_run_id=165-1&course_requires_cv=0&course_requires_certificate=0"
+      "open_runs": [],
+      "apply_url": ""
     },
     {
       "id": "174",
