@@ -16,7 +16,8 @@
       "closing_date": "2026-11-20",
       "note": "Never auto-retry; manually reconcile uncertain delivery",
       "reserved_at": "2026-11-21T15:52:05.163355+03:00",
-      "status": "reserved"
+      "sent_at": "2026-11-21T15:52:08.289526+03:00",
+      "status": "sent"
     },
     "206-1": {
       "closing_date": "2026-11-08",
