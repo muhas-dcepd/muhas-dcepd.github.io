@@ -2,12 +2,12 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-21T20:58:50+00:00",
-    "as_of": "2026-11-21",
+    "source_at": "2026-11-22T01:00:04+00:00",
+    "as_of": "2026-11-22",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1364,
-    "application_attempt_records": 1672,
+    "application_records": 1365,
+    "application_attempt_records": 1673,
     "excluded_application_attempts": 308,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
@@ -6639,7 +6639,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 71,
+      "applications": 72,
       "withheld": false
     },
     {
@@ -6884,7 +6884,7 @@
     },
     {
       "location": "Njombe",
-      "applications": 10
+      "applications": 11
     },
     {
       "location": "Unknown",
