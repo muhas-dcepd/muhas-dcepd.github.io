@@ -2,13 +2,13 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-24T11:36:58+00:00",
+    "source_at": "2026-11-24T16:18:40+00:00",
     "as_of": "2026-11-24",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1365,
-    "application_attempt_records": 1675,
-    "excluded_application_attempts": 310,
+    "application_records": 1366,
+    "application_attempt_records": 1677,
+    "excluded_application_attempts": 311,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
   "courses": [
@@ -6639,7 +6639,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 72,
+      "applications": 73,
       "withheld": false
     },
     {
@@ -6800,7 +6800,7 @@
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 669
+      "applications": 670
     },
     {
       "location": "Dodoma",
