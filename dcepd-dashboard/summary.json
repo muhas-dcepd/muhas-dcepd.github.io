@@ -2,12 +2,12 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-25T09:19:05+00:00",
+    "source_at": "2026-11-25T19:24:15+00:00",
     "as_of": "2026-11-25",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1367,
-    "application_attempt_records": 1678,
+    "application_records": 1372,
+    "application_attempt_records": 1683,
     "excluded_application_attempts": 311,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
@@ -110,7 +110,7 @@
     },
     {
       "id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "code": "DCEPD/DLS/013/2022",
       "school": "Directorate of Library Services",
       "department": "DLS",
@@ -590,7 +590,7 @@
     },
     {
       "id": "73",
-      "course": "Responsible Conduct Research",
+      "course": "Responsible Conduct of Research",
       "code": "DCEPD/SPH/073/2022",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
@@ -1804,7 +1804,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2022",
@@ -1818,7 +1818,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2023",
@@ -1832,7 +1832,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2024",
@@ -1846,7 +1846,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2024",
@@ -1860,7 +1860,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2024",
@@ -1874,7 +1874,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2025",
@@ -1888,7 +1888,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2026",
@@ -4184,7 +4184,7 @@
     },
     {
       "course_id": "73",
-      "course": "Responsible Conduct Research",
+      "course": "Responsible Conduct of Research",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
       "year": "2022",
@@ -4198,7 +4198,7 @@
     },
     {
       "course_id": "73",
-      "course": "Responsible Conduct Research",
+      "course": "Responsible Conduct of Research",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
       "year": "2023",
@@ -4212,7 +4212,7 @@
     },
     {
       "course_id": "73",
-      "course": "Responsible Conduct Research",
+      "course": "Responsible Conduct of Research",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
       "year": "2024",
@@ -4226,7 +4226,7 @@
     },
     {
       "course_id": "73",
-      "course": "Responsible Conduct Research",
+      "course": "Responsible Conduct of Research",
       "school": "School of Public Health and Social Sciences",
       "department": "Bioethics and Health Professionalism",
       "year": "2025",
@@ -5007,6 +5007,20 @@
       "attendance": 30,
       "reported": 1,
       "unknown": 0
+    },
+    {
+      "course_id": "119",
+      "course": "PHILOSOPHY OF SCIENCE IN RESEARCH",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Bioethics and Health Professionalism",
+      "year": "2027",
+      "fy": "2026/27",
+      "quarter": "Q3",
+      "state": "Future-dated",
+      "sessions": 1,
+      "attendance": 0,
+      "reported": 0,
+      "unknown": 1
     },
     {
       "course_id": "120",
@@ -5929,7 +5943,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2026",
@@ -6336,7 +6350,7 @@
     },
     {
       "course_id": "13",
-      "course": "Scientific writing and communication",
+      "course": "Scientific Writing and Scholarly Communication",
       "school": "Directorate of Library Services",
       "department": "DLS",
       "year": "2026",
@@ -6639,7 +6653,7 @@
       "year": "2026",
       "fy": "2026/27",
       "quarter": "Q2",
-      "applications": 74,
+      "applications": 78,
       "withheld": false
     },
     {
@@ -6795,12 +6809,23 @@
       "quarter": "Q2",
       "applications": null,
       "withheld": true
+    },
+    {
+      "course_id": "205",
+      "course": "BASIC TEACHING QUALIFICATION IN HEALTH SCIENCES",
+      "school": "Directorate of Quality Assurance",
+      "department": "DQA",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "applications": null,
+      "withheld": true
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 671
+      "applications": 672
     },
     {
       "location": "Dodoma",
@@ -6824,7 +6849,7 @@
     },
     {
       "location": "Mbeya",
-      "applications": 34
+      "applications": 35
     },
     {
       "location": "Pwani",
@@ -6859,6 +6884,10 @@
       "applications": 18
     },
     {
+      "location": "Kagera",
+      "applications": 17
+    },
+    {
       "location": "Singida",
       "applications": 16
     },
@@ -6869,10 +6898,6 @@
     {
       "location": "Lindi",
       "applications": 15
-    },
-    {
-      "location": "Kagera",
-      "applications": 14
     },
     {
       "location": "Geita",
