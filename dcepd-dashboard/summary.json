@@ -2,12 +2,12 @@
   "metadata": {
     "schema_version": 2,
     "source": "Project 75 and Project 79 APIs",
-    "source_at": "2026-11-26T02:19:07+00:00",
+    "source_at": "2026-11-26T10:04:18+00:00",
     "as_of": "2026-11-26",
     "registered_courses": 199,
     "listed_courses": 88,
-    "application_records": 1372,
-    "application_attempt_records": 1683,
+    "application_records": 1382,
+    "application_attempt_records": 1693,
     "excluded_application_attempts": 311,
     "notes": "Application records are valid operational applications. Pre-8-Oct-2026 history is preserved; later records require a completed survey and valid course/run linkage. Partial or invalid attempts are excluded. Attendance is recorded attendances, not unique people or completion. Missing counts stay unknown. Application cells below 5 are withheld; geography covers the whole valid snapshot."
   },
@@ -6820,16 +6820,27 @@
       "quarter": "Q2",
       "applications": null,
       "withheld": true
+    },
+    {
+      "course_id": "119",
+      "course": "PHILOSOPHY OF SCIENCE IN RESEARCH",
+      "school": "School of Public Health and Social Sciences",
+      "department": "Bioethics and Health Professionalism",
+      "year": "2026",
+      "fy": "2026/27",
+      "quarter": "Q2",
+      "applications": 10,
+      "withheld": false
     }
   ],
   "geography": [
     {
       "location": "Dar es Salaam",
-      "applications": 672
+      "applications": 677
     },
     {
       "location": "Dodoma",
-      "applications": 85
+      "applications": 88
     },
     {
       "location": "Arusha",
@@ -6845,7 +6856,7 @@
     },
     {
       "location": "Mwanza",
-      "applications": 36
+      "applications": 38
     },
     {
       "location": "Mbeya",
